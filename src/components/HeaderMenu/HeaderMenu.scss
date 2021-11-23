@@ -1,0 +1,23 @@
+.popup {
+  .ant-menu-item-group-title {
+    color: #fff;
+  }
+  // width: 100%;
+  display: flex;
+  // flex-wrap: wrap;
+
+  > ul {
+    // width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    > li {
+      width: 33.3%;
+
+      div {
+        color: orange;
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import '~antd/dist/antd.css';
+
+.ant-layout {
+  &-header,
+  &-content,
+  &-footer {
+    padding: 0 200px;
+  }
+}
+
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
+
+// HEADER
+
+.ant-layout-header {
+  position: relative;
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  float: left;
+  width: 120px;
+  height: 35px;
+
+  display: flex;
+  justify-content: center;
+}
+
+.ant-menu-overflow {
+  justify-content: flex-end;
+}
+
+/////////////////////////////////
+
+// FOOTER
+.footer {
+  text-align: center;
+  padding: 20px 200px;
+}
