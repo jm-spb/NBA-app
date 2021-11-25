@@ -8,8 +8,4 @@ const instance = axios.create({
   }
 });
 
-export const fetchTeams = async () => {
-  const { data } = await instance.get('teams/league/standard');
-  const regularTeams = data.api.teams.filter((el: any) => el.logo && el.leagues.standard.divName);
-  return regularTeams;
-};
+export default instance;

@@ -4,12 +4,13 @@ import './HeaderMenu.scss';
 
 import { Menu } from 'antd';
 
-import { fetchTeams } from '../../api/service';
+import { fetchTeams } from '../../api/rest/teams';
+import { ITeamsRenderData } from '../../types/teams';
 
 import Teams from './Teams';
 
 const HeaderMenu: React.FC = () => {
-  const [ teams, setTeams ] = React.useState([]);
+  const [ teams, setTeams ] = React.useState<ITeamsRenderData[]>([]);
 
   React.useEffect(() => {
     (async () => {
@@ -23,10 +24,6 @@ const HeaderMenu: React.FC = () => {
   }, []);
 
   console.log(teams);
-
-  // const renderTeamsbyDivision = (division) => {
-  //   const teams =
-  // }
 
   return (
     <Menu theme="dark" mode="horizontal">
