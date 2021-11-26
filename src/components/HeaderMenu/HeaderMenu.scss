@@ -3,7 +3,7 @@
     color: #fff;
   }
   // width: 100%;
-  display: flex;
+  // display: flex;
   // flex-wrap: wrap;
 
   > ul {
@@ -15,10 +15,6 @@
 
     > li {
       width: 33.3%;
-
-      div {
-        color: orange;
-      }
     }
   }
 }

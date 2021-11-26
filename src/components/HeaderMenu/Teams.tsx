@@ -4,7 +4,7 @@ import { Menu } from 'antd';
 
 import Division from './Division';
 
-const Teams = (props: { allTeams: any[] }) => {
+const Teams: React.FC = () => {
   const { SubMenu } = Menu;
 
   const divNames = [
@@ -18,9 +18,7 @@ const Teams = (props: { allTeams: any[] }) => {
 
   return (
     <SubMenu popupClassName="popup" key="SubMenu" title="Teams">
-      {divNames.map((el, idx) => (
-        <Division key={idx + 10} divName={el} allTeams={props.allTeams} />
-      ))}
+      {divNames.map((el, idx) => <Division key={idx + 10} divName={el} />)}
     </SubMenu>
   );
 };

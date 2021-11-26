@@ -6,11 +6,15 @@ import { Layout } from 'antd';
 
 import Logo from './assets/nba-logo.svg';
 import HeaderMenu from './components/HeaderMenu';
+import { nbaApi } from './services/NbaService';
 
 const App: React.FC = () => {
   const { Header, Content, Footer } = Layout;
+  const { isLoading } = nbaApi.useFetchTeamsQuery('');
 
-  return (
+  return isLoading ? (
+    <h1>Loading...</h1>
+  ) : (
     <Layout className="layout">
       <Header>
         <div className="logo">

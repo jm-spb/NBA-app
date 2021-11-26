@@ -1,12 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { nbaApi } from '../services/NbaService';
 
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({
+  [nbaApi.reducerPath]: nbaApi.reducer
+});
 
-export const setupStore = () =>
-  configureStore({
-    reducer: rootReducer
-  });
+export const store = configureStore({
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(nbaApi.middleware)
+});
 
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppStore = ReturnType<typeof setupStore>;
-export type AppDispath = AppStore['dispatch'];
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispath = typeof store.dispatch;

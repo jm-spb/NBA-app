@@ -6,7 +6,11 @@ export interface ITeamsRenderData {
   fullName: string;
   teamId: string;
   logo: string;
-  leagues?: Leagues;
+  divName?: string;
+}
+
+export interface ITeamsResponseData extends ITeamsRenderData {
+  leagues: Leagues;
 }
 
 type Api = {
