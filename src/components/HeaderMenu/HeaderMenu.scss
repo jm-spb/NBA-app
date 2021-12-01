@@ -1,20 +1,51 @@
-.popup {
-  .ant-menu-item-group-title {
-    color: #fff;
-  }
-  // width: 100%;
-  // display: flex;
-  // flex-wrap: wrap;
+// .menu-teams {
+//   top: 20px;
+// }
+.header-menu {
+  padding: 70px;
+}
+.ant-dropdown {
+  // position: absolute;
+  display: flex;
+  max-width: 750px;
 
   > ul {
     // width: 100%;
-    max-width: 800px;
 
     display: flex;
     flex-wrap: wrap;
+    padding-bottom: 8px;
 
     > li {
       width: 33.3%;
+
+      &:nth-child(1n + 4) {
+        border-top: 1px solid lightgray;
+        margin-top: 20px;
+        padding-top: 20px;
+      }
     }
   }
+}
+
+.division {
+  > div {
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 16px;
+  }
+}
+
+.team {
+  padding: 8px 16px 8px 16px;
+}
+.team-logo {
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.team-fullName {
+  font-size: 14px;
+  line-height: 18px;
 }

@@ -1,5 +1,9 @@
 @import '~antd/dist/antd.css';
 
+body {
+  overflow-y: scroll;
+}
+
 .ant-layout {
   &-header,
   &-content,
@@ -17,24 +21,24 @@
 // HEADER
 
 .ant-layout-header {
-  position: relative;
+  // position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // height: 45px;
 }
 
 .logo {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  // position: absolute;
+  // top: 50%;
+  // transform: translateY(-50%);
 
-  float: left;
+  // float: left;
   width: 120px;
   height: 35px;
 
   display: flex;
   justify-content: center;
-}
-
-.ant-menu-overflow {
-  justify-content: flex-end;
 }
 
 /////////////////////////////////

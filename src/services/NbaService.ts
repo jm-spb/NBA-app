@@ -17,7 +17,7 @@ export const nbaApi = createApi({
       query: () => 'teams/league/standard',
       transformResponse: (rawResult: { api: { teams: ITeamsResponseData[] } }) =>
         rawResult.api.teams
-          .filter((team) => team.logo && (team.leagues && team.leagues.standard.divName))
+          .filter((team) => team.logo && team.leagues.standard.divName)
           .map(({ fullName, teamId, logo, leagues: { standard: { divName } } }) =>
             Object.assign({}, { fullName, teamId, logo, divName })
           )

@@ -6,7 +6,7 @@ export interface ITeamsRenderData {
   fullName: string;
   teamId: string;
   logo: string;
-  divName?: string;
+  divName: string;
 }
 
 export interface ITeamsResponseData extends ITeamsRenderData {
