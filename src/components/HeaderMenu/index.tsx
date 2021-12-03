@@ -4,12 +4,9 @@ import './HeaderMenu.scss';
 
 import { Menu, Dropdown } from 'antd';
 
-// import { fetchTeams } from '../../api/rest/teams';
-// import { ITeamsRenderData } from '../../types/teams';
-
-// import Teams from './Teams';
 import Division from './Division';
 import { nbaApi } from '../../services/NbaService';
+import { ITeamsRenderData } from '../../types/teamsHeader';
 
 const divNames = [
   'ATLANTIC',
@@ -21,19 +18,13 @@ const divNames = [
 ];
 
 const HeaderMenu: React.FC = () => {
-  const { data: teams } = nbaApi.useFetchTeamsQuery('');
+  const { data } = nbaApi.useFetchTeamsQuery('');
+  const teams: ITeamsRenderData[] = data!;
 
   console.log(teams);
 
   const getDivisionTeams = (division: string) =>
     teams?.filter((el) => el.divName.toLowerCase() === division.toLowerCase());
-
-  // const { SubMenu } = Menu;
-
-  // const { SubMenu } = Menu;
-  // const [ teams, setTeams ] = React.useState<ITeamsRenderData[]>([]);
-
-  // console.log(teams);
 
   const menuTeams = (
     <Menu className="menu-teams">
@@ -47,19 +38,17 @@ const HeaderMenu: React.FC = () => {
   );
 
   return (
-    <div className="header-menu">
-      <Dropdown
-        arrow
-        overlay={menuTeams}
-        getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
-        overlayStyle={{ position: 'absolute' }}
-        placement="bottomRight"
-      >
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          TEAMS
-        </a>
-      </Dropdown>
-    </div>
+    // <div className="header-menu">
+    <Dropdown
+      overlay={menuTeams}
+      getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
+      placement="bottomRight"
+    >
+      <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+        TEAMS
+      </a>
+    </Dropdown>
+    // </div>
   );
 };
 

@@ -6,6 +6,7 @@ import { Layout } from 'antd';
 
 import Logo from './assets/nba-logo.svg';
 import HeaderMenu from './components/HeaderMenu';
+import Scoreboard from './components/Scoreboard';
 // import { nbaApi } from './services/NbaService';
 
 const App: React.FC = () => {
@@ -22,6 +23,7 @@ const App: React.FC = () => {
         </div>
         <HeaderMenu />
       </Header>
+      <Scoreboard />
       <Content>
         <div className="site-layout-content">Content</div>
       </Content>
