@@ -1,0 +1,97 @@
+.scoreboard {
+  width: 100%;
+  height: 90px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  margin-bottom: 90px;
+
+  &-inner {
+    max-width: 1440px;
+    height: 100%;
+    margin: 0 auto;
+  }
+}
+
+.carousel {
+  height: 100%;
+}
+
+.swiper {
+  height: 100%;
+  border-left: 2px solid lightgray;
+
+  // &-wrapper {
+
+  // }
+
+  &-slide {
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
+    border-right: 2px solid lightgray;
+  }
+}
+
+.slide {
+  padding: 12px 8px;
+  height: 100%;
+  line-height: 1;
+
+  &-gameInfo {
+    font-size: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  // &-gameStatus {
+  // }
+
+  &-broadcaster {
+    color: grey;
+  }
+
+  &-teamInfo {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &-team {
+    display: flex;
+    // justify-content: space-between;
+    // align-items: flex-end;
+    align-items: center;
+    height: 16px;
+    // line-height: 100%;
+  }
+
+  &-logo {
+    object-fit: contain;
+    margin-right: 10px;
+  }
+
+  &-teamName {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+
+    display: flex;
+    flex: 1 1;
+    // align-items: flex-end;
+  }
+
+  &-winner {
+    svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  &-score {
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+  }
+}
