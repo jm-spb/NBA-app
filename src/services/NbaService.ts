@@ -1,8 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
-  IScoreboardGamesRender,
-  IScoreboardGamesResponse,
-} from '../types/scoreboardGames';
+import { IScoreboardGames, IScoreboardResponse } from '../types/scoreboardGames';
 import { ITeamsRenderData, ITeamsResponseData } from '../types/teamsHeader';
 
 export const nbaApi = createApi({
@@ -33,11 +30,11 @@ export const nbaApi = createApi({
             }) => Object.assign({}, { fullName, teamId, logo, divName })
           ),
     }),
-    fetchScoreboardGames: builder.query<IScoreboardGamesRender[], string>({
-      query: () => 'games/date/2021-12-03',
-      transformResponse: (rawResult: { api: { games: IScoreboardGamesResponse[] } }) =>
-        rawResult.api.games.map(({ startTimeUTC, hTeam, vTeam }) =>
-          Object.assign({}, { startTimeUTC, hTeam, vTeam })
+    fetchScoreboardGames: builder.query<IScoreboardGames[], string>({
+      query: () => 'games/date/2021-12-05',
+      transformResponse: (rawResult: { api: { games: IScoreboardResponse[] } }) =>
+        rawResult.api.games.map(({ gameId, startTimeUTC, hTeam, vTeam }) =>
+          Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam })
         ),
     }),
   }),

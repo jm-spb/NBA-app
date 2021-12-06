@@ -83,6 +83,7 @@
   }
 
   &-winner {
+    display: none;
     svg {
       width: 12px;
       height: 12px;
@@ -94,4 +95,12 @@
     font-weight: bold;
     line-height: 1;
   }
+}
+
+.disabled {
+  display: none;
+}
+
+.active {
+  display: block;
 }

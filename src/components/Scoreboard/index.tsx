@@ -2,9 +2,9 @@ import React from 'react';
 
 import './Scoreboard.scss';
 
-import ScoreboardCarousel from './Carousel';
+import ScoreboardCarousel from './ScoreboardCarousel';
 
-const Scoreboard: React.FC = () => {
+const Scoreboard = (): JSX.Element => {
   return (
     <div className="scoreboard">
       <div className="scoreboard-inner">

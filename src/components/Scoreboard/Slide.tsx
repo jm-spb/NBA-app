@@ -1,15 +1,22 @@
 import React from 'react';
 
 import { CaretRightOutlined } from '@ant-design/icons';
-import { IScoreboardGamesRender } from '../../types/scoreboardGames';
+import { IScoreboardGames } from '../../types/scoreboardGames';
 
-const Slide = ({ startTimeUTC, hTeam, vTeam }: IScoreboardGamesRender) => {
-  console.log(startTimeUTC);
-  console.log(hTeam);
+const Slide = ({
+  startTimeUTC,
+  hTeam,
+  vTeam,
+  homeTeamWinningCaret,
+  visitTeamWinningCaret,
+}: IScoreboardGames): JSX.Element => {
+  const startTime = new Date(startTimeUTC).toString();
+  console.log(startTime);
+
   return (
     <div className="slide">
       <div className="slide-gameInfo">
-        <span className="slide-gameStatus">7:00 PM ET</span>
+        <span className="slide-gameStatus">{`${startTime} (MSK)`}</span>
         <span className="slide-broadcaster">LEAGUE PASS</span>
       </div>
       <div className="slide-teamInfo">
@@ -25,7 +32,7 @@ const Slide = ({ startTimeUTC, hTeam, vTeam }: IScoreboardGamesRender) => {
           />
           {/* </div> */}
           <div className="slide-teamName">{vTeam.shortName}</div>
-          <CaretRightOutlined className="slide-winner" />
+          <CaretRightOutlined className={`slide-winner ${visitTeamWinningCaret}`} />
           <div className="slide-score">{vTeam.score.points}</div>
         </div>
         <div className="slide-team">
@@ -40,6 +47,7 @@ const Slide = ({ startTimeUTC, hTeam, vTeam }: IScoreboardGamesRender) => {
           />
           {/* </div> */}
           <div className="slide-teamName">{hTeam.shortName}</div>
+          <CaretRightOutlined className={`slide-winner ${homeTeamWinningCaret}`} />
           <div className="slide-score">{hTeam.score.points}</div>
         </div>
       </div>

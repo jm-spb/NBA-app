@@ -5,6 +5,7 @@ import './HeaderMenu.scss';
 import { Menu, Dropdown } from 'antd';
 
 import Division from './Division';
+
 import { nbaApi } from '../../services/NbaService';
 import { ITeamsRenderData } from '../../types/teamsHeader';
 
@@ -17,9 +18,9 @@ const divNames = [
   'SOUTHWEST',
 ];
 
-const HeaderMenu: React.FC = () => {
+const HeaderMenu = (): JSX.Element => {
   const { data } = nbaApi.useFetchTeamsQuery('');
-  const teams: ITeamsRenderData[] = data!;
+  const teams = data as ITeamsRenderData[];
 
   console.log(teams);
 

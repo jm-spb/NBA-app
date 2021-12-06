@@ -5,10 +5,12 @@ import { ITeamsRenderData } from '../../types/teamsHeader';
 
 // import { nbaApi } from '../../services/NbaService';
 
-const Division: React.FC<{ divName: string; divTeams: ITeamsRenderData[] }> = ({
-  divName,
-  divTeams,
-}) => {
+interface IDivisionProps {
+  divName: string;
+  divTeams: ITeamsRenderData[];
+}
+
+const Division = ({ divName, divTeams }: IDivisionProps): JSX.Element => {
   // const { data: teams } = nbaApi.useFetchTeamsQuery('');
 
   // const divTeams =

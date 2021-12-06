@@ -1,4 +1,4 @@
-export interface IScoreboardGamesResponse extends IScoreboardGamesRender {
+export interface IScoreboardResponse extends IScoreboardGames {
   EndOfPeriod: string;
   arena: string;
   city: string;
@@ -7,7 +7,6 @@ export interface IScoreboardGamesResponse extends IScoreboardGamesRender {
   currentPeriod: string;
   endTimeUTC: string;
   gameDuration: string;
-  gameId: string;
   halftime: string;
   league: string;
   seasonStage: string;
@@ -16,11 +15,20 @@ export interface IScoreboardGamesResponse extends IScoreboardGamesRender {
   statusShortGame: string;
 }
 
-export interface IScoreboardGamesRender {
+export interface IScoreboardGames {
   startTimeUTC: string;
   hTeam: ScoreboardTeam;
   vTeam: ScoreboardTeam;
+  gameId?: string;
+  homeTeamWinningCaret?: string;
+  visitTeamWinningCaret?: string;
 }
+
+// export interface IScoreboardRenderGame {
+//   startTime: string,
+//   homeTeam: string,
+
+// }
 
 type ScoreboardTeam = {
   fullName: string;
