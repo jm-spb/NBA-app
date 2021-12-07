@@ -31,7 +31,7 @@ export const nbaApi = createApi({
           ),
     }),
     fetchScoreboardGames: builder.query<IScoreboardGames[], string>({
-      query: () => 'games/date/2021-12-05',
+      query: (gameDate) => `games/date/${gameDate}`,
       transformResponse: (rawResult: { api: { games: IScoreboardResponse[] } }) =>
         rawResult.api.games.map(({ gameId, startTimeUTC, hTeam, vTeam }) =>
           Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam })

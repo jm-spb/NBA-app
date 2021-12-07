@@ -22,7 +22,7 @@ const HeaderMenu = (): JSX.Element => {
   const { data } = nbaApi.useFetchTeamsQuery('');
   const teams = data as ITeamsRenderData[];
 
-  console.log(teams);
+  // console.log(teams);
 
   const getDivisionTeams = (division: string) =>
     teams?.filter((el) => el.divName.toLowerCase() === division.toLowerCase());
