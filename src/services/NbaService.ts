@@ -1,5 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IScoreboardGames, IScoreboardResponse } from '../types/scoreboardGames';
+
+import {
+  IScoreboardFullData,
+  IScoreboardGames,
+  // IScoreboardDate,
+} from '../types/scoreboardGames';
+
 import { ITeamsRenderData, ITeamsResponseData } from '../types/teamsHeader';
 
 export const nbaApi = createApi({
@@ -30,12 +36,22 @@ export const nbaApi = createApi({
             }) => Object.assign({}, { fullName, teamId, logo, divName })
           ),
     }),
-    fetchScoreboardGames: builder.query<IScoreboardGames[], string>({
-      query: (gameDate) => `games/date/${gameDate}`,
-      transformResponse: (rawResult: { api: { games: IScoreboardResponse[] } }) =>
-        rawResult.api.games.map(({ gameId, startTimeUTC, hTeam, vTeam }) =>
+
+    fetchScoreboardGames: builder.query<IScoreboardGames[], string[]>({
+      async queryFn(date, _queryApi, _extraOptions, fetchWithBQ) {
+        const todayGamesResponse = await fetchWithBQ(`games/date/${date[0]}`);
+        const tomorrowGamesResponse = await fetchWithBQ(`games/date/${date[1]}`);
+
+        const todayGames = todayGamesResponse.data as IScoreboardFullData;
+        const tomorrowGames = tomorrowGamesResponse.data as IScoreboardFullData;
+        const allGames = [...todayGames.api.games, ...tomorrowGames.api.games];
+
+        const result = allGames.map(({ gameId, startTimeUTC, hTeam, vTeam }) =>
           Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam })
-        ),
+        );
+
+        return { data: result };
+      },
     }),
   }),
 });

@@ -1,3 +1,7 @@
+export interface IScoreboardFullData {
+  api: Api;
+}
+
 export interface IScoreboardResponse extends IScoreboardGames {
   EndOfPeriod: string;
   arena: string;
@@ -13,6 +17,7 @@ export interface IScoreboardResponse extends IScoreboardGames {
   seasonYear: string;
   statusGame: string;
   statusShortGame: string;
+  date?: string;
 }
 
 export interface IScoreboardGames {
@@ -24,11 +29,23 @@ export interface IScoreboardGames {
   visitTeamWinningCaret?: string;
 }
 
+export interface IScoreboardDate {
+  weekDay: string;
+  monthDay: string;
+}
+
 // export interface IScoreboardRenderGame {
 //   startTime: string,
 //   homeTeam: string,
 
 // }
+type Api = {
+  status: string;
+  message: string;
+  results: string;
+  filters: Array<string>;
+  games: IScoreboardResponse[];
+};
 
 type ScoreboardTeam = {
   fullName: string;

@@ -5,7 +5,7 @@ import 'swiper/modules/navigation/navigation.scss';
 
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
-import { format } from 'date-fns';
+import { format, addDays } from 'date-fns';
 
 import Slide from './Slide';
 
@@ -14,79 +14,69 @@ import { IScoreboardGames } from '../../types/scoreboardGames';
 
 SwiperCore.use([Navigation]);
 
+// const today = format(new Date(), 'yyyy-MM-dd');
+const currentDay = '2021-12-05';
+const nextDay = format(addDays(new Date(currentDay), 1), 'yyyy-MM-dd');
+const date = [currentDay, nextDay];
+
 const ScoreboardCarousel = (): JSX.Element => {
-  // const todayDate = new Date();
-  // const tomorrowDate = addDays(todayDate, 1);
+  const [gamesDates, setGamesDates] = React.useState(date);
 
-  const getGames = (date: Date): IScoreboardGames[] => {
-    const gamesDate: string = format(date, 'yyyy-MM-dd');
-    const { data } = nbaApi.useFetchScoreboardGamesQuery(gamesDate);
-    return data as IScoreboardGames[];
-  };
+  if (gamesDates[0] === '1') setGamesDates([...gamesDates, (gamesDates[0] = '22')]);
 
-  const handleHomeWin = (homeTeamScore: string, visitorTeamScore: string): boolean => {
-    if (Number(homeTeamScore) > Number(visitorTeamScore)) return true;
-    return false;
-  };
+  const currentWeekDay = format(new Date(gamesDates[0]), 'E');
+  const nextWeekDay = format(new Date(gamesDates[1]), 'E');
+  const currentMonthDay = format(new Date(gamesDates[0]), 'MMM dd');
+  const nextMonthDay = format(new Date(gamesDates[1]), 'MMM dd');
 
-  const createGameSlides = (games: IScoreboardGames[]): JSX.Element[] =>
-    games?.map(({ gameId, startTimeUTC, hTeam, vTeam }) => {
-      const gameDate = format(new Date(startTimeUTC), 'dd-MM-yyyy HH:mm');
-      const homeWin = handleHomeWin(hTeam.score.points, vTeam.score.points);
-      return (
-        <SwiperSlide key={gameId}>
-          <Slide
-            startTimeUTC={gameDate}
-            hTeam={hTeam}
-            vTeam={vTeam}
-            homeTeamWinningCaret={homeWin ? 'active' : ''}
-            visitTeamWinningCaret={homeWin ? '' : 'active'}
-          />
-        </SwiperSlide>
+  const { data, isLoading, isSuccess } = nbaApi.useFetchScoreboardGamesQuery(gamesDates);
+  const fetchedGames = data as IScoreboardGames[];
+  console.log(fetchedGames);
+
+  let renderCurrentDayGames: JSX.Element[] | null = null;
+  let renderNextDayGames: JSX.Element[] | null = null;
+
+  if (isSuccess) {
+    const handleHomeWin = (homeTeamScore: string, visitorTeamScore: string): boolean => {
+      if (Number(homeTeamScore) > Number(visitorTeamScore)) return true;
+      return false;
+    };
+
+    const filterGames = (
+      allGamesArray: IScoreboardGames[],
+      dayIndex: number
+    ): IScoreboardGames[] =>
+      allGamesArray.filter(
+        (game) => format(new Date(game.startTimeUTC), 'yyyy-MM-dd') === date[dayIndex]
       );
-    });
 
-  const todayGames = getGames(new Date('2021-12-05'));
-  const tomorrowGames = getGames(new Date('2021-12-06'));
-  const combineGames = todayGames?.concat(tomorrowGames);
-  console.log(combineGames);
+    const renderGameDaySlides = (dayGames: IScoreboardGames[]): JSX.Element[] =>
+      dayGames.map(({ gameId, startTimeUTC, hTeam, vTeam }) => {
+        const gameDate = format(new Date(startTimeUTC), 'HH:mm');
+        const homeWin = handleHomeWin(hTeam.score.points, vTeam.score.points);
+        return (
+          <SwiperSlide key={gameId}>
+            <Slide
+              startTimeUTC={gameDate}
+              hTeam={hTeam}
+              vTeam={vTeam}
+              homeTeamWinningCaret={homeWin ? 'active' : ''}
+              visitTeamWinningCaret={homeWin ? '' : 'active'}
+            />
+          </SwiperSlide>
+        );
+      });
 
-  const gameSlides = combineGames ? createGameSlides(combineGames) : '';
+    const currentDayGames = filterGames(fetchedGames, 0);
+    const nextDayGames = filterGames(fetchedGames, 1);
 
-  // console.log(renderSlides);
+    renderCurrentDayGames = renderGameDaySlides(currentDayGames);
+    renderNextDayGames = renderGameDaySlides(nextDayGames);
+  }
 
-  // const renderGamesLength = (todayGames?.length || 0) + (tomorrowGames?.length || 0) + 2;
-
-  // const renderGames = new Array(renderGamesLength);
-  // console.log(renderGames.length);
-  // console.log(todayGameSlides);
-
-  // const gameSlides = todayGames?.map(({ gameId, startTimeUTC, hTeam, vTeam }) => {
-  //   const gameDate = format(new Date(startTimeUTC), 'dd-MM-yyyy HH:mm');
-  //   const homeWin = handleHomeWin(hTeam.score.points, vTeam.score.points);
-  //   return (
-  //     <SwiperSlide key={gameId}>
-  //       <Slide
-  //         startTimeUTC={gameDate}
-  //         hTeam={hTeam}
-  //         vTeam={vTeam}
-  //         homeTeamWinningCaret={homeWin ? 'active' : ''}
-  //         visitTeamWinningCaret={homeWin ? '' : 'active'}
-  //       />
-  //     </SwiperSlide>
-  //   );
-  // });
-
-  const dateSlide = (
-    <SwiperSlide className="date-slide">
-      <div className="date-slide-content">
-        <p className="date-slide-weekday">TUE</p>
-        <p className="date-slide-monthday">DEC 07</p>
-      </div>
-    </SwiperSlide>
-  );
-
-  return (
+  return isLoading ? (
+    <div>Loading...</div>
+  ) : (
     <div className="carousel">
       <Swiper
         navigation={true}
@@ -94,9 +84,23 @@ const ScoreboardCarousel = (): JSX.Element => {
         slidesPerView={8}
         // spaceBetween={1}
       >
-        {dateSlide}
+        <SwiperSlide className="date-slide">
+          <div className="date-slide-content">
+            <p className="date-slide-weekday">{currentWeekDay}</p>
+            <p className="date-slide-monthday">{currentMonthDay}</p>
+          </div>
+        </SwiperSlide>
 
-        {gameSlides}
+        {renderCurrentDayGames}
+
+        <SwiperSlide className="date-slide">
+          <div className="date-slide-content">
+            <p className="date-slide-weekday">{nextWeekDay}</p>
+            <p className="date-slide-monthday">{nextMonthDay}</p>
+          </div>
+        </SwiperSlide>
+
+        {renderNextDayGames}
       </Swiper>
     </div>
   );
