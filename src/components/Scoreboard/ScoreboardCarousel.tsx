@@ -17,26 +17,38 @@ SwiperCore.use([Navigation]);
 // const today = format(new Date(), 'yyyy-MM-dd');
 const currentDay = '2021-12-05';
 const nextDay = format(addDays(new Date(currentDay), 1), 'yyyy-MM-dd');
-const date = [currentDay, nextDay];
 
 const ScoreboardCarousel = (): JSX.Element => {
-  const [gamesDates, setGamesDates] = React.useState(date);
-
-  if (gamesDates[0] === '1') setGamesDates([...gamesDates, (gamesDates[0] = '22')]);
-
-  const currentWeekDay = format(new Date(gamesDates[0]), 'E');
-  const nextWeekDay = format(new Date(gamesDates[1]), 'E');
-  const currentMonthDay = format(new Date(gamesDates[0]), 'MMM dd');
-  const nextMonthDay = format(new Date(gamesDates[1]), 'MMM dd');
+  const [gamesDates, setGamesDates] = React.useState([currentDay, nextDay]);
 
   const { data, isLoading, isSuccess } = nbaApi.useFetchScoreboardGamesQuery(gamesDates);
   const fetchedGames = data as IScoreboardGames[];
   console.log(fetchedGames);
 
+  // Upcoming - when we be able to pick the date
+  if (gamesDates[0] === '1') setGamesDates([...gamesDates, (gamesDates[0] = '22')]);
+
+  const createDateSlides = (gameDate: string) => {
+    const [weekDay, monthDay] = format(new Date(gameDate), 'E-MMM dd').split('-');
+    return (
+      <SwiperSlide className="date-slide">
+        <div className="date-slide-content">
+          <p className="date-slide-weekday">{weekDay}</p>
+          <p className="date-slide-monthday">{monthDay}</p>
+        </div>
+      </SwiperSlide>
+    );
+  };
+
+  // Create slides with proper date. If there are no games - render date slides anyway
+  const [currentDayDateSlide, nextDayDateSlide] = gamesDates.map(createDateSlides);
+
   let renderCurrentDayGames: JSX.Element[] | null = null;
   let renderNextDayGames: JSX.Element[] | null = null;
 
+  // Create slides with games. Create only when all games fetched
   if (isSuccess) {
+    // Handle render arrow of a winner
     const handleHomeWin = (homeTeamScore: string, visitorTeamScore: string): boolean => {
       if (Number(homeTeamScore) > Number(visitorTeamScore)) return true;
       return false;
@@ -47,7 +59,8 @@ const ScoreboardCarousel = (): JSX.Element => {
       dayIndex: number
     ): IScoreboardGames[] =>
       allGamesArray.filter(
-        (game) => format(new Date(game.startTimeUTC), 'yyyy-MM-dd') === date[dayIndex]
+        (game) =>
+          format(new Date(game.startTimeUTC), 'yyyy-MM-dd') === gamesDates[dayIndex]
       );
 
     const renderGameDaySlides = (dayGames: IScoreboardGames[]): JSX.Element[] =>
@@ -67,9 +80,11 @@ const ScoreboardCarousel = (): JSX.Element => {
         );
       });
 
+    // From all games create separate arrays with games by each day
     const currentDayGames = filterGames(fetchedGames, 0);
     const nextDayGames = filterGames(fetchedGames, 1);
 
+    // Create game slides by each day from filtered games arrays
     renderCurrentDayGames = renderGameDaySlides(currentDayGames);
     renderNextDayGames = renderGameDaySlides(nextDayGames);
   }
@@ -82,24 +97,12 @@ const ScoreboardCarousel = (): JSX.Element => {
         navigation={true}
         className="carousel-swiper"
         slidesPerView={8}
-        // spaceBetween={1}
+        slidesPerGroup={8}
       >
-        <SwiperSlide className="date-slide">
-          <div className="date-slide-content">
-            <p className="date-slide-weekday">{currentWeekDay}</p>
-            <p className="date-slide-monthday">{currentMonthDay}</p>
-          </div>
-        </SwiperSlide>
-
+        {currentDayDateSlide}
         {renderCurrentDayGames}
 
-        <SwiperSlide className="date-slide">
-          <div className="date-slide-content">
-            <p className="date-slide-weekday">{nextWeekDay}</p>
-            <p className="date-slide-monthday">{nextMonthDay}</p>
-          </div>
-        </SwiperSlide>
-
+        {nextDayDateSlide}
         {renderNextDayGames}
       </Swiper>
     </div>

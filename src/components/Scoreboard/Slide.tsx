@@ -15,7 +15,7 @@ const Slide = ({
     <div className="slide">
       <div className="slide-gameInfo">
         <span className="slide-gameStatus">{`${startTimeUTC}`}</span>
-        {/* <span className="slide-broadcaster">LEAGUE PASS</span> */}
+        <span className="slide-broadcaster">LEAGUE PASS</span>
       </div>
       <div className="slide-teamInfo">
         <div className="slide-team">
