@@ -39,15 +39,16 @@ export const nbaApi = createApi({
 
     fetchScoreboardGames: builder.query<IScoreboardGames[], string[]>({
       async queryFn(date, _queryApi, _extraOptions, fetchWithBQ) {
-        const todayGamesResponse = await fetchWithBQ(`games/date/${date[0]}`);
-        const tomorrowGamesResponse = await fetchWithBQ(`games/date/${date[1]}`);
+        const currentDayResponse = await fetchWithBQ(`games/date/${date[0]}`);
+        const nextDayResponse = await fetchWithBQ(`games/date/${date[1]}`);
 
-        const todayGames = todayGamesResponse.data as IScoreboardFullData;
-        const tomorrowGames = tomorrowGamesResponse.data as IScoreboardFullData;
-        const allGames = [...todayGames.api.games, ...tomorrowGames.api.games];
+        const currentDayGames = currentDayResponse.data as IScoreboardFullData;
+        const nextDayGames = nextDayResponse.data as IScoreboardFullData;
+        const allGames = [...currentDayGames.api.games, ...nextDayGames.api.games];
 
-        const result = allGames.map(({ gameId, startTimeUTC, hTeam, vTeam }) =>
-          Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam })
+        const result = allGames.map(
+          ({ gameId, startTimeUTC, hTeam, vTeam, statusGame }) =>
+            Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam, statusGame })
         );
 
         return { data: result };

@@ -15,7 +15,7 @@ import { IScoreboardGames } from '../../types/scoreboardGames';
 SwiperCore.use([Navigation]);
 
 // const today = format(new Date(), 'yyyy-MM-dd');
-const currentDay = '2021-12-05';
+const currentDay = '2021-12-10';
 const nextDay = format(addDays(new Date(currentDay), 1), 'yyyy-MM-dd');
 
 const ScoreboardCarousel = (): JSX.Element => {
@@ -63,22 +63,40 @@ const ScoreboardCarousel = (): JSX.Element => {
           format(new Date(game.startTimeUTC), 'yyyy-MM-dd') === gamesDates[dayIndex]
       );
 
-    const renderGameDaySlides = (dayGames: IScoreboardGames[]): JSX.Element[] =>
-      dayGames.map(({ gameId, startTimeUTC, hTeam, vTeam }) => {
-        const gameDate = format(new Date(startTimeUTC), 'HH:mm');
+    const createGameSlides = ({
+      gameId,
+      startTimeUTC,
+      statusGame,
+      hTeam,
+      vTeam,
+    }: IScoreboardGames): JSX.Element => {
+      const gameDate = format(new Date(startTimeUTC), 'HH:mm');
+      let homeWinCaret = '';
+      let visitWinCaret = '';
+
+      if (statusGame === 'Finished') {
         const homeWin = handleHomeWin(hTeam.score.points, vTeam.score.points);
-        return (
-          <SwiperSlide key={gameId}>
-            <Slide
-              startTimeUTC={gameDate}
-              hTeam={hTeam}
-              vTeam={vTeam}
-              homeTeamWinningCaret={homeWin ? 'active' : ''}
-              visitTeamWinningCaret={homeWin ? '' : 'active'}
-            />
-          </SwiperSlide>
-        );
-      });
+        homeWinCaret = homeWin ? 'active' : '';
+        visitWinCaret = homeWin ? '' : 'active';
+      }
+      return (
+        <SwiperSlide key={gameId}>
+          <Slide
+            startTimeUTC={gameDate}
+            statusGame={statusGame}
+            hTeam={hTeam}
+            vTeam={vTeam}
+            homeWinCaret={homeWinCaret}
+            visitWinCaret={visitWinCaret}
+            hTeamRecord={'10 - 12'}
+            vTeamRecord={'15 - 23'}
+          />
+        </SwiperSlide>
+      );
+    };
+
+    const renderGameDaySlides = (dayGames: IScoreboardGames[]): JSX.Element[] =>
+      dayGames.map(createGameSlides);
 
     // From all games create separate arrays with games by each day
     const currentDayGames = filterGames(fetchedGames, 0);

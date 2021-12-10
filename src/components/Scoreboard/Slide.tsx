@@ -6,10 +6,13 @@ import { CaretRightOutlined } from '@ant-design/icons';
 
 const Slide = ({
   startTimeUTC,
+  statusGame,
   hTeam,
   vTeam,
-  homeTeamWinningCaret,
-  visitTeamWinningCaret,
+  homeWinCaret,
+  visitWinCaret,
+  hTeamRecord,
+  vTeamRecord,
 }: IScoreboardGames): JSX.Element => {
   return (
     <div className="slide">
@@ -17,9 +20,9 @@ const Slide = ({
         <span className="slide-gameStatus">{`${startTimeUTC}`}</span>
         <span className="slide-broadcaster">LEAGUE PASS</span>
       </div>
+
       <div className="slide-teamInfo">
         <div className="slide-team">
-          {/* <div className="slide-logo"> */}
           <img
             src={vTeam.logo}
             alt={vTeam.fullName}
@@ -28,13 +31,17 @@ const Slide = ({
             loading="lazy"
             className="slide-logo"
           />
-          {/* </div> */}
           <div className="slide-teamName">{vTeam.shortName}</div>
-          <CaretRightOutlined className={`slide-winner ${visitTeamWinningCaret}`} />
-          <div className="slide-score">{vTeam.score.points}</div>
+          <CaretRightOutlined className={`slide-winner ${visitWinCaret}`} />
+
+          {statusGame === 'Finished' ? (
+            <div className="slide-score">{vTeam.score.points}</div>
+          ) : (
+            <div className="slide-record">{vTeamRecord}</div>
+          )}
         </div>
+
         <div className="slide-team">
-          {/* <div className="slide-logo"> */}
           <img
             src={hTeam.logo}
             alt={hTeam.fullName}
@@ -43,10 +50,14 @@ const Slide = ({
             loading="lazy"
             className="slide-logo"
           />
-          {/* </div> */}
           <div className="slide-teamName">{hTeam.shortName}</div>
-          <CaretRightOutlined className={`slide-winner ${homeTeamWinningCaret}`} />
-          <div className="slide-score">{hTeam.score.points}</div>
+          <CaretRightOutlined className={`slide-winner ${homeWinCaret}`} />
+
+          {statusGame === 'Finished' ? (
+            <div className="slide-score">{hTeam.score.points}</div>
+          ) : (
+            <div className="slide-record">{hTeamRecord}</div>
+          )}
         </div>
       </div>
     </div>

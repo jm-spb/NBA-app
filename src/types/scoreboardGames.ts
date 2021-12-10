@@ -15,7 +15,7 @@ export interface IScoreboardResponse extends IScoreboardGames {
   league: string;
   seasonStage: string;
   seasonYear: string;
-  statusGame: string;
+
   statusShortGame: string;
   date?: string;
 }
@@ -24,9 +24,12 @@ export interface IScoreboardGames {
   startTimeUTC: string;
   hTeam: ScoreboardTeam;
   vTeam: ScoreboardTeam;
+  statusGame: string;
   gameId?: string;
-  homeTeamWinningCaret?: string;
-  visitTeamWinningCaret?: string;
+  homeWinCaret?: string;
+  visitWinCaret?: string;
+  hTeamRecord?: string;
+  vTeamRecord?: string;
 }
 
 export interface IScoreboardDate {
