@@ -39,17 +39,15 @@ const HeaderMenu = (): JSX.Element => {
   );
 
   return (
-    // <div className="header-menu">
     <Dropdown
       overlay={menuTeams}
       getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
       placement="bottomRight"
     >
       <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-        TEAMS
+        Teams
       </a>
     </Dropdown>
-    // </div>
   );
 };
 

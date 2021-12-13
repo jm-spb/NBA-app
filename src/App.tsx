@@ -18,12 +18,29 @@ const App: React.FC = () => {
   return (
     <Layout className="layout">
       <Header>
-        <div className="logo">
-          <img src={Logo} width={100} height={35} alt="NBA Logo" />
+        <div className="header-content">
+          <div className="header-logo">
+            <img src={Logo} width={100} height={35} alt="NBA Logo" />
+          </div>
+          <ul className="header-menu">
+            <li>
+              <a className="header-link" onClick={(e) => e.preventDefault()}>
+                Stats
+              </a>
+            </li>
+            <li>
+              <a className="header-link" onClick={(e) => e.preventDefault()}>
+                Standings
+              </a>
+            </li>
+            <li>
+              <HeaderMenu />
+            </li>
+          </ul>
         </div>
-        <HeaderMenu />
       </Header>
       <Scoreboard />
+      <div className="adv-banner"></div>
       <Content>
         <div className="site-layout-content">Content</div>
       </Content>
