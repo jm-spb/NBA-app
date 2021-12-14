@@ -1,0 +1,71 @@
+.main {
+  min-height: 280px;
+  background: #000;
+
+  &-content {
+    height: 380px;
+    max-width: 1440px;
+    margin: 0 auto;
+
+    > div:first-child {
+      bottom: 90px;
+    }
+
+    .swiper-wrapper > div {
+      color: #fff;
+    }
+
+    .swiper-pagination {
+      display: flex;
+      justify-content: space-between;
+
+      &-bullet {
+        position: relative;
+        background-color: grey;
+        height: 5px;
+        opacity: 1;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          background-color: #fff;
+          width: 0%;
+          border-radius: 5px;
+          height: 5px;
+        }
+
+        &-active {
+          &::before {
+            width: 100%;
+            animation: paginationLine 3s linear;
+          }
+
+          @keyframes paginationLine {
+            from {
+              width: 0%;
+            }
+          }
+
+          p {
+            color: #fff !important;
+          }
+        }
+      }
+
+      span {
+        width: 200px;
+        border-radius: 5px;
+        color: honeydew;
+
+        p {
+          font-size: 16px;
+          text-align: start;
+          margin: 24px 0 0 0;
+          color: grey;
+          transition: color ease-out 0.3s;
+        }
+      }
+    }
+  }
+}

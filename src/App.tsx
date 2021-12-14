@@ -7,6 +7,7 @@ import { Layout } from 'antd';
 import Logo from './assets/nba-logo.svg';
 import HeaderMenu from './components/HeaderMenu';
 import Scoreboard from './components/Scoreboard';
+import MainCarousel from './components/MainCarousel';
 // import { nbaApi } from './services/NbaService';
 
 const App: React.FC = () => {
@@ -42,7 +43,7 @@ const App: React.FC = () => {
       <Scoreboard />
       <div className="adv-banner"></div>
       <Content>
-        <div className="site-layout-content">Content</div>
+        <MainCarousel />
       </Content>
       <Footer className="footer">NBA App ©2021 Created by JM-SPB</Footer>
     </Layout>
