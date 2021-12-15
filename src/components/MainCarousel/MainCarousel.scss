@@ -2,22 +2,38 @@
   min-height: 280px;
   background: #000;
 
+  .swiper {
+    border: none;
+  }
+
   &-content {
-    height: 380px;
+    height: 680px;
     max-width: 1440px;
     margin: 0 auto;
 
     > div:first-child {
-      bottom: 90px;
+      bottom: 110px;
     }
 
-    .swiper-wrapper > div {
-      color: #fff;
+    .swiper-slide {
+      border: none;
+
+      &-active {
+        img {
+          transform: scale(1.1);
+          transition: transform 7s ease-in-out;
+        }
+      }
     }
+
+    // .swiper-wrapper > div {
+    //   color: #fff;
+    // }
 
     .swiper-pagination {
       display: flex;
       justify-content: space-between;
+      padding: 0 40px;
 
       &-bullet {
         position: relative;
@@ -38,7 +54,7 @@
         &-active {
           &::before {
             width: 100%;
-            animation: paginationLine 3s linear;
+            animation: paginationLine 7s linear;
           }
 
           @keyframes paginationLine {
@@ -65,6 +81,50 @@
           color: grey;
           transition: color ease-out 0.3s;
         }
+      }
+    }
+  }
+
+  &-slide {
+    display: flex;
+    height: 75%;
+
+    &-content {
+      padding: 80px 40px 0 40px;
+      width: 50%;
+      // z-index: 999;
+
+      h1 {
+        color: #fff;
+        font-size: 36px;
+        font-weight: bold;
+      }
+
+      p {
+        color: #fff;
+      }
+    }
+
+    &-image {
+      height: 100%;
+      width: 70%;
+      // display: flex;
+      // justify-content: center;
+      // align-items: center;
+
+      box-shadow: inset 0px 0px 20px 20px rgba(0, 0, 0, 1);
+      // transform: scale(1);
+      // z-index: -1;
+      overflow: hidden;
+
+      img {
+        // flex-shrink: inherit;
+        // min-width: 100%;
+        // object-fit: contain;
+        height: 100%;
+        // max-width: 100%;
+        z-index: -1;
+        position: relative;
       }
     }
   }

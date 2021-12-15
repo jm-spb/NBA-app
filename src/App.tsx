@@ -1,6 +1,7 @@
 import React from 'react';
 
 import './App.scss';
+import 'swiper/swiper.scss';
 
 import { Layout } from 'antd';
 

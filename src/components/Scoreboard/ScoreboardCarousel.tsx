@@ -1,6 +1,6 @@
 import React from 'react';
 
-import 'swiper/swiper.scss';
+// import 'swiper/swiper.scss';
 import 'swiper/modules/navigation/navigation.scss';
 
 import SwiperCore, { Navigation } from 'swiper';
