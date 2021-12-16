@@ -1,14 +1,17 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
 import './App.scss';
 import 'swiper/swiper.scss';
 
 import { Layout } from 'antd';
 
-import Logo from './assets/nba-logo.svg';
-import HeaderMenu from './components/HeaderMenu';
+import HeaderBar from './components/Header';
 import Scoreboard from './components/Scoreboard';
-import MainCarousel from './components/MainCarousel';
+import HomePage from './pages/HomePage';
+import StatsPage from './pages/StatsPage';
+import StandingsPage from './pages/StandingsPage';
+
 // import { nbaApi } from './services/NbaService';
 
 const App: React.FC = () => {
@@ -20,32 +23,20 @@ const App: React.FC = () => {
   return (
     <Layout className="layout">
       <Header>
-        <div className="header-content">
-          <div className="header-logo">
-            <img src={Logo} width={100} height={35} alt="NBA Logo" />
-          </div>
-          <ul className="header-menu">
-            <li>
-              <a className="header-link" onClick={(e) => e.preventDefault()}>
-                Stats
-              </a>
-            </li>
-            <li>
-              <a className="header-link" onClick={(e) => e.preventDefault()}>
-                Standings
-              </a>
-            </li>
-            <li>
-              <HeaderMenu />
-            </li>
-          </ul>
-        </div>
+        <HeaderBar />
       </Header>
+
       <Scoreboard />
-      <div className="adv-banner"></div>
+      <div className="layout-adv"></div>
+
       <Content>
-        <MainCarousel />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/stats" element={<StatsPage />} />
+          <Route path="/standings" element={<StandingsPage />} />
+        </Routes>
       </Content>
+
       <Footer className="footer">NBA App ©2021 Created by JM-SPB</Footer>
     </Layout>
   );
