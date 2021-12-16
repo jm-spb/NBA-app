@@ -16,7 +16,7 @@ import { IScoreboardGames } from '../../types/scoreboardGames';
 SwiperCore.use([Navigation]);
 
 // const today = format(new Date(), 'yyyy-MM-dd');
-const currentDay = '2021-12-10';
+const currentDay = '2021-12-16';
 const nextDay = format(addDays(new Date(currentDay), 1), 'yyyy-MM-dd');
 
 const ScoreboardCarousel = (): JSX.Element => {
@@ -25,7 +25,6 @@ const ScoreboardCarousel = (): JSX.Element => {
   const { data, isSuccess, isLoading, isError } =
     nbaApi.useFetchScoreboardGamesQuery(gamesDates);
   const fetchedGames = data as IScoreboardGames[];
-  console.log(fetchedGames);
 
   // Upcoming - when we be able to pick the date
   if (gamesDates[0] === '1') setGamesDates([...gamesDates, (gamesDates[0] = '22')]);
@@ -47,6 +46,13 @@ const ScoreboardCarousel = (): JSX.Element => {
 
   let renderCurrentDayGames: JSX.Element[] | JSX.Element | null = null;
   let renderNextDayGames: JSX.Element[] | JSX.Element | null = null;
+
+  // Render "Games Not Found" when failed to fetch data or when there are no avaliable games
+  const gamesNotFoundSlide = () => (
+    <SwiperSlide>
+      <div className="error-slide">No Games Found</div>
+    </SwiperSlide>
+  );
 
   // Create slides with games. Create only when all games fetched
   if (isSuccess) {
@@ -104,20 +110,19 @@ const ScoreboardCarousel = (): JSX.Element => {
     const currentDayGames = filterGames(fetchedGames, 0);
     const nextDayGames = filterGames(fetchedGames, 1);
 
-    // Create game slides by each day from filtered games arrays
-    renderCurrentDayGames = renderGameDaySlides(currentDayGames);
-    renderNextDayGames = renderGameDaySlides(nextDayGames);
+    // If games are avaliable - Create game slides by each day from filtered games arrays ELSE render No Games Found
+    renderCurrentDayGames = currentDayGames.length
+      ? renderGameDaySlides(currentDayGames)
+      : gamesNotFoundSlide();
+
+    renderNextDayGames = nextDayGames.length
+      ? renderGameDaySlides(nextDayGames)
+      : gamesNotFoundSlide();
   }
 
   if (isError) {
-    const onErrorSlide = () => (
-      <SwiperSlide>
-        <div className="error-slide">No Games Found</div>
-      </SwiperSlide>
-    );
-
-    renderCurrentDayGames = onErrorSlide();
-    renderNextDayGames = onErrorSlide();
+    renderCurrentDayGames = gamesNotFoundSlide();
+    renderNextDayGames = gamesNotFoundSlide();
   }
 
   return isLoading ? (
@@ -134,7 +139,6 @@ const ScoreboardCarousel = (): JSX.Element => {
       >
         {currentDayDateSlide}
         {renderCurrentDayGames}
-
         {nextDayDateSlide}
         {renderNextDayGames}
       </Swiper>

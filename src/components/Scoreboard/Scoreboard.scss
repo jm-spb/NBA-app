@@ -48,9 +48,6 @@
     align-items: center;
   }
 
-  // &-gameStatus {
-  // }
-
   &-broadcaster {
     color: grey;
     text-align: end;
@@ -60,7 +57,7 @@
     margin-top: 12px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 8px;
   }
 
   &-team {
