@@ -1,33 +1,32 @@
 import React from 'react';
 
-// import 'swiper/swiper.scss';
 import 'swiper/modules/navigation/navigation.scss';
 
 import SwiperCore, { Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
-import { format, addDays } from 'date-fns';
-import { Spin, Space } from 'antd';
+import { format } from 'date-fns';
 
+import Spinner from '../Spinner';
 import Slide from './Slide';
+import DatePicker from '../DatePicker';
 
+import { currentDay, nextDay, formatNextDay } from '../../scripts/date';
 import { nbaApi } from '../../services/NbaService';
 import { IScoreboardGames } from '../../types/scoreboardGames';
 
 SwiperCore.use([Navigation]);
 
-// const today = format(new Date(), 'yyyy-MM-dd');
-const currentDay = '2021-12-16';
-const nextDay = format(addDays(new Date(currentDay), 1), 'yyyy-MM-dd');
-
 const ScoreboardCarousel = (): JSX.Element => {
   const [gamesDates, setGamesDates] = React.useState([currentDay, nextDay]);
 
-  const { data, isSuccess, isLoading, isError } =
+  const { data, isSuccess, isLoading, isError, isFetching } =
     nbaApi.useFetchScoreboardGamesQuery(gamesDates);
   const fetchedGames = data as IScoreboardGames[];
 
-  // Upcoming - when we be able to pick the date
-  if (gamesDates[0] === '1') setGamesDates([...gamesDates, (gamesDates[0] = '22')]);
+  // Handle Date change in Date Picker
+  const onChange = (date: Date | null, dateString: string) => {
+    if (date) setGamesDates([dateString, formatNextDay(dateString)]);
+  };
 
   const createDateSlides = (gameDate: string) => {
     const [weekDay, monthDay] = format(new Date(gameDate), 'E-MMM dd').split('-');
@@ -41,7 +40,7 @@ const ScoreboardCarousel = (): JSX.Element => {
     );
   };
 
-  // Create slides with proper date. If there are no games - render date slides anyway
+  // Create DateSlides with proper date. If there are no games - render DateSlides anyway
   const [currentDayDateSlide, nextDayDateSlide] = gamesDates.map(createDateSlides);
 
   let renderCurrentDayGames: JSX.Element[] | JSX.Element | null = null;
@@ -50,9 +49,14 @@ const ScoreboardCarousel = (): JSX.Element => {
   // Render "Games Not Found" when failed to fetch data or when there are no avaliable games
   const gamesNotFoundSlide = () => (
     <SwiperSlide>
-      <div className="error-slide">No Games Found</div>
+      <div className="slide-noGames">No Games Found</div>
     </SwiperSlide>
   );
+
+  if (isError) {
+    renderCurrentDayGames = gamesNotFoundSlide();
+    renderNextDayGames = gamesNotFoundSlide();
+  }
 
   // Create slides with games. Create only when all games fetched
   if (isSuccess) {
@@ -120,28 +124,31 @@ const ScoreboardCarousel = (): JSX.Element => {
       : gamesNotFoundSlide();
   }
 
-  if (isError) {
-    renderCurrentDayGames = gamesNotFoundSlide();
-    renderNextDayGames = gamesNotFoundSlide();
-  }
-
   return isLoading ? (
-    <Space className="error-spinner">
-      <Spin size="large" />
-    </Space>
+    <Spinner />
   ) : (
-    <div className="carousel">
-      <Swiper
-        navigation={true}
-        className="carousel-swiper"
-        slidesPerView={8}
-        slidesPerGroup={8}
-      >
-        {currentDayDateSlide}
-        {renderCurrentDayGames}
-        {nextDayDateSlide}
-        {renderNextDayGames}
-      </Swiper>
+    <div className="scoreboard-inner">
+      <div className="scoreboard-datePicker">
+        <span>Game Date</span>
+        <DatePicker onChange={onChange} />
+      </div>
+      {isFetching ? (
+        <Spinner />
+      ) : (
+        <div className="carousel">
+          <Swiper
+            navigation={true}
+            className="carousel-swiper"
+            slidesPerView={8}
+            slidesPerGroup={8}
+          >
+            {currentDayDateSlide}
+            {renderCurrentDayGames}
+            {nextDayDateSlide}
+            {renderNextDayGames}
+          </Swiper>
+        </div>
+      )}
     </div>
   );
 };
