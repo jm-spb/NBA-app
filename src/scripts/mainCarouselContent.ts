@@ -4,7 +4,9 @@ import nba_store from '../assets/nba_store.webp';
 import nba_tickets from '../assets/nba_tickets.webp';
 import nba_cares from '../assets/nba_cares.webp';
 
-export const mainCarouselContent = [
+import { IMainCarousel } from '../types/mainCarouselContent';
+
+export const mainCarouselContent: IMainCarousel[] = [
   {
     heading: 'NBA 75th Anniversary Team announced',
     paragraph_1:
@@ -12,7 +14,7 @@ export const mainCarouselContent = [
     paragraph_2:
       'Voters were asked to select the 75 Greatest Players in NBA History without regard to position. Panelists did not rank their selections. Current and former players were not allowed to vote for themselves.',
     link: 'https://www.nba.com/75',
-    image: { nba_75 },
+    image: nba_75,
     paginationText: 'This is the NBA 75th Anniversary Team',
   },
   {
@@ -22,7 +24,7 @@ export const mainCarouselContent = [
     paragraph_2:
       'NBA League Pass also includes on-demand replays for each broadcast, and an 8-12 minute condensed replay of each game.',
     link: 'https://watch.nba.com/streaming-subscriptions',
-    image: { nba_league_pass },
+    image: nba_league_pass,
     paginationText: 'Explore the World of NBA with League Pass',
   },
   {
@@ -32,7 +34,7 @@ export const mainCarouselContent = [
     paragraph_2:
       'Find the newest player merchandise in a wide range of sizes so you and your fellow fans can represent your favorite basketball team in authentic NBA style. Browse the NBA Store for the greatest assortment of basketball jerseys and clothing online.',
     link: 'https://www.nbastore.eu/en/',
-    image: { nba_store },
+    image: nba_store,
     paginationText: 'Checkout the Official NBA Store',
   },
   {
@@ -42,7 +44,7 @@ export const mainCarouselContent = [
     paragraph_2:
       'NBATickets.com is the NBA’s one-stop shop for all ticket types for all teams: Fans can link out to buy single game tickets directly from the team, browse resale options, or view more options on team ticket pages, including promotions and deals.',
     link: 'https://nbatickets.nba.com/home/',
-    image: { nba_tickets },
+    image: nba_tickets,
     paginationText: 'Official Source of Authentic NBA Tickets',
   },
   {
@@ -53,7 +55,7 @@ export const mainCarouselContent = [
     paragraph_2:
       'NBA Cares programs and participants have provided more than 5.8 million hours of hands-on service, created more than 1,650 places where kids and families can live, learn or play and engaged more than 60 million youth in basketball programs in communities around the world. Internationally, NBA Cares has created more than 332 places where kids and families can live, learn, or play in 40 countries.',
     link: 'https://cares.nba.com/',
-    image: { nba_cares },
+    image: nba_cares,
     paginationText: 'NBA Cares - the League’s Global Social Responsibility Program',
   },
 ];
