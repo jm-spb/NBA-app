@@ -11,17 +11,19 @@ import Scoreboard from './components/Scoreboard';
 import HomePage from './pages/HomePage';
 import StatsPage from './pages/StatsPage';
 import StandingsPage from './pages/StandingsPage';
+import ErrorMsg from './components/ErrorMsg';
 
-// import { nbaApi } from './services/NbaService';
+import { nbaApi } from './services/NbaService';
 
 const App: React.FC = () => {
   const { Header, Content, Footer } = Layout;
-  // const { isLoading, isError } = nbaApi.useFetchTeamsQuery('');
+  const { isError } = nbaApi.useFetchTeamsQuery('');
   // const isError = false;
   // const isLoading = false;
 
   return (
     <Layout className="layout">
+      {isError ? <ErrorMsg /> : null}
       <Header>
         <HeaderBar />
       </Header>
