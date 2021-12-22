@@ -1,3 +1,4 @@
+/* eslint-disable prefer-object-spread */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import {
@@ -33,7 +34,8 @@ export const nbaApi = createApi({
               leagues: {
                 standard: { divName },
               },
-            }) => Object.assign({}, { fullName, teamId, logo, divName })
+            }) => Object.assign({}, { fullName, teamId, logo, divName }),
+            // }) => Object.assign({}, fullName, teamId, logo, divName),
           ),
     }),
 
@@ -48,7 +50,7 @@ export const nbaApi = createApi({
 
         const result = allGames.map(
           ({ gameId, startTimeUTC, hTeam, vTeam, statusGame }) =>
-            Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam, statusGame })
+            Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam, statusGame }),
         );
 
         return { data: result };

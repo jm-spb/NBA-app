@@ -6,7 +6,7 @@ import nba_cares from '../assets/nba_cares.webp';
 
 import { IMainCarousel } from '../types/mainCarouselContent';
 
-export const mainCarouselContent: IMainCarousel[] = [
+const mainCarouselContent: IMainCarousel[] = [
   {
     heading: 'NBA 75th Anniversary Team announced',
     paragraph_1:
@@ -59,3 +59,5 @@ export const mainCarouselContent: IMainCarousel[] = [
     paginationText: 'NBA Cares - the League’s Global Social Responsibility Program',
   },
 ];
+
+export default mainCarouselContent;

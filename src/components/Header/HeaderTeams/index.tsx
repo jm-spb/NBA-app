@@ -44,9 +44,7 @@ const HeaderMenu = (): JSX.Element => {
       getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
       placement="bottomRight"
     >
-      <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-        Teams
-      </a>
+      <span className="ant-dropdown-link">Teams</span>
     </Dropdown>
   );
 };

@@ -15,9 +15,10 @@ import ErrorMsg from './components/ErrorMsg';
 
 import { nbaApi } from './services/NbaService';
 
-const App: React.FC = () => {
+const App = (): JSX.Element => {
   const { Header, Content, Footer } = Layout;
   const { isError } = nbaApi.useFetchTeamsQuery('');
+  console.log('render');
   // const isError = false;
   // const isLoading = false;
 
@@ -29,7 +30,7 @@ const App: React.FC = () => {
       </Header>
 
       <Scoreboard />
-      <div className="layout-adv"></div>
+      <div className="layout-adv" />
 
       <Content>
         <Routes>

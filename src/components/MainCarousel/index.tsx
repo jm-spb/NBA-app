@@ -7,14 +7,14 @@ import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Button } from 'antd';
 
-import { mainCarouselContent } from '../../scripts/mainCarouselContent';
+import mainCarouselContent from '../../scripts/mainCarouselContent';
 
 SwiperCore.use([Pagination, Autoplay]);
 
 const MainCarousel = (): JSX.Element => {
   const pagination = {
     clickable: true,
-    renderBullet: function (index: number, className: string) {
+    renderBullet(index: number, className: string) {
       return `<span class=${className}><p>${mainCarouselContent[index].paginationText}</p></span>`;
     },
   };
@@ -44,7 +44,7 @@ const MainCarousel = (): JSX.Element => {
           </div>
         </div>
       </SwiperSlide>
-    )
+    ),
   );
 
   return (

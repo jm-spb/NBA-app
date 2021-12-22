@@ -68,11 +68,11 @@ const ScoreboardCarousel = (): JSX.Element => {
 
     const filterGames = (
       allGamesArray: IScoreboardGames[],
-      dayIndex: number
+      dayIndex: number,
     ): IScoreboardGames[] =>
       allGamesArray.filter(
         (game) =>
-          format(new Date(game.startTimeUTC), 'yyyy-MM-dd') === gamesDates[dayIndex]
+          format(new Date(game.startTimeUTC), 'yyyy-MM-dd') === gamesDates[dayIndex],
       );
 
     const createGameSlides = ({
@@ -100,8 +100,8 @@ const ScoreboardCarousel = (): JSX.Element => {
             vTeam={vTeam}
             homeWinCaret={homeWinCaret}
             visitWinCaret={visitWinCaret}
-            hTeamRecord={'10 - 12'}
-            vTeamRecord={'15 - 23'}
+            hTeamRecord="10 - 12"
+            vTeamRecord="15 - 23"
           />
         </SwiperSlide>
       );
@@ -137,7 +137,7 @@ const ScoreboardCarousel = (): JSX.Element => {
       ) : (
         <div className="carousel">
           <Swiper
-            navigation={true}
+            navigation
             className="carousel-swiper"
             slidesPerView={8}
             slidesPerGroup={8}
