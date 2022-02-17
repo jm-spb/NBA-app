@@ -1,13 +1,14 @@
 import React from 'react';
+import { Menu, Dropdown } from 'antd';
 
 import './HeaderMenu.scss';
 
-import { Menu, Dropdown } from 'antd';
-
 import Division from './Division';
-
-import { nbaApi } from '../../../services/NbaService';
-import { ITeamsRenderData } from '../../../types/teamsHeader';
+import {
+  IHeaderTeamsProps,
+  ITeamsRenderData,
+  IGetDivisionTeams,
+} from '../../../types/teamsHeader';
 
 const divNames = [
   'ATLANTIC',
@@ -18,19 +19,14 @@ const divNames = [
   'SOUTHWEST',
 ];
 
-const HeaderMenu = (): JSX.Element => {
-  const { data } = nbaApi.useFetchTeamsQuery('');
-  const teams = data as ITeamsRenderData[];
+const getDivisionTeams: IGetDivisionTeams<ITeamsRenderData> = (division, teamsArray) =>
+  teamsArray?.filter(({ divName }) => divName.toLowerCase() === division.toLowerCase());
 
-  // console.log(teams);
-
-  const getDivisionTeams = (division: string) =>
-    teams?.filter((el) => el.divName.toLowerCase() === division.toLowerCase());
-
+const HeaderTeams = ({ teams }: IHeaderTeamsProps): JSX.Element => {
   const menuTeams = (
     <Menu className="menu-teams">
       {divNames.map((divisionName) => {
-        const divisionTeams = getDivisionTeams(divisionName);
+        const divisionTeams = getDivisionTeams(divisionName, teams);
         return (
           <Division key={divisionName} divName={divisionName} divTeams={divisionTeams} />
         );
@@ -49,4 +45,4 @@ const HeaderMenu = (): JSX.Element => {
   );
 };
 
-export default HeaderMenu;
+export default HeaderTeams;
