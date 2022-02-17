@@ -13,6 +13,15 @@ export interface ITeamsResponseData extends ITeamsRenderData {
   leagues: Leagues;
 }
 
+export interface Teams {
+  teams: ITeamsRenderData[];
+}
+
+export interface IDivisionProps {
+  divName: string;
+  divTeams: ITeamsRenderData[];
+}
+
 type Api = {
   status: string;
   message: string;
