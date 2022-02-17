@@ -13,13 +13,17 @@ export interface ITeamsResponseData extends ITeamsRenderData {
   leagues: Leagues;
 }
 
-export interface Teams {
+export interface IHeaderTeamsProps {
   teams: ITeamsRenderData[];
 }
 
 export interface IDivisionProps {
   divName: string;
   divTeams: ITeamsRenderData[];
+}
+
+export interface IGetDivisionTeams<T> {
+  (division: string, teamsArray: T[]): T[];
 }
 
 type Api = {
