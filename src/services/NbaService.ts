@@ -1,12 +1,6 @@
-/* eslint-disable prefer-object-spread */
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import {
-  IScoreboardFullData,
-  IScoreboardGames,
-  // IScoreboardDate,
-} from '../types/scoreboardGames';
-
+import { IScoreboardFullData, IScoreboardGames } from '../types/scoreboardGames';
 import { ITeamsRenderData, ITeamsResponseData } from '../types/teamsHeader';
 
 export const nbaApi = createApi({
@@ -34,8 +28,7 @@ export const nbaApi = createApi({
               leagues: {
                 standard: { divName },
               },
-            }) => Object.assign({}, { fullName, teamId, logo, divName }),
-            // }) => Object.assign({}, fullName, teamId, logo, divName),
+            }) => ({ fullName, teamId, logo, divName }),
           ),
     }),
 
@@ -49,8 +42,13 @@ export const nbaApi = createApi({
         const allGames = [...currentDayGames.api.games, ...nextDayGames.api.games];
 
         const result = allGames.map(
-          ({ gameId, startTimeUTC, hTeam, vTeam, statusGame }) =>
-            Object.assign({}, { gameId, startTimeUTC, hTeam, vTeam, statusGame }),
+          ({ gameId, startTimeUTC, hTeam, vTeam, statusGame }) => ({
+            gameId,
+            startTimeUTC,
+            hTeam,
+            vTeam,
+            statusGame,
+          }),
         );
 
         return { data: result };
