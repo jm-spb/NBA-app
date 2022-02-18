@@ -1,10 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-import { IScoreboardFullData, IScoreboardGames } from '../types/scoreboardGames';
-import { ITeamsRenderData, ITeamsResponseData } from '../types/teamsHeader';
+import { IScoreboardFullData, IScoreboardGames } from '../types/apiNbaTypes';
 
-export const nbaApi = createApi({
-  reducerPath: 'nbaApi',
+export const apiNba = createApi({
+  reducerPath: 'apiNba',
   baseQuery: fetchBaseQuery({
     // baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
     prepareHeaders: (headers) => {
@@ -15,23 +14,6 @@ export const nbaApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchTeams: builder.query<ITeamsRenderData[], string>({
-      query: () => 'teams/league/standard',
-      transformResponse: (rawResult: { api: { teams: ITeamsResponseData[] } }) =>
-        rawResult.api.teams
-          .filter((team) => team.logo && team.leagues.standard.divName)
-          .map(
-            ({
-              fullName,
-              teamId,
-              logo,
-              leagues: {
-                standard: { divName },
-              },
-            }) => ({ fullName, teamId, logo, divName }),
-          ),
-    }),
-
     fetchScoreboardGames: builder.query<IScoreboardGames[], string[]>({
       async queryFn(date, _queryApi, _extraOptions, fetchWithBQ) {
         const currentDayResponse = await fetchWithBQ(`games/date/${date[0]}`);
@@ -57,4 +39,4 @@ export const nbaApi = createApi({
   }),
 });
 
-export const { useFetchTeamsQuery, useFetchScoreboardGamesQuery } = nbaApi;
+export const { useFetchScoreboardGamesQuery } = apiNba;
