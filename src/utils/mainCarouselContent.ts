@@ -4,9 +4,9 @@ import nba_store from '../assets/nba_store.webp';
 import nba_tickets from '../assets/nba_tickets.webp';
 import nba_cares from '../assets/nba_cares.webp';
 
-import { IMainCarousel } from '../types/mainCarouselContent';
+import { IMainCarouselContent } from '../types/homePageTypes';
 
-const mainCarouselContent: IMainCarousel[] = [
+const mainCarouselContent: IMainCarouselContent[] = [
   {
     heading: 'NBA 75th Anniversary Team announced',
     paragraph_1:
