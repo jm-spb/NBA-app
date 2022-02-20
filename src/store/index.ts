@@ -1,13 +1,16 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { nbaApi } from '../services/NbaService';
+import { apiBasketball } from '../services/apiBasketballService';
+import { apiNba } from '../services/apiNbaService';
 
 const rootReducer = combineReducers({
-  [nbaApi.reducerPath]: nbaApi.reducer
+  [apiNba.reducerPath]: apiNba.reducer,
+  [apiBasketball.reducerPath]: apiBasketball.reducer,
 });
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(nbaApi.middleware)
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiNba.middleware, apiBasketball.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
