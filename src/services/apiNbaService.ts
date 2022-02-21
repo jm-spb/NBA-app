@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { format } from 'date-fns';
 
 import { IScoreboardFullData, IScoreboardGames } from '../types/apiNbaTypes';
 
@@ -14,16 +15,19 @@ export const apiNba = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchScoreboardGames: builder.query<IScoreboardGames[], string[]>({
-      async queryFn(date, _queryApi, _extraOptions, fetchWithBQ) {
-        const currentDayResponse = await fetchWithBQ(`games/date/${date[0]}`);
-        const nextDayResponse = await fetchWithBQ(`games/date/${date[1]}`);
+    fetchScoreboardGames: builder.query<IScoreboardGames[][], string[]>({
+      async queryFn(gameDates, _queryApi, _extraOptions, fetchWithBQ) {
+        const currentDayResponse = await fetchWithBQ(`games/date/${gameDates[0]}`);
+        const nextDayResponse = await fetchWithBQ(`games/date/${gameDates[1]}`);
+
+        // ** in currentDayResponse (or nextDayResponse) fetched games can be with different dates. So at first we need to create an array with all games and then filtered it, and create subarrays, grouped by date
 
         const currentDayGames = currentDayResponse.data as IScoreboardFullData;
         const nextDayGames = nextDayResponse.data as IScoreboardFullData;
         const allGames = [...currentDayGames.api.games, ...nextDayGames.api.games];
 
-        const result = allGames.map(
+        // return only necessary properties
+        const unfilteredGames = allGames.map(
           ({ gameId, startTimeUTC, hTeam, vTeam, statusGame }) => ({
             gameId,
             startTimeUTC,
@@ -33,7 +37,15 @@ export const apiNba = createApi({
           }),
         );
 
-        return { data: result };
+        // create an array with grouped games by each date
+        const groupedGames: IScoreboardGames[][] = gameDates.map((gameDate) =>
+          unfilteredGames.filter(
+            ({ startTimeUTC }) =>
+              format(new Date(startTimeUTC), 'yyyy-MM-dd') === gameDate,
+          ),
+        );
+
+        return { data: groupedGames };
       },
     }),
   }),
