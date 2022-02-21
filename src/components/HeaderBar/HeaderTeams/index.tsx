@@ -4,11 +4,8 @@ import { Menu, Dropdown } from 'antd';
 import './HeaderMenu.scss';
 
 import Division from './Division';
-import {
-  IHeaderTeamsProps,
-  ITeamsRenderData,
-  IGetDivisionTeams,
-} from '../../../types/teamsHeader';
+import { IHeaderTeamsProps, IGetDivisionTeams } from '../../../types/headerTeamsTypes';
+import { ITeamsBaseInfoRenderData } from '../../../types/apiBasketballTypes';
 
 const divNames = [
   'ATLANTIC',
@@ -19,8 +16,13 @@ const divNames = [
   'SOUTHWEST',
 ];
 
-const getDivisionTeams: IGetDivisionTeams<ITeamsRenderData> = (division, teamsArray) =>
-  teamsArray?.filter(({ divName }) => divName.toLowerCase() === division.toLowerCase());
+const getDivisionTeams: IGetDivisionTeams<ITeamsBaseInfoRenderData> = (
+  division,
+  teamsArray,
+) =>
+  teamsArray?.filter(
+    ({ divisionName }) => divisionName.toLowerCase() === division.toLowerCase(),
+  );
 
 const HeaderTeams = ({ teams }: IHeaderTeamsProps): JSX.Element => {
   const menuTeams = (

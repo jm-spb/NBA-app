@@ -4,19 +4,17 @@ import { Layout } from 'antd';
 
 import HeaderTeams from './HeaderTeams';
 import ErrorMsg from '../ErrorMsg';
-import { nbaApi } from '../../services/NbaService';
-import { ITeamsRenderData } from '../../types/teamsHeader';
+
+import { apiBasketball } from '../../services/apiBasketballService';
+import { ITeamsBaseInfoRenderData } from '../../types/apiBasketballTypes';
 
 import Logo from '../../assets/nba-logo.svg';
 
 const HeaderBar = (): JSX.Element => {
   const { Header } = Layout;
-  const { data, isError, isLoading, isSuccess } = nbaApi.useFetchTeamsQuery('');
+  const { data, isError } = apiBasketball.useFetchTeamsBaseInfoQuery('');
 
-  console.log(isError, isLoading, isSuccess);
-  console.log(data);
-
-  const fetchedTeams = data as ITeamsRenderData[];
+  const fetchedTeamsInfo = data as ITeamsBaseInfoRenderData[];
 
   return (
     <>
@@ -40,7 +38,7 @@ const HeaderBar = (): JSX.Element => {
               </Link>
             </li>
             <li>
-              <HeaderTeams teams={fetchedTeams} />
+              <HeaderTeams teams={fetchedTeamsInfo} />
             </li>
           </ul>
         </div>
