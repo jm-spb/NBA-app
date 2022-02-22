@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { CaretRightOutlined } from '@ant-design/icons';
-
-import { IScoreboardGames } from '../../types/scoreboardGames';
+import { IScoreboardGames } from '../../types/apiNbaTypes';
 
 const Slide = ({
   startTimeUTC,
