@@ -6,7 +6,7 @@ import Slide from './Slide';
 
 import { GameDateType, IScoreboardGamesProps } from '../../types/scoreboardTypes';
 import { IScoreboardGames } from '../../types/apiNbaTypes';
-import { createScoreboardSlides, handleHomeWin } from '../../utils/scoreboard';
+import { createScoreboardSlides, createWinCarets } from '../../utils/scoreboard';
 import { formatGameStartTime } from '../../utils/formatDates';
 
 const gamesNotFoundSlide = () => (
@@ -32,14 +32,12 @@ const createGameSlides = ({
   vTeam,
 }: IScoreboardGames): JSX.Element => {
   const gameStartTime = formatGameStartTime(startTimeUTC);
-  let homeWinCaret = '';
-  let visitWinCaret = '';
 
-  if (statusGame === 'Finished') {
-    const homeWin = handleHomeWin(hTeam.score.points, vTeam.score.points);
-    homeWinCaret = homeWin ? 'active' : '';
-    visitWinCaret = homeWin ? '' : 'active';
-  }
+  const [homeWinCaret, visitWinCaret] = createWinCarets(
+    statusGame,
+    hTeam.score.points,
+    vTeam.score.points,
+  );
 
   return (
     <SwiperSlide key={gameId}>
