@@ -18,7 +18,7 @@ const HeaderBar = (): JSX.Element => {
 
   return (
     <>
-      {isError ? <ErrorMsg /> : null}
+      {isError ? <ErrorMsg notAvaliableService="Api Basketball" /> : null}
       <Header>
         <div className="header-content">
           <div className="header-logo">
