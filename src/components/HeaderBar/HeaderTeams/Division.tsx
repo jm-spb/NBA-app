@@ -1,20 +1,27 @@
 import React from 'react';
 import { Menu } from 'antd';
 
-import { IDivisionProps } from '../../../types/headerTeamsTypes';
+import { IHeaderTeamsDropdown } from '../../../types/headerTeamsTypes';
 
-const Division = ({ divName, divTeams }: IDivisionProps): JSX.Element => (
-  <Menu.ItemGroup className="division" title={divName}>
-    {divTeams?.map(({ id, logo, teamName }) => (
-      <Menu.Item className="team" key={id}>
+const Division = ({ division, teams }: IHeaderTeamsDropdown): JSX.Element => (
+  <Menu.ItemGroup className="division" title={division}>
+    {teams.map(({ teamName, nickName, teamLogo }) => (
+      <Menu.Item className="team" key={teamName}>
         <img
-          src={logo}
+          src={teamLogo}
           width={25}
           height={25}
           alt={`${teamName} Logo`}
           className="team-logo"
         />
-        <span className="team-fullName">{teamName}</span>
+        <a
+          className="team-fullName"
+          target="_blank"
+          rel="noreferrer"
+          href={`https://nba.com/${nickName}`}
+        >
+          {teamName}
+        </a>
       </Menu.Item>
     ))}
   </Menu.ItemGroup>
