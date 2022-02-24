@@ -4,6 +4,8 @@ import { format } from 'date-fns';
 import {
   IScoreboardGamesResponseData,
   IScoreboardGamesRenderData,
+  ITeamsStandingsResponseData,
+  ITeamsStandingsRenderData,
 } from '../types/apiNbaTypes';
 
 export const apiNba = createApi({
@@ -66,7 +68,18 @@ export const apiNba = createApi({
         return { data: groupedGames };
       },
     }),
+    fetchTeamsStandings: builder.query<ITeamsStandingsRenderData[], string>({
+      query: () => 'standings?league=standard&season=2021',
+      transformResponse: (rawResult: { response: ITeamsStandingsResponseData[] }) =>
+        rawResult.response.map(({ team, win, loss }) => ({
+          teamId: team.id,
+          fullName: team.name,
+          logo: team.logo,
+          win: win.total,
+          loss: loss.total,
+        })),
+    }),
   }),
 });
 
-export const { useFetchScoreboardGamesQuery } = apiNba;
+export const { useFetchScoreboardGamesQuery, useFetchTeamsStandingsQuery } = apiNba;
