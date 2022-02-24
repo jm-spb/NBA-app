@@ -1,12 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { format } from 'date-fns';
 
-import { IScoreboardFullData, IScoreboardGames } from '../types/apiNbaTypes';
+import {
+  IScoreboardGamesResponseData,
+  IScoreboardGamesRenderData,
+} from '../types/apiNbaTypes';
 
 export const apiNba = createApi({
   reducerPath: 'apiNba',
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
+    baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
     prepareHeaders: (headers) => {
       headers.set('x-rapidapi-host', 'api-nba-v1.p.rapidapi.com');
       headers.set('x-rapidapi-key', `${process.env.REACT_APP_NBA_API_KEY}`);
@@ -15,30 +18,45 @@ export const apiNba = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchScoreboardGames: builder.query<IScoreboardGames[][], string[]>({
+    fetchScoreboardGames: builder.query<IScoreboardGamesRenderData[][], string[]>({
       async queryFn(gameDates, _queryApi, _extraOptions, fetchWithBQ) {
-        const currentDayResponse = await fetchWithBQ(`games/date/${gameDates[0]}`);
-        const nextDayResponse = await fetchWithBQ(`games/date/${gameDates[1]}`);
+        const currentDayResponse = await fetchWithBQ(`games?date=${gameDates[0]}`);
+        const nextDayResponse = await fetchWithBQ(`games?date=${gameDates[1]}`);
 
         // ** in currentDayResponse (or nextDayResponse) fetched games can be with different dates. So at first we need to create an array with all games and then filtered it, and create subarrays, grouped by date
 
-        const currentDayGames = currentDayResponse.data as IScoreboardFullData;
-        const nextDayGames = nextDayResponse.data as IScoreboardFullData;
-        const allGames = [...currentDayGames.api.games, ...nextDayGames.api.games];
+        const currentDayGames = currentDayResponse.data as IScoreboardGamesResponseData;
+        const nextDayGames = nextDayResponse.data as IScoreboardGamesResponseData;
+
+        const allGames = [...currentDayGames.response, ...nextDayGames.response];
 
         // return only necessary properties
-        const unfilteredGames = allGames.map(
-          ({ gameId, startTimeUTC, hTeam, vTeam, statusGame }) => ({
-            gameId,
-            startTimeUTC,
-            hTeam,
-            vTeam,
-            statusGame,
+        const unfilteredGames: IScoreboardGamesRenderData[] = allGames.map(
+          ({ id, date, status, teams, scores }) => ({
+            gameId: id,
+            startTimeUTC: date.start,
+            statusGame: status.long,
+            teamsInfo: {
+              homeTeamInfo: {
+                teamId: teams.home.id,
+                fullName: teams.home.name,
+                shortName: teams.home.code,
+                logo: teams.home.logo,
+                points: scores.home.points,
+              },
+              visitorTeamInfo: {
+                teamId: teams.visitors.id,
+                fullName: teams.visitors.name,
+                shortName: teams.visitors.code,
+                logo: teams.visitors.logo,
+                points: scores.visitors.points,
+              },
+            },
           }),
         );
 
         // create an array with grouped games by each date
-        const groupedGames: IScoreboardGames[][] = gameDates.map((gameDate) =>
+        const groupedGames: IScoreboardGamesRenderData[][] = gameDates.map((gameDate) =>
           unfilteredGames.filter(
             ({ startTimeUTC }) =>
               format(new Date(startTimeUTC), 'yyyy-MM-dd') === gameDate,
