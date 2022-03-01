@@ -2,10 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { format } from 'date-fns';
 
 import {
-  IScoreboardGamesResponseData,
-  IScoreboardGamesRenderData,
-  ITeamsStandingsResponseData,
-  ITeamsStandingsRenderData,
+  IFetchScoreboardGamesData,
+  IScoreboardGamesRender,
+  IFetchTeamsStandingsResponse,
+  ITeamsStandingsRender,
 } from '../types/apiNbaTypes';
 
 export const apiNba = createApi({
@@ -20,23 +20,23 @@ export const apiNba = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchScoreboardGames: builder.query<IScoreboardGamesRenderData[][], string[]>({
+    fetchScoreboardGames: builder.query<IScoreboardGamesRender[][], string[]>({
       async queryFn(gameDates, _queryApi, _extraOptions, fetchWithBQ) {
         const currentDayResponse = await fetchWithBQ(`games?date=${gameDates[0]}`);
         const nextDayResponse = await fetchWithBQ(`games?date=${gameDates[1]}`);
 
         // ** in currentDayResponse (or nextDayResponse) fetched games can be with different dates. So at first we need to create an array with all games and then filtered it, and create subarrays, grouped by date
 
-        const currentDayGames = currentDayResponse.data as IScoreboardGamesResponseData;
-        const nextDayGames = nextDayResponse.data as IScoreboardGamesResponseData;
+        const currentDayGames = currentDayResponse.data as IFetchScoreboardGamesData;
+        const nextDayGames = nextDayResponse.data as IFetchScoreboardGamesData;
 
         const allGames = [...currentDayGames.response, ...nextDayGames.response];
 
         // return only necessary properties
-        const unfilteredGames: IScoreboardGamesRenderData[] = allGames.map(
+        const unfilteredGames: IScoreboardGamesRender[] = allGames.map(
           ({ id, date, status, teams, scores }) => ({
             gameId: id,
-            startTimeUTC: date.start,
+            startTime: date.start,
             statusGame: status.long,
             teamsInfo: {
               homeTeamInfo: {
@@ -58,19 +58,18 @@ export const apiNba = createApi({
         );
 
         // create an array with grouped games by each date
-        const groupedGames: IScoreboardGamesRenderData[][] = gameDates.map((gameDate) =>
+        const groupedGames: IScoreboardGamesRender[][] = gameDates.map((gameDate) =>
           unfilteredGames.filter(
-            ({ startTimeUTC }) =>
-              format(new Date(startTimeUTC), 'yyyy-MM-dd') === gameDate,
+            ({ startTime }) => format(new Date(startTime), 'yyyy-MM-dd') === gameDate,
           ),
         );
 
         return { data: groupedGames };
       },
     }),
-    fetchTeamsStandings: builder.query<ITeamsStandingsRenderData[], string>({
+    fetchTeamsStandings: builder.query<ITeamsStandingsRender[], string>({
       query: () => 'standings?league=standard&season=2021',
-      transformResponse: (rawResult: { response: ITeamsStandingsResponseData[] }) =>
+      transformResponse: (rawResult: { response: IFetchTeamsStandingsResponse[] }) =>
         rawResult.response.map(({ team, win, loss }) => ({
           teamId: team.id,
           fullName: team.name,
