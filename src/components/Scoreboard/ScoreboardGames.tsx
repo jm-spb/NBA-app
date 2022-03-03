@@ -5,9 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import Slide from './Slide';
 
 import { GameDateType, IScoreboardGamesProps } from '../../types/scoreboardTypes';
-import { IScoreboardGames } from '../../types/apiNbaTypes';
-import { createScoreboardSlides, createWinCarets } from '../../utils/scoreboard';
-import { formatGameStartTime } from '../../utils/formatDates';
+
+import { createScoreboardSlides } from '../../utils/scoreboard';
+import { IScoreboardGamesRender } from '../../types/apiNbaTypes';
 
 const gamesNotFoundSlide = () => (
   <SwiperSlide key={uuidv4()}>
@@ -26,37 +26,22 @@ const createGameDateSlides = ({ weekDay, monthDay }: GameDateType) => (
 
 const createGameSlides = ({
   gameId,
-  startTimeUTC,
+  startTime,
   statusGame,
-  hTeam,
-  vTeam,
-}: IScoreboardGames): JSX.Element => {
-  const gameStartTime = formatGameStartTime(startTimeUTC);
-
-  const [homeWinCaret, visitWinCaret] = createWinCarets(
-    statusGame,
-    hTeam.score.points,
-    vTeam.score.points,
-  );
-
-  return (
-    <SwiperSlide key={gameId}>
-      <Slide
-        startTimeUTC={gameStartTime}
-        statusGame={statusGame}
-        hTeam={hTeam}
-        vTeam={vTeam}
-        homeWinCaret={homeWinCaret}
-        visitWinCaret={visitWinCaret}
-        hTeamRecord="10 - 12"
-        vTeamRecord="15 - 23"
-      />
-    </SwiperSlide>
-  );
-};
+  teamsInfo,
+}: IScoreboardGamesRender): JSX.Element => (
+  <SwiperSlide key={gameId}>
+    <Slide
+      gameId={gameId}
+      startTime={startTime}
+      statusGame={statusGame}
+      teamsInfo={teamsInfo}
+    />
+  </SwiperSlide>
+);
 
 // Return "Games Not Found" when there are no avaliable games
-const handleRenderGameSlides = (gameData: IScoreboardGames[]) =>
+const handleRenderGameSlides = (gameData: IScoreboardGamesRender[]) =>
   gameData.length > 0
     ? gameData.map(createGameSlides)
     : [gameData.length].map(gamesNotFoundSlide);
@@ -66,11 +51,7 @@ const ScoreboardGames = ({
   gamesRenderData,
 }: IScoreboardGamesProps): JSX.Element => {
   const gameDateSlides = gamesDates.map(createGameDateSlides);
-
-  // Render "Games Not Found" when failed to fetch data or when there are no avaliable games
-  const renderGameDaySlides = gamesRenderData
-    ? gamesRenderData.map(handleRenderGameSlides)
-    : gamesDates.map(gamesNotFoundSlide);
+  const renderGameDaySlides = gamesRenderData.map(handleRenderGameSlides);
 
   // create united array with gamesDateSlides and renderGameDaySlides
   const scoreboardSlides = createScoreboardSlides(gameDateSlides, renderGameDaySlides);
