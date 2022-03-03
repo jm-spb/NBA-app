@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Button } from 'antd';
 
-import mainCarouselContent from '../../scripts/mainCarouselContent';
+import mainCarouselContent from '../../utils/mainCarouselContent';
 
 SwiperCore.use([Pagination, Autoplay]);
 
@@ -49,12 +49,7 @@ const MainCarousel = (): JSX.Element => {
 
   return (
     <div className="main">
-      <Swiper
-        pagination={pagination}
-        autoplay={{ delay: 6800 }}
-        // watchSlidesProgress={true}
-        className="main-content"
-      >
+      <Swiper pagination={pagination} autoplay={{ delay: 6800 }} className="main-content">
         {renderMainCarouselSlides}
       </Swiper>
     </div>
