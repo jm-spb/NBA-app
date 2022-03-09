@@ -1,11 +1,4 @@
-import {
-  ICreateScoreboardSlides,
-  ICreateWinCarets,
-  IHandleHomeWin,
-} from '../types/scoreboardTypes';
-
-const handleHomeWin: IHandleHomeWin = (homeTeamScore, visitorTeamScore) =>
-  Number(homeTeamScore) > Number(visitorTeamScore);
+import { ICreateScoreboardSlides, ICreateWinCarets } from '../types/scoreboardTypes';
 
 export const createWinCarets: ICreateWinCarets = (
   statusGame,
@@ -16,9 +9,8 @@ export const createWinCarets: ICreateWinCarets = (
   let visitWinCaret = '';
 
   if (statusGame === 'Finished') {
-    const homeWin = handleHomeWin(homeTeamPoints, visitTeamPoints);
-    homeWinCaret = homeWin ? 'active' : '';
-    visitWinCaret = homeWin ? '' : 'active';
+    homeWinCaret = homeTeamPoints > visitTeamPoints ? 'active' : '';
+    visitWinCaret = homeTeamPoints > visitTeamPoints ? '' : 'active';
   }
 
   return [homeWinCaret, visitWinCaret];
