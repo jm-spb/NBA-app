@@ -1,4 +1,9 @@
-import { ICreateScoreboardSlides, ICreateWinCarets } from '../types/scoreboardTypes';
+import { ITeamsInfo, ITeamsStandingsRender } from '../types/apiNbaTypes';
+import {
+  ICreateScoreboardSlides,
+  ICreateTeamsRecords,
+  ICreateWinCarets,
+} from '../types/scoreboardTypes';
 
 export const createWinCarets: ICreateWinCarets = (
   statusGame,
@@ -33,4 +38,18 @@ export const createScoreboardSlides: ICreateScoreboardSlides = (
     }
   }
   return renderArray;
+};
+
+export const createTeamsRecords: ICreateTeamsRecords = (
+  teamsStandingsArray,
+  teamsInfoObject,
+) => {
+  // Type cast for proper iterate through object keys
+  const keys = Object.keys(teamsInfoObject) as Array<keyof ITeamsInfo>;
+  return keys.map(
+    (key) =>
+      teamsStandingsArray.find(
+        ({ fullName }) => teamsInfoObject[key].fullName === fullName,
+      ) as ITeamsStandingsRender,
+  );
 };
