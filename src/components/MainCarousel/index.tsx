@@ -1,12 +1,10 @@
 import React from 'react';
-
-import './MainCarousel.scss';
-import 'swiper/modules/pagination/pagination.scss';
-
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Button } from 'antd';
 
+import './MainCarousel.scss';
+import 'swiper/modules/pagination/pagination.scss';
 import mainCarouselContent from '../../utils/mainCarouselContent';
 
 SwiperCore.use([Pagination, Autoplay]);
