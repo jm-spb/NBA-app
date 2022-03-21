@@ -1,4 +1,4 @@
-import { IScoreboardGamesRender } from './apiNbaTypes';
+import { IScoreboardGamesRender, ITeamsInfo, ITeamsStandingsRender } from './apiNbaTypes';
 
 export interface IScoreboardGamesProps {
   gamesDates: GameDateType[];
@@ -19,4 +19,11 @@ export interface ICreateScoreboardSlides {
 
 export interface ICreateWinCarets {
   (statusGame: string, homeTeamPoints: number, visitTeamPoints: number): string[];
+}
+
+export interface ICreateTeamsRecords {
+  (
+    teamsStandingsArr: ITeamsStandingsRender[],
+    teamsInfoObject: ITeamsInfo,
+  ): ITeamsStandingsRender[];
 }
