@@ -2,9 +2,8 @@ import React from 'react';
 import { Menu, Dropdown } from 'antd';
 
 import './HeaderMenu.scss';
-
-import Division from './Division';
 import headerTeamsDropdown from '../../../utils/headerTeamsDropdown';
+import Division from './Division';
 
 const HeaderTeams = (): JSX.Element => {
   const menuTeams = (
