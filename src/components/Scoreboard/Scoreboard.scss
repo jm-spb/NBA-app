@@ -10,8 +10,6 @@
     height: 100%;
     margin: 0 auto;
     display: flex;
-    border-left: 2px solid lightgray;
-    border-right: 2px solid lightgray;
   }
 
   &-datePicker {
@@ -25,37 +23,49 @@
     border-left: 2px solid lightgray;
     border-right: 2px solid lightgray;
 
-    span {
+    &-date {
       font-weight: bold;
     }
-
-    // border-left: 2px solid lightgray;
-  }
-}
-
-.carousel {
-  height: 100%;
-  width: 90%;
-}
-
-.swiper {
-  height: 100%;
-  border-left: 2px solid lightgray;
-  // margin: 0;
-
-  // &-wrapper {
-
-  // }
-
-  &-slide {
-    // display: flex;
-    // justify-content: center;
-    // align-items: center;
-    border-right: 2px solid lightgray;
   }
 
-  &-button-disabled {
-    opacity: 0 !important;
+  &-carousel {
+    height: 100%;
+    width: 90%;
+  }
+
+  &-swiper {
+    height: 100%;
+
+    &-slide {
+      border-right: 2px solid lightgray !important;
+    }
+
+    .swiper-button-disabled {
+      opacity: 0;
+    }
+
+    .date-slide {
+      max-width: 80px;
+      background-color: #e5e5e5;
+      padding: 8px;
+      border-right: 2px solid lightgray;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &-content {
+        text-align: center;
+      }
+
+      &-weekday {
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+
+      &-monthday {
+        margin-bottom: 0;
+      }
+    }
   }
 }
 
@@ -85,11 +95,8 @@
 
   &-team {
     display: flex;
-    // justify-content: space-between;
-    // align-items: flex-end;
     align-items: center;
     height: 16px;
-    // line-height: 100%;
   }
 
   &-logo {
@@ -101,10 +108,8 @@
     font-size: 12px;
     font-weight: bold;
     line-height: 1;
-
     display: flex;
     flex: 1 1;
-    // align-items: flex-end;
   }
 
   &-winner {
@@ -133,29 +138,6 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-  }
-}
-
-.date-slide {
-  width: 80px !important;
-  background-color: #e5e5e5;
-  padding: 8px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &-content {
-    text-align: center;
-  }
-
-  &-weekday {
-    font-weight: bold;
-    margin-bottom: 0;
-  }
-
-  &-monthday {
-    margin-bottom: 0;
   }
 }
 
