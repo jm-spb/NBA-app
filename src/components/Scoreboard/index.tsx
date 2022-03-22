@@ -1,13 +1,8 @@
 import React from 'react';
 import SwiperCore, { Navigation } from 'swiper';
-
-import './Scoreboard.scss';
 import 'swiper/modules/navigation/navigation.scss';
 
-import Spinner from '../Spinner';
-import DatePicker from '../DatePicker';
-import ScoreboardGames from './ScoreboardGames';
-
+import './Scoreboard.scss';
 import {
   currentDay,
   nextDay,
@@ -16,11 +11,12 @@ import {
   formatGameStartTime,
 } from '../../utils/formatDates';
 import { apiNba } from '../../services/apiNbaService';
-
-import ErrorMsg from '../ErrorMsg';
 import { IScoreboardGamesRender, ITeamsStandingsRender } from '../../types/apiNbaTypes';
-
-import { createWinCarets } from '../../utils/scoreboard';
+import { createTeamsRecords, createWinCarets } from '../../utils/scoreboard';
+import Spinner from '../Spinner';
+import DatePicker from '../DatePicker';
+import ScoreboardGames from './ScoreboardGames';
+import ErrorMsg from '../ErrorMsg';
 
 SwiperCore.use([Navigation]);
 
@@ -36,40 +32,59 @@ const Scoreboard = (): JSX.Element => {
   const { data: fetchedTeamsStandings, isLoading: teamsStandingsIsLoading } =
     apiNba.useFetchTeamsStandingsQuery('');
 
-  if (scoreboardGamesIsLoading || teamsStandingsIsLoading)
+  // Handle Date change in Date Picker
+  const onChange = (date: Date | null, dateString: string) => {
+    if (date) setGamesDates([dateString, formatNextDay(dateString)]);
+  };
+
+  // Because we use the same API for games and standings, we can only check scoreboardGamesIsError
+  if (scoreboardGamesIsError) return <ErrorMsg notAvaliableService="Api NBA" />;
+
+  // Show Spinner on entire scoreboard bar on initial loading
+  if (scoreboardGamesIsLoading || teamsStandingsIsLoading) {
     return (
       <div className="scoreboard">
         <Spinner />
       </div>
     );
+  }
 
-  if (scoreboardGamesIsError) return <ErrorMsg notAvaliableService="Api NBA" />;
-
-  // Handle Date change in Date Picker
-  const onChange = (date: Date | null, dateString: string) => {
-    if (date) setGamesDates([dateString, formatNextDay(dateString)]);
-  };
+  // Show Spinner with Date Picker when change data
+  if (scoreboardGamesIsFetching) {
+    return (
+      <div className="scoreboard">
+        <div className="scoreboard-inner">
+          <div className="scoreboard-datePicker">
+            <span className="scoreboard-datePicker-date">Game Date</span>
+            <DatePicker onChange={onChange} />
+          </div>
+          <Spinner />
+        </div>
+      </div>
+    );
+  }
 
   const formatedGamesDates = formatDatesInGameDateSlide(gamesDates);
 
   const scoreboardGames = fetchedScoreboardGames as IScoreboardGamesRender[][];
   const teamsStandings = fetchedTeamsStandings as ITeamsStandingsRender[];
 
+  // Create proper data for slides in scoreboard
   const gamesRenderData: IScoreboardGamesRender[][] = scoreboardGames.map((gameDate) =>
     gameDate.map(({ gameId, startTime, statusGame, teamsInfo }) => {
       const startTimeLocal = formatGameStartTime(startTime);
+
+      // create caret icon (arrow) when either team wins
       const [homeWinCaret, visitorWinCaret] = createWinCarets(
         statusGame,
         teamsInfo.homeTeamInfo.points,
         teamsInfo.visitorTeamInfo.points,
       );
 
-      const homeTeamRecord = teamsStandings.find(
-        ({ fullName }) => teamsInfo.homeTeamInfo.fullName === fullName,
-      );
-
-      const visitorTeamRecord = teamsStandings.find(
-        ({ fullName }) => teamsInfo.visitorTeamInfo.fullName === fullName,
+      // find home and visitor teams record (win-loss) from teamsStandings data
+      const [homeTeamRecord, visitorTeamRecord] = createTeamsRecords(
+        teamsStandings,
+        teamsInfo,
       );
 
       return {
@@ -78,23 +93,13 @@ const Scoreboard = (): JSX.Element => {
         statusGame,
         teamsInfo: {
           homeTeamInfo: {
-            teamId: teamsInfo.homeTeamInfo.teamId,
-            fullName: teamsInfo.homeTeamInfo.fullName,
-            shortName: teamsInfo.homeTeamInfo.shortName,
-            logo: teamsInfo.homeTeamInfo.logo,
-            points: teamsInfo.homeTeamInfo.points,
-            win: homeTeamRecord?.win,
-            loss: homeTeamRecord?.loss,
+            ...teamsInfo.homeTeamInfo,
+            ...homeTeamRecord,
             winCaret: homeWinCaret,
           },
           visitorTeamInfo: {
-            teamId: teamsInfo.visitorTeamInfo.teamId,
-            fullName: teamsInfo.visitorTeamInfo.fullName,
-            shortName: teamsInfo.visitorTeamInfo.shortName,
-            logo: teamsInfo.visitorTeamInfo.logo,
-            points: teamsInfo.visitorTeamInfo.points,
-            win: visitorTeamRecord?.win,
-            loss: visitorTeamRecord?.loss,
+            ...teamsInfo.visitorTeamInfo,
+            ...visitorTeamRecord,
             winCaret: visitorWinCaret,
           },
         },
@@ -108,20 +113,15 @@ const Scoreboard = (): JSX.Element => {
     <div className="scoreboard">
       <div className="scoreboard-inner">
         <div className="scoreboard-datePicker">
-          <span>Game Date</span>
+          <span className="scoreboard-datePicker-date">Game Date</span>
           <DatePicker onChange={onChange} />
         </div>
-        {/* Show Spinner on date change */}
-        {scoreboardGamesIsFetching ? (
-          <Spinner />
-        ) : (
-          <div className="carousel">
-            <ScoreboardGames
-              gamesDates={formatedGamesDates}
-              gamesRenderData={gamesRenderData}
-            />
-          </div>
-        )}
+        <div className="scoreboard-carousel">
+          <ScoreboardGames
+            gamesDates={formatedGamesDates}
+            gamesRenderData={gamesRenderData}
+          />
+        </div>
       </div>
     </div>
   );
