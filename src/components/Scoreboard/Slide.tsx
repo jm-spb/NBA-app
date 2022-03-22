@@ -29,7 +29,7 @@ const Slide = ({
         {statusGame === 'Finished' ? (
           <div className="slide-score">{visitorTeamInfo.points}</div>
         ) : (
-          <div className="slide-record">{`${visitorTeamInfo.win} - ${visitorTeamInfo.loss}`}</div>
+          <div className="slide-record">{`${visitorTeamInfo.totalWin} - ${visitorTeamInfo.totalLoss}`}</div>
         )}
       </div>
       <div className="slide-team">
@@ -46,7 +46,7 @@ const Slide = ({
         {statusGame === 'Finished' ? (
           <div className="slide-score">{homeTeamInfo.points}</div>
         ) : (
-          <div className="slide-record">{`${homeTeamInfo.win} - ${homeTeamInfo.loss}`}</div>
+          <div className="slide-record">{`${homeTeamInfo.totalWin} - ${homeTeamInfo.totalLoss}`}</div>
         )}
       </div>
     </div>

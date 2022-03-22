@@ -2,12 +2,10 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import { v4 as uuidv4 } from 'uuid';
 
-import Slide from './Slide';
-
 import { GameDateType, IScoreboardGamesProps } from '../../types/scoreboardTypes';
-
 import { createScoreboardSlides } from '../../utils/scoreboard';
 import { IScoreboardGamesRender } from '../../types/apiNbaTypes';
+import Slide from './Slide';
 
 const gamesNotFoundSlide = () => (
   <SwiperSlide key={uuidv4()}>
@@ -30,7 +28,7 @@ const createGameSlides = ({
   statusGame,
   teamsInfo,
 }: IScoreboardGamesRender): JSX.Element => (
-  <SwiperSlide key={gameId}>
+  <SwiperSlide key={gameId} className="scoreboard-swiper-slide">
     <Slide
       gameId={gameId}
       startTime={startTime}
@@ -57,7 +55,7 @@ const ScoreboardGames = ({
   const scoreboardSlides = createScoreboardSlides(gameDateSlides, renderGameDaySlides);
 
   return (
-    <Swiper navigation className="carousel-swiper" slidesPerView={8} slidesPerGroup={8}>
+    <Swiper navigation className="scoreboard-swiper" slidesPerView={8} slidesPerGroup={8}>
       {scoreboardSlides}
     </Swiper>
   );
