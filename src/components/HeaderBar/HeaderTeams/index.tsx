@@ -1,13 +1,12 @@
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
 
-import './HeaderMenu.scss';
 import headerTeamsDropdown from '../../../utils/headerTeamsDropdown';
 import Division from './Division';
 
 const HeaderTeams = (): JSX.Element => {
   const menuTeams = (
-    <Menu className="menu-teams">
+    <Menu className="ant-dropdown-menu-teams">
       {headerTeamsDropdown.map(({ division, teams }) => (
         <Division key={division} division={division} teams={teams} />
       ))}
@@ -16,11 +15,12 @@ const HeaderTeams = (): JSX.Element => {
 
   return (
     <Dropdown
+      className="header-dropdown-link"
       overlay={menuTeams}
       getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
       placement="bottomRight"
     >
-      <span className="ant-dropdown-link">Teams</span>
+      <span>Teams</span>
     </Dropdown>
   );
 };

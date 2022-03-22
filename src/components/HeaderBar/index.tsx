@@ -2,8 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import HeaderTeams from './HeaderTeams';
+import './HeaderBar.scss';
 import Logo from '../../assets/nba-logo.svg';
+import HeaderTeams from './HeaderTeams';
 
 const HeaderBar = (): JSX.Element => {
   const { Header } = Layout;
@@ -13,7 +14,13 @@ const HeaderBar = (): JSX.Element => {
       <div className="header-content">
         <div className="header-logo">
           <Link to="/">
-            <img src={Logo} width={100} height={35} alt="NBA Logo" />
+            <img
+              className="header-logo-img"
+              src={Logo}
+              width={100}
+              height={35}
+              alt="NBA Logo"
+            />
           </Link>
         </div>
         <ul className="header-menu">
