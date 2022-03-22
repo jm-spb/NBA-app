@@ -1,10 +1,10 @@
 import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
-import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Button } from 'antd';
+import SwiperCore, { Pagination, Autoplay } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+import 'swiper/modules/pagination/pagination.scss';
 
 import './MainCarousel.scss';
-import 'swiper/modules/pagination/pagination.scss';
 import mainCarouselContent from '../../utils/mainCarouselContent';
 
 SwiperCore.use([Pagination, Autoplay]);
@@ -13,20 +13,20 @@ const MainCarousel = (): JSX.Element => {
   const pagination = {
     clickable: true,
     renderBullet(index: number, className: string) {
-      return `<span class=${className}><p>${mainCarouselContent[index].paginationText}</p></span>`;
+      return `<span class=${className}><p class="swiper-pagination-paragraph">${mainCarouselContent[index].paginationText}</p></span>`;
     },
   };
 
   const renderMainCarouselSlides = mainCarouselContent.map(
     ({ heading, paragraph_1, paragraph_2, link, image, paginationText }) => (
       <SwiperSlide key={heading}>
-        <div className="main-slide">
-          <div className="main-slide-content">
-            <h1>{heading}</h1>
-            <p>{paragraph_1}</p>
-            <p>{paragraph_2}</p>
+        <div className="carousel-slide">
+          <div className="carousel-slide-content">
+            <h1 className="carousel-slide-heading">{heading}</h1>
+            <p className="carousel-slide-paragraph">{paragraph_1}</p>
+            <p className="carousel-slide-paragraph">{paragraph_2}</p>
             <Button
-              className="main-slide-button"
+              className="carousel-slide-button"
               type="link"
               href={link}
               target="_blank"
@@ -37,8 +37,13 @@ const MainCarousel = (): JSX.Element => {
               Read More
             </Button>
           </div>
-          <div className="main-slide-image">
-            <img src={image} alt={paginationText} loading="lazy" />
+          <div className="carousel-slide-animation">
+            <img
+              className="carousel-slide-image"
+              src={image}
+              alt={paginationText}
+              loading="lazy"
+            />
           </div>
         </div>
       </SwiperSlide>
@@ -46,8 +51,12 @@ const MainCarousel = (): JSX.Element => {
   );
 
   return (
-    <div className="main">
-      <Swiper pagination={pagination} autoplay={{ delay: 6800 }} className="main-content">
+    <div className="carousel">
+      <Swiper
+        pagination={pagination}
+        autoplay={{ delay: 6800 }}
+        className="carousel-content"
+      >
         {renderMainCarouselSlides}
       </Swiper>
     </div>
