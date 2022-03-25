@@ -70,13 +70,42 @@ export const apiNba = createApi({
     fetchTeamsStandings: builder.query<ITeamsStandingsRender[], string>({
       query: () => 'standings?league=standard&season=2021',
       transformResponse: (rawResult: { response: IFetchTeamsStandingsResponse[] }) =>
-        rawResult.response.map(({ team, win, loss }) => ({
-          teamId: team.id,
-          fullName: team.name,
-          logo: team.logo,
-          win: win.total,
-          loss: loss.total,
-        })),
+        rawResult.response.map(
+          ({ team, win, loss, gamesBehind, streak, winStreak, conference, division }) => {
+            let formatedNickname = team.nickname.toLowerCase();
+            if (formatedNickname === '76ers') formatedNickname = 'sixers';
+            if (formatedNickname === 'trail blazers') formatedNickname = 'blazers';
+            return {
+              teamId: team.id,
+              fullName: team.name,
+              nickname: formatedNickname,
+              logo: team.logo,
+              totalWin: win.total,
+              homeWin: win.home,
+              awayWin: win.away,
+              totalLoss: loss.total,
+              homeLoss: loss.home,
+              awayLoss: loss.away,
+              winPercentage: win.percentage,
+              lastTenWin: win.lastTen,
+              gamesBehind,
+              streak,
+              winStreak,
+              conference: {
+                name: conference.name,
+                rank: conference.rank,
+                confWin: conference.win,
+                confLoss: conference.loss,
+              },
+              division: {
+                name: division.name,
+                rank: division.rank,
+                divisionWin: division.win,
+                divisionLoss: division.loss,
+              },
+            };
+          },
+        ),
     }),
   }),
 });
