@@ -1,0 +1,77 @@
+.standings {
+  &-content {
+    max-width: 1280px !important;
+    padding: 20px;
+    border-radius: 0.25rem;
+    box-shadow: rgba(209, 209, 209, 0.5) 0px 0px 10px 0px;
+    background-color: #fff;
+  }
+
+  &-header {
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f0f2f5;
+
+    &-heading {
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+
+  &-table {
+    margin-bottom: 16px;
+    th {
+      font-size: 10px;
+      font-weight: 600 !important;
+    }
+  }
+}
+
+.team {
+  &-rank {
+    font-weight: 600;
+    margin-right: 16px;
+  }
+  &-image {
+    margin-right: 8px;
+  }
+}
+
+.ant-table-tbody {
+  &:last-child {
+    border-bottom: 2px solid #f0f2f5;
+  }
+
+  tr:nth-child(6) {
+    border-bottom: 2.1px dashed black;
+  }
+
+  tr:nth-child(10) {
+    border-bottom: 2px solid black;
+  }
+}
+
+.ant-table-title {
+  font-size: 20px;
+  font-weight: 600;
+  padding-left: 0;
+}
+
+.ant-table-row {
+  border-top: 2px solid #f0f2f5;
+  line-height: 1;
+
+  &:hover {
+    background-color: #dfe7f1;
+    border-top: 2px solid #3b76ab;
+    border-bottom: 2px solid #3b76ab;
+  }
+}
+
+.ant-table-cell {
+  padding: 12px !important;
+}
+
+// reset default hover
+.ant-table-cell-row-hover {
+  background: none !important;
+}
