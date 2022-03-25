@@ -5,10 +5,24 @@ import './StandingsPage.scss';
 import { apiNba } from '../../services/apiNbaService';
 import { ITeamsStandingsRender } from '../../types/apiNbaTypes';
 import { standingsTableColumns } from '../../utils/constants';
+import ErrorMsg from '../../components/ErrorMsg';
+import Spinner from '../../components/Spinner';
 
 const StandingsPage = (): JSX.Element => {
-  const { data } = apiNba.useFetchTeamsStandingsQuery('');
+  const { data, isError, isLoading } = apiNba.useFetchTeamsStandingsQuery('');
   const teamsStandings = data as ITeamsStandingsRender[];
+
+  if (isError) return <ErrorMsg notAvaliableService="Api NBA" />;
+
+  if (isLoading) {
+    return (
+      <div className="standings">
+        <div className="standings-content">
+          <Spinner />
+        </div>
+      </div>
+    );
+  }
 
   const filteredTeamsByConference = ['east', 'west'].map((confName) =>
     teamsStandings
@@ -23,6 +37,7 @@ const StandingsPage = (): JSX.Element => {
         conference,
         logo,
         fullName,
+        nickname,
         totalWin,
         totalLoss,
         winPercentage,
@@ -47,7 +62,14 @@ const StandingsPage = (): JSX.Element => {
               width={20}
               height="auto"
             />
-            <span className="team-fullName">{fullName}</span>{' '}
+            <a
+              className="team-fullName"
+              href={`https://nba.com/${nickname}`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {fullName}
+            </a>
           </div>
         ),
         totalWin,
