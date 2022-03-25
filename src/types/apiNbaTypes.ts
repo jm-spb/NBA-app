@@ -45,7 +45,7 @@ export interface IScoreboardGamesRender {
   gameId: number;
   startTime: string;
   statusGame: string;
-  teamsInfo: { homeTeamInfo: ITeamInfo; visitorTeamInfo: ITeamInfo };
+  teamsInfo: ITeamsInfo;
 }
 
 interface ITeamInfo {
@@ -54,8 +54,8 @@ interface ITeamInfo {
   shortName: string;
   logo: string;
   points: number;
-  win?: number;
-  loss?: number;
+  totalWin?: number;
+  totalLoss?: number;
   winCaret?: string;
 }
 
@@ -88,7 +88,24 @@ export interface IFetchTeamsStandingsResponse {
 export interface ITeamsStandingsRender {
   teamId: number;
   fullName: string;
+  nickname: string;
   logo: string;
-  win: number;
-  loss: number;
+  totalWin: number;
+  homeWin: number;
+  awayWin: number;
+  totalLoss: number;
+  homeLoss: number;
+  awayLoss: number;
+  winPercentage: string;
+  lastTenWin: number;
+  gamesBehind: string;
+  streak: number;
+  winStreak: boolean;
+  conference: { name: string; rank: number; confWin: number; confLoss: number };
+  division: { name: string; rank: number; divisionWin: number; divisionLoss: number };
+}
+
+export interface ITeamsInfo {
+  homeTeamInfo: ITeamInfo;
+  visitorTeamInfo: ITeamInfo;
 }
