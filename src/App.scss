@@ -2,6 +2,7 @@
 
 body {
   overflow-y: scroll;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 ul {
@@ -10,12 +11,28 @@ ul {
   padding: 0;
 }
 
-.layout-adv {
-  min-height: 90px;
+table {
+  border-collapse: collapse !important;
 }
 
-// FOOTER
-.footer {
-  text-align: center;
-  padding: 20px 200px;
+.layout {
+  &-top {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+  }
+
+  &-content {
+    padding-top: 104px;
+  }
+
+  &-adv {
+    min-height: 90px;
+  }
+}
+
+.main {
+  > div > div {
+    margin: 0 auto;
+  }
 }
