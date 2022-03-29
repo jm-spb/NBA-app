@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layout, List } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 
 import './FooterCustom.scss';
 import { footerBottomLegalsData, footerTopListData } from '../../content/footerContent';
@@ -14,7 +15,7 @@ const FooterContent = (): JSX.Element => {
         <div className="footer-listItem">
           <List.Item className="footer-listItem-header">{title}</List.Item>
           {links.map(({ name, path }) => (
-            <List.Item className="footer-listItem-content">
+            <List.Item key={uuidv4()} className="footer-listItem-content">
               <a
                 className="footer-listItem-link"
                 href={path}
@@ -30,7 +31,7 @@ const FooterContent = (): JSX.Element => {
     />
   );
   const footerBottomLegals = footerBottomLegalsData.map(({ legalName, legalLink }) => (
-    <li>
+    <li key={uuidv4()}>
       <a className="footer-bottom-link" href={legalLink} target="_blank" rel="noreferrer">
         {legalName}
       </a>

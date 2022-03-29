@@ -2,10 +2,11 @@ import React from 'react';
 import { Button } from 'antd';
 import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
+import { v4 as uuidv4 } from 'uuid';
 import 'swiper/modules/pagination/pagination.scss';
 
 import './MainCarousel.scss';
-import mainCarouselContent from '../../utils/mainCarouselContent';
+import mainCarouselContent from '../../content/mainCarouselContent';
 
 SwiperCore.use([Pagination, Autoplay]);
 
@@ -19,7 +20,7 @@ const MainCarousel = (): JSX.Element => {
 
   const renderMainCarouselSlides = mainCarouselContent.map(
     ({ heading, paragraph_1, paragraph_2, link, image, paginationText }) => (
-      <SwiperSlide key={heading}>
+      <SwiperSlide key={uuidv4()}>
         <div className="carousel-slide">
           <div className="carousel-slide-content">
             <h1 className="carousel-slide-heading">{heading}</h1>
