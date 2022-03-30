@@ -1,0 +1,96 @@
+@import '../../styles/config';
+
+.footer {
+  background: $main-color;
+  padding: 0;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.top {
+  ul {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.listItem {
+  min-width: fit-content;
+  padding: 0 12px;
+
+  &:nth-child(5) {
+    margin-left: 20%;
+  }
+
+  li {
+    border-bottom: none !important;
+  }
+}
+
+.listItemHeader {
+  color: $white-color;
+  font-size: 10px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.listItemContent {
+  padding: 0;
+  line-height: 2.5;
+}
+
+.link {
+  color: $white-color;
+
+  &:hover {
+    color: $white-color;
+    text-decoration: underline;
+  }
+}
+
+.divider {
+  margin: 28px 0;
+  border-color: $transparent-white-color;
+}
+
+.bottom {
+  padding: 0 12px;
+}
+
+.bottomHeading {
+  color: $white-color;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.bottomLegals {
+  display: flex;
+  flex-wrap: wrap;
+
+  // select first 4 li elements
+  & > li:nth-child(-n + 4) {
+    a::after {
+      content: '|';
+      padding: 12px;
+    }
+  }
+}
+
+.bottomParagraph {
+  font-size: 10px;
+  color: $white-color;
+  margin-bottom: 6px;
+
+  &:nth-child(3) {
+    display: inline-block;
+  }
+}
+
+.bottomLink {
+  composes: link;
+  font-size: 10px;
+}

@@ -2,25 +2,25 @@ import React from 'react';
 import { Layout, List } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
-import './FooterCustom.scss';
+import styles from './FooterCustom.module.scss';
 import { footerBottomLegalsData, footerTopListData } from '../../content/footerContent';
 
 const FooterContent = (): JSX.Element => {
   const { Footer } = Layout;
   const footerTopList = (
     <List
-      className="footer-top"
+      className={styles.top}
       dataSource={footerTopListData}
       renderItem={({ title, links }) => (
-        <div className="footer-listItem">
-          <List.Item className="footer-listItem-header">{title}</List.Item>
+        <div className={styles.listItem}>
+          <List.Item className={styles.listItemHeader}>{title}</List.Item>
           {links.map(({ name, path }) => (
-            <List.Item key={uuidv4()} className="footer-listItem-content">
+            <List.Item key={uuidv4()} className={styles.listItemContent}>
               <a
-                className="footer-listItem-link"
+                className={styles.link}
                 href={path}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 {name}
               </a>
@@ -32,36 +32,41 @@ const FooterContent = (): JSX.Element => {
   );
   const footerBottomLegals = footerBottomLegalsData.map(({ legalName, legalLink }) => (
     <li key={uuidv4()}>
-      <a className="footer-bottom-link" href={legalLink} target="_blank" rel="noreferrer">
+      <a
+        className={styles.bottomLink}
+        href={legalLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {legalName}
       </a>
     </li>
   ));
 
   return (
-    <Footer className="footer">
-      <div className="footer-container">
+    <Footer className={styles.footer}>
+      <div className={styles.container}>
         {footerTopList}
-        <hr className="footer-divider" />
-        <div className="footer-bottom">
-          <h5 className="footer-bottom-heading">
+        <hr className={styles.divider} />
+        <div className={styles.bottom}>
+          <h5 className={styles.bottomHeading}>
             &copy; 2022 NBA Media Ventures, LLC. All rights reserved.
           </h5>
-          <ul className="footer-bottom-legals">{footerBottomLegals}</ul>
-          <p className="footer-bottom-paragraph">
+          <ul className={styles.bottomLegals}>{footerBottomLegals}</ul>
+          <p className={styles.bottomParagraph}>
             If you are having difficulty accessing any content on this website, please
             visit our
           </p>
           <a
-            className="footer-bottom-link"
+            className={styles.bottomLink}
             href="https://www.nba.com/accessibility"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             {' '}
             Accessibility page.
           </a>
-          <p className="footer-bottom-paragraph">
+          <p className={styles.bottomParagraph}>
             NBA.com is part of Warner Media, LLC&apos;s Turner Sports &amp; Entertainment
             Digital Network
           </p>
