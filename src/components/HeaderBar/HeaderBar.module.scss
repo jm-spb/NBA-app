@@ -1,0 +1,66 @@
+@import '../../styles/config';
+
+.header {
+  background-color: $main-color;
+}
+
+.content {
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover .link a,
+  &:hover .dropdownLink {
+    color: $transparent-white-color;
+    transition: color 0.3s;
+  }
+}
+
+.logoImg {
+  width: 120px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+}
+
+.headerMenu {
+  display: flex;
+  font-size: 16px;
+
+  .link:hover {
+    a {
+      color: $white-color;
+    }
+  }
+}
+
+.link {
+  height: 64px;
+  padding: 0 10px;
+  cursor: pointer;
+
+  a {
+    color: $white-color;
+  }
+}
+
+.dropdownLink {
+  color: $white-color;
+  height: 64px;
+  padding: 0 10px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: $white-color !important;
+    cursor: pointer;
+  }
+
+  // override ant style
+  & > div > div > div {
+    width: 750px;
+    // display: flex;
+  }
+}
