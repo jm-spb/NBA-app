@@ -2,40 +2,34 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
 
-import './HeaderBar.scss';
+import styles from './HeaderBar.module.scss';
 import Logo from '../../assets/nba-logo.svg';
-import HeaderTeams from './HeaderTeams';
+import HeaderDropdown from './HeaderDropdown';
 
 const HeaderBar = (): JSX.Element => {
   const { Header } = Layout;
 
   return (
-    <Header>
-      <div className="header-content">
-        <div className="header-logo">
-          <Link to="/">
-            <img
-              className="header-logo-img"
-              src={Logo}
-              width={100}
-              height={35}
-              alt="NBA Logo"
-            />
-          </Link>
-        </div>
-        <ul className="header-menu">
-          <li>
-            <Link to="/stats" className="header-link">
-              Stats
-            </Link>
+    <Header className={styles.header}>
+      <div className={styles.content}>
+        <Link to="/">
+          <img
+            className={styles.logoImg}
+            src={Logo}
+            width={100}
+            height={35}
+            alt="NBA Logo"
+          />
+        </Link>
+        <ul className={styles.headerMenu}>
+          <li className={styles.link}>
+            <Link to="/stats">Stats</Link>
           </li>
-          <li>
-            <Link to="/standings" className="header-link">
-              Standings
-            </Link>
+          <li className={styles.link}>
+            <Link to="/standings">Standings</Link>
           </li>
-          <li>
-            <HeaderTeams />
+          <li className={styles.dropdownLink}>
+            <HeaderDropdown />
           </li>
         </ul>
       </div>
