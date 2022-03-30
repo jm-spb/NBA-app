@@ -1,0 +1,43 @@
+@import '../../../styles/config';
+
+.dropdown {
+  display: inline-block;
+  height: 60px;
+}
+
+.menuTeams {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 8px 0;
+}
+
+.division {
+  width: 33.3%;
+  padding: 16px 16px 0 16px;
+
+  &:nth-child(1n + 4) {
+    border-top: 1px solid $lightgray-color;
+    margin-top: 16px;
+  }
+
+  & > div {
+    color: $black-color;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 0 0 8px 0;
+  }
+}
+
+.team {
+  padding: 8px 0 8px 0;
+}
+
+.teamLogo {
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.teamFullName {
+  font-size: 14px;
+  line-height: 18px;
+}
