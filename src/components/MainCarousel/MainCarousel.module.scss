@@ -1,0 +1,63 @@
+@import '../../styles/config';
+
+// text content and image
+.carousel {
+  background: $black-color;
+  // width: 100%;
+
+  // override default swiper styles
+  :global {
+    @import '../../styles/mainCarouselSwiper.scss';
+  }
+}
+
+.carouselContent {
+  height: 680px;
+  max-width: 1440px;
+  // margin: 0 auto;
+  // border: none;
+}
+
+.slide {
+  display: flex;
+  height: 75%;
+}
+
+.slideContent {
+  padding: 80px 40px 0 40px;
+  width: 50%;
+}
+
+.heading {
+  color: $white-color;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.paragraph {
+  color: $white-color;
+}
+
+.button {
+  margin-top: 12px;
+  color: $white-color;
+  border: 2px solid $white-color;
+
+  &:hover {
+    color: $on-hover-white-color;
+    border: 2px solid $on-hover-white-color;
+  }
+}
+
+.animation {
+  height: 100%;
+  width: 70%;
+  box-shadow: inset 0px 0px 20px 20px $black-color;
+  overflow: hidden;
+}
+
+.image {
+  height: 100%;
+  z-index: -1;
+  position: relative;
+}

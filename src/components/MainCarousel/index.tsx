@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import { v4 as uuidv4 } from 'uuid';
 import 'swiper/modules/pagination/pagination.scss';
 
-import './MainCarousel.scss';
+import styles from './MainCarousel.module.scss';
 import mainCarouselContent from '../../content/mainCarouselContent';
 
 SwiperCore.use([Pagination, Autoplay]);
@@ -20,43 +20,36 @@ const MainCarousel = (): JSX.Element => {
 
   const renderMainCarouselSlides = mainCarouselContent.map(
     ({ heading, paragraph_1, paragraph_2, link, image, paginationText }) => (
-      <SwiperSlide key={uuidv4()}>
-        <div className="carousel-slide">
-          <div className="carousel-slide-content">
-            <h1 className="carousel-slide-heading">{heading}</h1>
-            <p className="carousel-slide-paragraph">{paragraph_1}</p>
-            <p className="carousel-slide-paragraph">{paragraph_2}</p>
-            <Button
-              className="carousel-slide-button"
-              type="link"
-              href={link}
-              target="_blank"
-              rel="noreferrer"
-              size="large"
-              shape="round"
-            >
-              Read More
-            </Button>
-          </div>
-          <div className="carousel-slide-animation">
-            <img
-              className="carousel-slide-image"
-              src={image}
-              alt={paginationText}
-              loading="lazy"
-            />
-          </div>
+      <SwiperSlide key={uuidv4()} className={styles.slide}>
+        <div className={styles.slideContent}>
+          <h1 className={styles.heading}>{heading}</h1>
+          <p className={styles.paragraph}>{paragraph_1}</p>
+          <p className={styles.paragraph}>{paragraph_2}</p>
+          <Button
+            className={styles.button}
+            type="link"
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            size="large"
+            shape="round"
+          >
+            Read More
+          </Button>
+        </div>
+        <div className={styles.animation}>
+          <img className={styles.image} src={image} alt={paginationText} loading="lazy" />
         </div>
       </SwiperSlide>
     ),
   );
 
   return (
-    <div className="carousel">
+    <div className={styles.carousel}>
       <Swiper
+        className={styles.carouselContent}
         pagination={pagination}
         autoplay={{ delay: 6800 }}
-        className="carousel-content"
       >
         {renderMainCarouselSlides}
       </Swiper>
