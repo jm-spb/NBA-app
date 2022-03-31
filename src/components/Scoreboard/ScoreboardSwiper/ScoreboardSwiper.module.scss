@@ -1,0 +1,48 @@
+@import '../../../styles/config';
+
+.noGames {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.dateSlide {
+  max-width: 80px;
+  background-color: $lightgray-color;
+  padding: 8px;
+  border-right: 2px solid $lightgray-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  text-align: center;
+}
+
+.weekday {
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.monthday {
+  margin-bottom: 0;
+}
+
+.swiper {
+  height: 100%;
+
+  // override default swiper styles
+  :global {
+    .swiper-button-disabled {
+      opacity: 0;
+    }
+  }
+}
+
+.swiperSlide {
+  border-right: 2px solid $lightgray-color;
+}

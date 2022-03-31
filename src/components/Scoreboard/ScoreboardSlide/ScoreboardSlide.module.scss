@@ -1,0 +1,68 @@
+@import '../../../styles/config';
+
+.slide {
+  padding: 12px 8px;
+  height: 100%;
+  line-height: 1;
+}
+
+.gameInfo {
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.broadcaster {
+  color: grey;
+  text-align: end;
+}
+
+.teamInfo {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  height: 16px;
+}
+
+.logo {
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.teamName {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+  display: flex;
+  flex: 1 1;
+}
+
+.winner {
+  display: none;
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.score {
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.record {
+  font-size: 12px;
+  color: $dark-grey-color;
+}
+
+.active {
+  display: block;
+}
