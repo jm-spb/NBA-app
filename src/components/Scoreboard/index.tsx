@@ -2,7 +2,7 @@ import React from 'react';
 import SwiperCore, { Navigation } from 'swiper';
 import 'swiper/modules/navigation/navigation.scss';
 
-import './Scoreboard.scss';
+import styles from './Scoreboard.module.scss';
 import {
   currentDay,
   nextDay,
@@ -15,7 +15,7 @@ import { IScoreboardGamesRender, ITeamsStandingsRender } from '../../types/apiNb
 import { createTeamsRecords, createWinCarets } from '../../utils/scoreboard';
 import Spinner from '../Spinner';
 import DatePicker from '../DatePicker';
-import ScoreboardGames from './ScoreboardGames';
+import ScoreboardSwiper from './ScoreboardSwiper';
 import ErrorMsg from '../ErrorMsg';
 
 SwiperCore.use([Navigation]);
@@ -43,7 +43,7 @@ const Scoreboard = (): JSX.Element => {
   // Show Spinner on entire scoreboard bar on initial loading
   if (scoreboardGamesIsLoading || teamsStandingsIsLoading) {
     return (
-      <div className="scoreboard">
+      <div className={styles.scoreboard}>
         <Spinner />
       </div>
     );
@@ -52,10 +52,10 @@ const Scoreboard = (): JSX.Element => {
   // Show Spinner with Date Picker when change data
   if (scoreboardGamesIsFetching) {
     return (
-      <div className="scoreboard">
-        <div className="scoreboard-inner">
-          <div className="scoreboard-datePicker">
-            <span className="scoreboard-datePicker-date">Game Date</span>
+      <div className={styles.scoreboard}>
+        <div className={styles.inner}>
+          <div className={styles.datePicker}>
+            <span className={styles.date}>Game Date</span>
             <DatePicker onChange={onChange} />
           </div>
           <Spinner />
@@ -110,14 +110,14 @@ const Scoreboard = (): JSX.Element => {
   console.log(gamesRenderData);
 
   return (
-    <div className="scoreboard">
-      <div className="scoreboard-inner">
-        <div className="scoreboard-datePicker">
-          <span className="scoreboard-datePicker-date">Game Date</span>
+    <div className={styles.scoreboard}>
+      <div className={styles.inner}>
+        <div className={styles.datePicker}>
+          <span className={styles.date}>Game Date</span>
           <DatePicker onChange={onChange} />
         </div>
-        <div className="scoreboard-carousel">
-          <ScoreboardGames
+        <div className={styles.carousel}>
+          <ScoreboardSwiper
             gamesDates={formatedGamesDates}
             gamesRenderData={gamesRenderData}
           />
