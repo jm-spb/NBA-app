@@ -1,0 +1,17 @@
+@import '../../styles/config';
+
+.error {
+  height: 40px;
+  background-color: $error-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box {
+  width: 1440px;
+}
+
+.message {
+  font-weight: bold;
+}
