@@ -1,19 +1,15 @@
 import React from 'react';
-
+import { Alert } from 'antd';
 import styles from './ErrorMsg.module.scss';
+import { IErrorMsgProps } from '../../types/errorMsg';
 
-interface IErrorMsgProps {
-  notAvaliableService: string;
-}
-
-const ErrorMsg = ({ notAvaliableService }: IErrorMsgProps): JSX.Element => (
-  <div className={styles.error}>
-    <div className={styles.box}>
-      <span className={styles.message}>
-        {`${notAvaliableService} Service is not avaliable, please try again later`}
-      </span>
-    </div>
-  </div>
+const ErrorMsg = ({ failedData, notAvaliableService }: IErrorMsgProps): JSX.Element => (
+  <Alert
+    className={styles.error}
+    type="error"
+    message={`Unable to display ${failedData}, ${notAvaliableService} Service is not avaliable. Please try again later`}
+    banner
+  />
 );
 
 export default ErrorMsg;
