@@ -19,3 +19,8 @@ export interface IStandingsTableColumns {
   width?: number;
   align?: 'center';
 }
+
+export interface ISources {
+  name: string;
+  query: string;
+}
