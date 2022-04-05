@@ -1,116 +1,58 @@
 import React from 'react';
-import { Table } from 'antd';
-import './StandingsPage.scss';
 
-import { apiNba } from '../../services/apiNbaService';
+import styles from './StandingsPage.module.scss';
 import { ITeamsStandingsRender } from '../../types/apiNbaTypes';
-import { standingsTableColumns } from '../../utils/constants';
+import { apiNba } from '../../services/apiNbaService';
+import { formatSeasons, getSeasons } from '../../utils/standings';
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
+import StandingsPicker from '../../components/StandingsPicker';
+import StandingsTable from '../../components/StandingsTable';
+
+const seasons = getSeasons();
 
 const StandingsPage = (): JSX.Element => {
-  const { data, isError, isLoading } = apiNba.useFetchTeamsStandingsQuery('');
-  const teamsStandings = data as ITeamsStandingsRender[];
+  const [activeSeason, setActiveSeason] = React.useState(seasons[0].toString());
+  const [groupBy, setGroupBy] = React.useState<'conference' | 'division'>('conference');
+  const { data, isError, isLoading, isFetching } =
+    apiNba.useFetchTeamsStandingsQuery(activeSeason);
 
-  if (isError) return <ErrorMsg notAvaliableService="Api NBA" />;
+  const onSeasonChange = React.useCallback((key: string) => {
+    setActiveSeason(key);
+  }, []);
+  const onGroupChange = React.useCallback((key: 'conference' | 'division') => {
+    setGroupBy(key);
+  }, []);
+  const formatedSeasons = React.useMemo(() => formatSeasons(seasons), []);
+
+  if (isError)
+    return <ErrorMsg failedData="teams standings" notAvaliableService="Api NBA" />;
 
   if (isLoading) {
     return (
-      <div className="standings">
-        <div className="standings-content">
-          <Spinner />
-        </div>
+      <div className={styles.standings}>
+        <Spinner />
       </div>
     );
   }
 
-  const filteredTeamsByConference = ['east', 'west'].map((confName) =>
-    teamsStandings
-      .filter((team) => confName === team.conference.name)
-      .sort((a, b) => a.conference.rank - b.conference.rank),
-  );
-
-  const renderTeams = filteredTeamsByConference.map((confTeams, idx) => {
-    const dataSource = confTeams.map(
-      ({
-        teamId,
-        conference,
-        logo,
-        fullName,
-        nickname,
-        totalWin,
-        totalLoss,
-        winPercentage,
-        gamesBehind,
-        division,
-        homeWin,
-        homeLoss,
-        awayWin,
-        awayLoss,
-        lastTenWin,
-        streak,
-        winStreak,
-      }) => ({
-        key: teamId,
-        team: (
-          <div className="team">
-            <span className="team-rank">{conference.rank}</span>
-            <img
-              className="team-image"
-              src={logo}
-              alt={fullName}
-              width={20}
-              height="auto"
-            />
-            <a
-              className="team-fullName"
-              href={`https://nba.com/${nickname}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {fullName}
-            </a>
-          </div>
-        ),
-        totalWin,
-        totalLoss,
-        winPercentage,
-        gamesBehind,
-        conf: `${conference.confWin}-${conference.confLoss}`,
-        div: `${division.divisionWin}-${division.divisionLoss}`,
-        home: `${homeWin}-${homeLoss}`,
-        road: `${awayWin}-${awayLoss}`,
-        last10: `${lastTenWin}-${10 - lastTenWin}`,
-        streak: `${winStreak ? 'W' : 'L'} ${streak}`,
-      }),
-    );
-
-    return (
-      <Table
-        key={confTeams[idx].conference.name}
-        className="standings-table"
-        dataSource={dataSource}
-        columns={standingsTableColumns}
-        pagination={false}
-        title={() =>
-          confTeams[idx].conference.name === 'east'
-            ? 'Eastern Conference'
-            : 'Western Conference'
-        }
-      />
-    );
-  });
+  const teamsStandings = data as ITeamsStandingsRender[];
 
   return (
-    <div className="standings">
-      <div className="standings-content">
-        <div className="standings-header">
-          <h1 className="standings-header-heading">
-            NBA 2021-22 Regular Season Standings
-          </h1>
-        </div>
-        {renderTeams}
+    <div className={styles.standings}>
+      <div className={styles.header}>
+        <h1 className={styles.heading}>NBA 2021-22 Regular Season Standings</h1>
       </div>
+      <StandingsPicker
+        seasons={formatedSeasons}
+        onSeasonChange={onSeasonChange}
+        onGroupChange={onGroupChange}
+      />
+      <StandingsTable
+        teamsStandings={teamsStandings}
+        isFetching={isFetching}
+        groupBy={groupBy}
+      />
     </div>
   );
 };
