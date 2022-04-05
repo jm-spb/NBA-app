@@ -1,0 +1,63 @@
+@import '../../styles/config';
+
+.teamRank {
+  font-weight: 600;
+  margin-right: 16px;
+}
+.teamImage {
+  margin-right: 8px;
+}
+
+.table {
+  margin-bottom: 16px;
+
+  tr {
+    th {
+      font-size: 10px;
+      font-weight: 600;
+    }
+  }
+
+  & :global {
+    .ant-table-tbody {
+      &:last-child {
+        border-bottom: 2px solid $white-background-color;
+      }
+
+      tr:nth-child(6) {
+        border-bottom: 2.1px dashed $black-color;
+      }
+
+      tr:nth-child(10) {
+        border-bottom: 2px solid $black-color;
+      }
+    }
+
+    .ant-table-title {
+      font-size: 20px;
+      font-weight: 600;
+      padding-left: 0;
+    }
+
+    .ant-table-row {
+      border-top: 2px solid $white-background-color;
+      line-height: 1;
+
+      &:hover {
+        background-color: $table-row-hover;
+        border-top: 2px solid $table-row-border;
+        border-bottom: 2px solid $table-row-border;
+      }
+    }
+
+    .ant-table-cell {
+      padding: 12px;
+    }
+
+    // reset default hover
+
+    .ant-table-cell-row-hover {
+      background: none !important;
+    }
+  }
+}
