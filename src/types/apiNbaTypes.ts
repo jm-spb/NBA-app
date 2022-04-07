@@ -45,6 +45,7 @@ export interface IScoreboardGamesRender {
   gameId: number;
   startTime: string;
   statusGame: string;
+  season?: number;
   teamsInfo: ITeamsInfo;
 }
 

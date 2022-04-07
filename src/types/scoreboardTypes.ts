@@ -1,6 +1,17 @@
 import { IScoreboardGamesRender, ITeamsInfo, ITeamsStandingsRender } from './apiNbaTypes';
 
+export interface IDatePickerProps {
+  onDateChange: (date: string) => void;
+}
+
 export interface IScoreboardGamesProps {
+  gamesDates: string[];
+  scoreboardGames: IScoreboardGamesRender[][];
+  teamsStandings: ITeamsStandingsRender[];
+  isFetching: boolean;
+}
+
+export interface IScoreboardSwiperProps {
   gamesDates: GameDateType[];
   gamesRenderData: IScoreboardGamesRender[][];
 }
