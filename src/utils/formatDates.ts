@@ -1,4 +1,4 @@
-import { format, addDays } from 'date-fns';
+import { format, addDays, addYears } from 'date-fns';
 import { GameDateType } from '../types/scoreboardTypes';
 
 export const formatNextDay = (currentDay: string): string =>
@@ -16,3 +16,9 @@ export const formatDatesInGameDateSlide = (gamesDates: string[]): GameDateType[]
 
 export const formatGameStartTime = (date: string): string =>
   format(new Date(date), 'HH:mm');
+
+export const formatYearsInStandingsPicker = (): string => {
+  const currentYear = format(new Date(), 'yyyy');
+  const nextYear = format(addYears(new Date(), 1), 'yyyy');
+  return `${currentYear}-${nextYear}`;
+};
