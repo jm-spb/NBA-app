@@ -1,6 +1,6 @@
 import { IStandingsTableColumns } from '../types/contentTypes';
 
-const standingsTableColumns: IStandingsTableColumns[] = [
+export const standingsTableColumns: IStandingsTableColumns[] = [
   {
     title: 'TEAM',
     dataIndex: 'team',
@@ -69,4 +69,12 @@ const standingsTableColumns: IStandingsTableColumns[] = [
   },
 ];
 
-export default standingsTableColumns;
+export const groupConference = ['east', 'west'];
+export const groupDivision = [
+  'atlantic',
+  'central',
+  'southeast',
+  'northwest',
+  'pacific',
+  'southwest',
+];
