@@ -1,34 +1,10 @@
 @import '../../styles/config';
 
-.scoreboard {
-  position: relative;
-  width: 100%;
-  height: 90px;
-  background-color: $white-color;
-  box-shadow: 0 2px 4px 0 $border-shadow-color;
-}
-
 .inner {
   max-width: 1440px;
   height: 100%;
   margin: 0 auto;
   display: flex;
-}
-
-.datePicker {
-  width: 10%;
-  height: 100%;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  border-left: 2px solid $lightgray-color;
-  border-right: 2px solid $lightgray-color;
-}
-
-.date {
-  font-weight: bold;
 }
 
 .carousel {

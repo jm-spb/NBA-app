@@ -1,127 +1,52 @@
 import React from 'react';
-import SwiperCore, { Navigation } from 'swiper';
-import 'swiper/modules/navigation/navigation.scss';
 
 import styles from './Scoreboard.module.scss';
-import {
-  currentDay,
-  nextDay,
-  formatNextDay,
-  formatDatesInGameDateSlide,
-  formatGameStartTime,
-} from '../../utils/formatDates';
-import { apiNba } from '../../services/apiNbaService';
 import { IScoreboardGamesRender, ITeamsStandingsRender } from '../../types/apiNbaTypes';
-import { createTeamsRecords, createWinCarets } from '../../utils/scoreboard';
-import Spinner from '../Spinner';
-import DatePicker from '../DatePicker';
-import ScoreboardSwiper from './ScoreboardSwiper';
+import { currentDay, formatNextDay, nextDay } from '../../utils/formatDates';
+import { getSeasons } from '../../utils/standings';
+import { apiNba } from '../../services/apiNbaService';
 import ErrorMsg from '../ErrorMsg';
+import Spinner from '../Spinner';
+import DatePicker from './DatePicker';
+import ScoreboardGames from './ScoreboardGames';
 
-SwiperCore.use([Navigation]);
+const seasons = getSeasons();
 
 const Scoreboard = (): JSX.Element => {
   const [gamesDates, setGamesDates] = React.useState([currentDay, nextDay]);
+
   const {
     data: fetchedScoreboardGames,
+    isError: scoreboardGamesIsError,
     isLoading: scoreboardGamesIsLoading,
     isFetching: scoreboardGamesIsFetching,
-    isError: scoreboardGamesIsError,
   } = apiNba.useFetchScoreboardGamesQuery(gamesDates);
 
   const { data: fetchedTeamsStandings, isLoading: teamsStandingsIsLoading } =
-    apiNba.useFetchTeamsStandingsQuery('');
+    apiNba.useFetchTeamsStandingsQuery(seasons[0].toString());
 
-  // Handle Date change in Date Picker
-  const onChange = (date: Date | null, dateString: string) => {
-    if (date) setGamesDates([dateString, formatNextDay(dateString)]);
-  };
+  const onDateChange = React.useCallback((date: string) => {
+    setGamesDates([date, formatNextDay(date)]);
+  }, []);
 
-  // Because we use the same API for games and standings, we can only check scoreboardGamesIsError
-  if (scoreboardGamesIsError) return <ErrorMsg notAvaliableService="Api NBA" />;
+  if (scoreboardGamesIsError)
+    return <ErrorMsg failedData="games" notAvaliableService="Api NBA" />;
 
-  // Show Spinner on entire scoreboard bar on initial loading
-  if (scoreboardGamesIsLoading || teamsStandingsIsLoading) {
-    return (
-      <div className={styles.scoreboard}>
-        <Spinner />
-      </div>
-    );
-  }
-
-  // Show Spinner with Date Picker when change data
-  if (scoreboardGamesIsFetching) {
-    return (
-      <div className={styles.scoreboard}>
-        <div className={styles.inner}>
-          <div className={styles.datePicker}>
-            <span className={styles.date}>Game Date</span>
-            <DatePicker onChange={onChange} />
-          </div>
-          <Spinner />
-        </div>
-      </div>
-    );
-  }
-
-  const formatedGamesDates = formatDatesInGameDateSlide(gamesDates);
+  if (scoreboardGamesIsLoading || teamsStandingsIsLoading) return <Spinner />;
 
   const scoreboardGames = fetchedScoreboardGames as IScoreboardGamesRender[][];
   const teamsStandings = fetchedTeamsStandings as ITeamsStandingsRender[];
 
-  // Create proper data for slides in scoreboard
-  const gamesRenderData: IScoreboardGamesRender[][] = scoreboardGames.map((gameDate) =>
-    gameDate.map(({ gameId, startTime, statusGame, teamsInfo }) => {
-      const startTimeLocal = formatGameStartTime(startTime);
-
-      // create caret icon (arrow) when either team wins
-      const [homeWinCaret, visitorWinCaret] = createWinCarets(
-        statusGame,
-        teamsInfo.homeTeamInfo.points,
-        teamsInfo.visitorTeamInfo.points,
-      );
-
-      // find home and visitor teams record (win-loss) from teamsStandings data
-      const [homeTeamRecord, visitorTeamRecord] = createTeamsRecords(
-        teamsStandings,
-        teamsInfo,
-      );
-
-      return {
-        gameId,
-        startTime: startTimeLocal,
-        statusGame,
-        teamsInfo: {
-          homeTeamInfo: {
-            ...teamsInfo.homeTeamInfo,
-            ...homeTeamRecord,
-            winCaret: homeWinCaret,
-          },
-          visitorTeamInfo: {
-            ...teamsInfo.visitorTeamInfo,
-            ...visitorTeamRecord,
-            winCaret: visitorWinCaret,
-          },
-        },
-      };
-    }),
-  );
-
-  console.log(gamesRenderData);
-
   return (
-    <div className={styles.scoreboard}>
-      <div className={styles.inner}>
-        <div className={styles.datePicker}>
-          <span className={styles.date}>Game Date</span>
-          <DatePicker onChange={onChange} />
-        </div>
-        <div className={styles.carousel}>
-          <ScoreboardSwiper
-            gamesDates={formatedGamesDates}
-            gamesRenderData={gamesRenderData}
-          />
-        </div>
+    <div className={styles.inner}>
+      <DatePicker onDateChange={onDateChange} />
+      <div className={styles.carousel}>
+        <ScoreboardGames
+          gamesDates={gamesDates}
+          scoreboardGames={scoreboardGames}
+          teamsStandings={teamsStandings}
+          isFetching={scoreboardGamesIsFetching}
+        />
       </div>
     </div>
   );
