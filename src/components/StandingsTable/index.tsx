@@ -8,25 +8,27 @@ import {
   groupDivision,
   standingsTableColumns,
 } from '../../content/standingsContent';
-import { IStandingsTableProps } from '../../types/standingsTypes';
-// import { filterTeamsByConference } from '../../utils/standings';
-import Spinner from '../Spinner';
 import { filterTeamsByGroup } from '../../utils/standings';
+import { IStandingsTableProps } from '../../types/standingsTypes';
+import Spinner from '../Spinner';
+import { ITeamsStandingsRender } from '../../types/apiNbaTypes';
 
 const StandingsTable = ({
   teamsStandings,
   isFetching,
   groupBy,
 }: IStandingsTableProps): JSX.Element => {
-  console.log('Standings Table');
-  console.log(groupBy);
   if (isFetching) {
     return <Spinner />;
   }
 
   const selectedGroup = groupBy === 'conference' ? groupConference : groupDivision;
 
-  const filteredTeamsByGroup = filterTeamsByGroup(teamsStandings, selectedGroup, groupBy);
+  const filteredTeamsByGroup = filterTeamsByGroup(
+    teamsStandings,
+    selectedGroup,
+    groupBy,
+  ) as ITeamsStandingsRender[][];
 
   const renderTeams = filteredTeamsByGroup.map((groupTeams, idx) => {
     const dataSource = groupTeams.map((team) => ({
@@ -41,7 +43,7 @@ const StandingsTable = ({
             width={20}
             height="auto"
           />
-          <a href={`https://nba.com/${team.nickname}`} target="_blank" rel="noreferrer">
+          <a href={`https://nba.com/${team.nickName}`} target="_blank" rel="noreferrer">
             {team.fullName}
           </a>
         </div>
@@ -65,23 +67,18 @@ const StandingsTable = ({
         dataSource={dataSource}
         columns={standingsTableColumns}
         pagination={false}
-        title={
-          () => {
-            if (groupBy === 'conference')
-              return selectedGroup[idx] === 'east'
-                ? 'Eastern Conference'
-                : 'Western Conference';
+        title={() => {
+          if (groupBy === 'conference')
+            return selectedGroup[idx] === 'east'
+              ? 'Eastern Conference'
+              : 'Western Conference';
 
-            const divisionName = `${selectedGroup[idx][0].toUpperCase()}${selectedGroup[
-              idx
-            ].slice(1)}`;
+          const divisionName = `${selectedGroup[idx][0].toUpperCase()}${selectedGroup[
+            idx
+          ].slice(1)}`;
 
-            return `${divisionName} Division`;
-          }
-          // confTeams[idx].conference.name === 'east'
-          //   ? 'Eastern Conference'
-          //   : 'Western Conference'
-        }
+          return `${divisionName} Division`;
+        }}
       />
     );
   });
