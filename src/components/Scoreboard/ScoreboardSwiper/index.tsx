@@ -3,10 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './ScoreboardSwiper.module.scss';
-import { GameDateType, IScoreboardGamesProps } from '../../../types/scoreboardTypes';
+import { GameDateType, IScoreboardSwiperProps } from '../../../types/scoreboardTypes';
 import { createScoreboardSlides } from '../../../utils/scoreboard';
 import { IScoreboardGamesRender } from '../../../types/apiNbaTypes';
-import Slide from '../ScoreboardSlide';
+import ScoreboardSlide from '../ScoreboardSlide';
 
 const gamesNotFoundSlide = () => (
   <SwiperSlide key={uuidv4()} className={styles.swiperSlide}>
@@ -30,7 +30,7 @@ const createGameSlides = ({
   teamsInfo,
 }: IScoreboardGamesRender): JSX.Element => (
   <SwiperSlide key={gameId} className={styles.swiperSlide}>
-    <Slide
+    <ScoreboardSlide
       gameId={gameId}
       startTime={startTime}
       statusGame={statusGame}
@@ -45,10 +45,10 @@ const handleRenderGameSlides = (gameData: IScoreboardGamesRender[]) =>
     ? gameData.map(createGameSlides)
     : [gameData.length].map(gamesNotFoundSlide);
 
-const ScoreboardGames = ({
+const ScoreboardSwiper = ({
   gamesDates,
   gamesRenderData,
-}: IScoreboardGamesProps): JSX.Element => {
+}: IScoreboardSwiperProps): JSX.Element => {
   const gameDateSlides = gamesDates.map(createGameDateSlides);
   const renderGameDaySlides = gamesRenderData.map(handleRenderGameSlides);
 
@@ -62,4 +62,4 @@ const ScoreboardGames = ({
   );
 };
 
-export default ScoreboardGames;
+export default ScoreboardSwiper;

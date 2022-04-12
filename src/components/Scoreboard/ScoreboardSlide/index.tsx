@@ -4,7 +4,7 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import styles from './ScoreboardSlide.module.scss';
 import { IScoreboardGamesRender } from '../../../types/apiNbaTypes';
 
-const Slide = ({
+const ScoreboardSlide = ({
   startTime,
   statusGame,
   teamsInfo: { homeTeamInfo, visitorTeamInfo },
@@ -51,4 +51,4 @@ const Slide = ({
   </div>
 );
 
-export default Slide;
+export default ScoreboardSlide;
