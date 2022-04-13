@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Tabs } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
-import styles from './LatestNews.module.scss';
+import styles from './LatestNewsWidget.module.scss';
 import { apiLatestNews } from '../../../services/apiLatestNews';
 import sources from '../../../content/latestNewsContent';
 import { ILatestNews } from '../../../types/apiLatestNews';
@@ -32,7 +32,11 @@ const LatestNews = (): JSX.Element => {
       <Meta
         className={styles.meta}
         title={title}
-        description={<a href={url}>Read More</a>}
+        description={
+          <a href={url} target="_blank" rel="noopener noreferrer">
+            Read More
+          </a>
+        }
       />
     </Card>
   ));
