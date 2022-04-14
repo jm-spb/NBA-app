@@ -1,0 +1,43 @@
+@import '../../../styles/config';
+
+.standings {
+  background-color: $white-background-color;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px 0 $border-shadow-color;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid $lightgray-color;
+  margin-bottom: 12px;
+  padding: 16px;
+}
+
+.heading {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.link {
+  font-size: 12px;
+
+  // change font-weight on hover without changing parent element width
+  &::after {
+    display: block;
+    content: attr(title);
+    font-weight: bold;
+    height: 1px;
+    color: transparent;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  &:hover {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}
