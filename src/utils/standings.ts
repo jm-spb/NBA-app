@@ -1,7 +1,7 @@
 import { getYear, isAfter, isBefore } from 'date-fns';
-import { ITeamsStandingsRender } from '../types/apiNbaTypes';
+import { IFilterTeamsByGroup, IFormatSeasons } from '../types/standingsTypes';
 
-export const getSeasons = () => {
+export const getSeasons = (): number[] => {
   const currentDate = new Date();
   const currentYear = getYear(currentDate);
   let currentSeason = currentYear;
@@ -18,19 +18,23 @@ export const getSeasons = () => {
   return avaliableSeasons;
 };
 
-export const formatSeasons = (avaliableSeasons: number[]) =>
+export const formatSeasons: IFormatSeasons = (avaliableSeasons) =>
   avaliableSeasons.map((year) => {
     const nextYear = (year + 1).toString().slice(2);
     return `${year}-${nextYear}`;
   });
 
-export const filterTeamsByGroup = (
-  teamsStandings: ITeamsStandingsRender[],
-  groupArray: string[],
-  groupName: 'conference' | 'division',
-) =>
-  groupArray.map((confName) =>
+export const filterTeamsByGroup: IFilterTeamsByGroup = (
+  teamsStandings,
+  groupData,
+  groupName,
+) => {
+  const filterSort = (confName: string) =>
     teamsStandings
       .filter((team) => confName === team[groupName].name)
-      .sort((a, b) => a[groupName].rank - b[groupName].rank),
-  );
+      .sort((a, b) => a[groupName].rank - b[groupName].rank);
+
+  if (typeof groupData === 'object') return groupData.map(filterSort);
+
+  return filterSort(groupData);
+};
