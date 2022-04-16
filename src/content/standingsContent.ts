@@ -78,3 +78,31 @@ export const groupDivision = [
   'pacific',
   'southwest',
 ];
+
+export const standingsWidgetTableColumns: IStandingsTableColumns[] = [
+  {
+    title: 'TEAM',
+    dataIndex: 'team',
+    key: 'team',
+    width: 150,
+  },
+  {
+    title: 'W',
+    dataIndex: 'totalWin',
+    key: 'totalWin',
+    align: 'center' as const,
+  },
+  {
+    title: 'L',
+    dataIndex: 'totalLoss',
+    key: 'totalLoss',
+    align: 'center' as const,
+  },
+
+  {
+    title: 'L10',
+    dataIndex: 'last10',
+    key: 'last10',
+    align: 'center' as const,
+  },
+];
