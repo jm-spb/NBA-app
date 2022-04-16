@@ -89,7 +89,8 @@ export interface IFetchTeamsStandingsResponse {
 export interface ITeamsStandingsRender {
   teamId: number;
   fullName: string;
-  nickname: string;
+  nickName: string;
+  shortName: string;
   logo: string;
   totalWin: number;
   homeWin: number;
