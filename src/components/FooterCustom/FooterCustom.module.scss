@@ -9,9 +9,28 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: 32px;
+
+  .topResponsive {
+    display: none;
+    background-color: $main-color;
+
+    li {
+      background-color: $main-color;
+
+      div {
+        font-weight: 600;
+      }
+
+      ul {
+        background: $main-color !important;
+      }
+    }
+  }
 }
 
 .top {
+  display: block;
+
   ul {
     display: flex;
     justify-content: space-between;
@@ -70,12 +89,17 @@
 .bottomLegals {
   display: flex;
   flex-wrap: wrap;
+  line-height: 1.25;
+
+  li {
+    font-size: 10px;
+  }
 
   // select first 4 li elements
   & > li:nth-child(-n + 4) {
     a::after {
       content: '|';
-      padding: 12px;
+      padding: 0 12px;
     }
   }
 }
@@ -83,7 +107,8 @@
 .bottomParagraph {
   font-size: 10px;
   color: $white-color;
-  margin-bottom: 6px;
+  margin-top: 6px;
+  margin-bottom: 0;
 
   &:nth-child(3) {
     display: inline-block;
@@ -92,5 +117,20 @@
 
 .bottomLink {
   composes: link;
+  display: inline-block;
   font-size: 10px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 16px;
+
+    .topResponsive {
+      display: block;
+    }
+  }
+
+  .top {
+    display: none;
+  }
 }
