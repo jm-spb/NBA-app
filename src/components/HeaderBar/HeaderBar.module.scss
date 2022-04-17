@@ -2,6 +2,7 @@
 
 .header {
   background-color: $main-color;
+  padding: 0 12px;
 }
 
 .content {
@@ -16,6 +17,10 @@
   &:hover .dropdownLink {
     color: $transparent-white-color;
     transition: color 0.3s;
+  }
+
+  .hamburger {
+    display: none;
   }
 }
 
@@ -43,7 +48,9 @@
   cursor: pointer;
 
   a {
+    display: inline-block;
     color: $white-color;
+    height: 64px;
   }
 }
 
@@ -61,6 +68,48 @@
   // override ant style
   & > div > div > div {
     width: 750px;
-    // display: flex;
+  }
+}
+
+@media (max-width: 720px) {
+  .content {
+    .hamburger {
+      display: inline-block;
+    }
+  }
+
+  .headerMenu {
+    position: absolute;
+    top: 154px;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 50px);
+    background-color: $main-color;
+    opacity: 0;
+    z-index: 40;
+    transform: translateX(-100%);
+    transition-property: opacity, transform;
+    transition-duration: 0.3s;
+  }
+
+  .link {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid $lightgray-color;
+    a {
+      color: $white-color;
+    }
+  }
+
+  .dropdownLink {
+    text-align: center;
+    border-bottom: 1px solid $lightgray-color;
+  }
+
+  .isActive {
+    transform: translateX(0);
+    transition-duration: 0.3s;
+    opacity: 1;
   }
 }

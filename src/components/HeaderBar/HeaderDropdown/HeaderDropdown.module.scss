@@ -41,3 +41,9 @@
   font-size: 14px;
   line-height: 18px;
 }
+
+@media (max-width: 720px) {
+  .menuTeams {
+    display: none;
+  }
+}
