@@ -1,7 +1,8 @@
 @import '../../../styles/config';
 
 .datePicker {
-  width: 10%;
+  max-width: 10%;
+  min-width: 134px;
   height: 100%;
   padding: 8px;
   display: flex;
@@ -14,4 +15,17 @@
 
 .date {
   font-weight: bold;
+  text-align: center;
+}
+
+@media (max-width: 420px) {
+  .datePicker {
+    min-width: 114px;
+  }
+}
+
+@media (max-width: 320px) {
+  .datePicker {
+    min-width: 96px;
+  }
 }

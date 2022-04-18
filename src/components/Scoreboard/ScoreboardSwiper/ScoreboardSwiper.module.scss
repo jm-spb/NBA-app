@@ -46,3 +46,9 @@
 .swiperSlide {
   border-right: 2px solid $lightgray-color;
 }
+
+@media (max-width: 480px) {
+  .dateSlide {
+    max-width: 40px;
+  }
+}

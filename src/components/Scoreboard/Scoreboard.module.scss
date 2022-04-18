@@ -9,5 +9,27 @@
 
 .carousel {
   height: 100%;
-  width: 90%;
+  max-width: 90%;
+}
+
+@media (max-width: 1440px) {
+  .inner {
+    max-width: 100vw;
+  }
+
+  .carousel {
+    max-width: calc(100vw - 134px);
+  }
+}
+
+@media (max-width: 420px) {
+  .carousel {
+    max-width: calc(100vw - 114px);
+  }
+}
+
+@media (max-width: 320px) {
+  .carousel {
+    max-width: calc(100vw - 96px);
+  }
 }
