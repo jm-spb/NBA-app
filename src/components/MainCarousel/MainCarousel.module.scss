@@ -3,7 +3,6 @@
 // text content and image
 .carousel {
   background: $black-color;
-  // width: 100%;
 
   // override default swiper styles
   :global {
@@ -12,26 +11,31 @@
 }
 
 .carouselContent {
-  height: 680px;
+  min-height: 680px;
   max-width: 1440px;
-  // margin: 0 auto;
-  // border: none;
+  padding-top: 40px;
 }
 
 .slide {
   display: flex;
   height: 75%;
+  align-items: center;
 }
 
 .slideContent {
-  padding: 80px 40px 0 40px;
-  width: 50%;
+  padding: 40px 40px 0 40px;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .heading {
   color: $white-color;
   font-size: 36px;
   font-weight: bold;
+  line-height: 1.3;
 }
 
 .paragraph {
@@ -51,13 +55,157 @@
 
 .animation {
   height: 100%;
-  width: 70%;
-  box-shadow: inset 0px 0px 20px 20px $black-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px 10px $black-color;
+}
+
+.imageWrapper {
   overflow: hidden;
+  box-shadow: inset 0px 0px 20px 20px $black-color;
 }
 
 .image {
-  height: 100%;
+  width: 100%;
   z-index: -1;
   position: relative;
+}
+
+@media (max-width: 1280px) {
+  // remove 2nd paragraph
+  .slideContent {
+    max-width: 40%;
+
+    & :nth-child(3) {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .carouselContent {
+    min-height: 620px;
+  }
+
+  .slideContent {
+    max-width: 30%;
+    padding: 40px 0 0 30px;
+  }
+  .paragraph {
+    display: none;
+  }
+  .heading {
+    font-size: 30px;
+  }
+
+  .carousel {
+    :global {
+      .swiper {
+        &-pagination {
+          &-bullet {
+            bottom: 120px;
+          }
+
+          &-paragraph {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .carousel {
+    :global {
+      .swiper {
+        &-pagination {
+          padding: 0 20px;
+          gap: 10px;
+
+          &-bullet {
+            &-custom {
+              bottom: 60px;
+            }
+
+            &-active {
+              .swiper-pagination-bullet-responsive {
+                display: block;
+                color: $white-color;
+
+                .swiper-pagination-paragraph {
+                  color: $white-color;
+                }
+              }
+            }
+
+            &-responsive {
+              position: absolute;
+              bottom: 10px;
+              left: 22px;
+              font-size: 16px;
+            }
+          }
+
+          &-paragraph {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .carouselContent {
+    padding-top: 0;
+  }
+
+  .slide {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .slideContent {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .heading {
+    font-size: 22px;
+    margin-top: 8px;
+  }
+
+  .animation {
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 550px) {
+  .carouselContent {
+    min-height: 520px;
+  }
+
+  .carousel {
+    :global {
+      .swiper {
+        &-pagination {
+          padding: 0 20px;
+          gap: 10px;
+
+          &-bullet {
+            &-responsive {
+              height: 40px;
+              width: 90%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 390px) {
+  .carouselContent {
+    min-height: 460px;
+  }
 }
