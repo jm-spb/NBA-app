@@ -14,7 +14,13 @@ const MainCarousel = (): JSX.Element => {
   const pagination = {
     clickable: true,
     renderBullet(index: number, className: string) {
-      return `<span class=${className}><p class="swiper-pagination-paragraph">${mainCarouselContent[index].paginationText}</p></span>`;
+      return `<div class=${className}>
+                <div class="swiper-pagination-bullet-custom">
+                  <p class="swiper-pagination-paragraph">${mainCarouselContent[index].paginationText}</p>                
+                </div>
+                <div class="swiper-pagination-bullet-responsive">${mainCarouselContent[index].paginationText}</div>                
+              </div>
+              `;
     },
   };
 
@@ -38,7 +44,14 @@ const MainCarousel = (): JSX.Element => {
           </Button>
         </div>
         <div className={styles.animation}>
-          <img className={styles.image} src={image} alt={paginationText} loading="lazy" />
+          <div className={styles.imageWrapper}>
+            <img
+              className={styles.image}
+              src={image}
+              alt={paginationText}
+              loading="lazy"
+            />
+          </div>
         </div>
       </SwiperSlide>
     ),
