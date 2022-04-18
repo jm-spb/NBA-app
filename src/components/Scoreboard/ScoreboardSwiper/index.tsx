@@ -56,7 +56,34 @@ const ScoreboardSwiper = ({
   const scoreboardSlides = createScoreboardSlides(gameDateSlides, renderGameDaySlides);
 
   return (
-    <Swiper navigation className={styles.swiper} slidesPerView={8} slidesPerGroup={8}>
+    <Swiper
+      navigation
+      className={styles.swiper}
+      slidesPerView={2}
+      slidesPerGroup={1}
+      breakpoints={{
+        480: {
+          slidesPerView: 3,
+          slidesPerGroup: 2,
+        },
+        640: {
+          slidesPerView: 4,
+          slidesPerGroup: 3,
+        },
+        800: {
+          slidesPerView: 5,
+          slidesPerGroup: 4,
+        },
+        1024: {
+          slidesPerView: 7,
+          slidesPerGroup: 6,
+        },
+        1280: {
+          slidesPerView: 8,
+          slidesPerGroup: 7,
+        },
+      }}
+    >
       {scoreboardSlides}
     </Swiper>
   );
