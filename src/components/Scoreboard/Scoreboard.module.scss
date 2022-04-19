@@ -9,7 +9,8 @@
 
 .carousel {
   height: 100%;
-  max-width: 90%;
+  flex-grow: 1;
+  max-width: 1296px;
 }
 
 @media (max-width: 1440px) {
