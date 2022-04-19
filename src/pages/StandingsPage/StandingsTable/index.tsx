@@ -7,11 +7,11 @@ import {
   groupConference,
   groupDivision,
   standingsTableColumns,
-} from '../../content/standingsContent';
-import { filterTeamsByGroup } from '../../utils/standings';
-import { IStandingsTableProps } from '../../types/standingsTypes';
-import Spinner from '../Spinner';
-import { ITeamsStandingsRender } from '../../types/apiNbaTypes';
+} from '../../../content/standingsContent';
+import { filterTeamsByGroup } from '../../../utils/standings';
+import { IStandingsTableProps } from '../../../types/standingsTypes';
+import Spinner from '../../../components/Spinner';
+import { ITeamsStandingsRender } from '../../../types/apiNbaTypes';
 
 const StandingsTable = ({
   teamsStandings,
@@ -43,8 +43,21 @@ const StandingsTable = ({
             width={20}
             height="auto"
           />
-          <a href={`https://nba.com/${team.nickName}`} target="_blank" rel="noreferrer">
+          <a
+            className={styles.teamFullName}
+            href={`https://nba.com/${team.nickName}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             {team.fullName}
+          </a>
+          <a
+            className={styles.teamShortName}
+            href={`https://nba.com/${team.nickName}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {team.shortName}
           </a>
         </div>
       ),
@@ -67,6 +80,7 @@ const StandingsTable = ({
         dataSource={dataSource}
         columns={standingsTableColumns}
         pagination={false}
+        scroll={{ x: 920 }}
         title={() => {
           if (groupBy === 'conference')
             return selectedGroup[idx] === 'east'

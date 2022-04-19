@@ -1,4 +1,4 @@
-@import '../../styles/config';
+@import '../../../styles/config';
 
 .teamRank {
   font-weight: 600;
@@ -55,9 +55,40 @@
     }
 
     // reset default hover
-
     .ant-table-cell-row-hover {
       background: none !important;
     }
+  }
+}
+
+.teamShortName {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .table {
+    table {
+      col {
+        width: 110px !important;
+      }
+    }
+
+    & :global {
+      .ant-table-cell {
+        padding: 10px 0;
+      }
+    }
+  }
+
+  .teamRank {
+    margin-right: 4px;
+  }
+
+  .teamFullName {
+    display: none;
+  }
+
+  .teamShortName {
+    display: inline-block;
   }
 }
