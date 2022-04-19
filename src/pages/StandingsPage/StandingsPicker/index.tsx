@@ -3,7 +3,7 @@ import { Select } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './StandingsPicker.module.scss';
-import { IStandingsPickerProps } from '../../types/standingsTypes';
+import { IStandingsPickerProps } from '../../../types/standingsTypes';
 
 const { Option } = Select;
 
