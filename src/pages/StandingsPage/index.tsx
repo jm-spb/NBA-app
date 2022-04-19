@@ -6,8 +6,8 @@ import { apiNba } from '../../services/apiNbaService';
 import { formatSeasons, getSeasons } from '../../utils/standings';
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
-import StandingsPicker from '../../components/StandingsPicker';
-import StandingsTable from '../../components/StandingsTable';
+import StandingsPicker from './StandingsPicker';
+import StandingsTable from './StandingsTable';
 
 const seasons = getSeasons();
 
@@ -24,6 +24,7 @@ const StandingsPage = (): JSX.Element => {
     setGroupBy(key);
   }, []);
   const formatedSeasons = React.useMemo(() => formatSeasons(seasons), []);
+  const tableHeadingSeason = formatSeasons([Number(activeSeason)])[0];
 
   if (isError)
     return <ErrorMsg failedData="teams standings" notAvaliableService="Api NBA" />;
@@ -41,7 +42,9 @@ const StandingsPage = (): JSX.Element => {
   return (
     <div className={styles.standings}>
       <div className={styles.header}>
-        <h1 className={styles.heading}>NBA 2021-22 Regular Season Standings</h1>
+        <h1
+          className={styles.heading}
+        >{`NBA ${tableHeadingSeason} Regular Season Standings`}</h1>
       </div>
       <StandingsPicker
         seasons={formatedSeasons}
