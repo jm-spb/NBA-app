@@ -44,4 +44,4 @@ const HeaderDropdown = (): JSX.Element => (
   </Dropdown>
 );
 
-export default HeaderDropdown;
+export default React.memo(HeaderDropdown);

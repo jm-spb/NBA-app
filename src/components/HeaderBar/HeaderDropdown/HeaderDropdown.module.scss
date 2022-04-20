@@ -3,16 +3,22 @@
 .dropdown {
   display: inline-block;
   height: 60px;
+  color: $white-color;
+
+  &:hover {
+    color: $white-color !important;
+  }
 }
 
 .menuTeams {
   display: flex;
   flex-wrap: wrap;
   padding: 0 0 8px 0;
+  max-width: 720px;
 }
 
 .division {
-  width: 33.3%;
+  width: 33.33%;
   padding: 16px 16px 0 16px;
 
   &:nth-child(1n + 4) {
