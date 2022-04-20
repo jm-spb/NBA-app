@@ -1,0 +1,114 @@
+@import '../../styles/config';
+
+.container {
+  max-width: 1440px;
+  background-color: $white-background-color;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px 0 $border-shadow-color;
+  padding: 20px 20px 0 20px;
+}
+
+.title {
+  border-bottom: 1px solid $lightgray-color;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.heading {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.teams {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.divisionTeams {
+  width: 100%;
+}
+
+.division {
+  margin-top: 12px;
+  margin-bottom: 30px;
+  min-width: 33.33%;
+}
+
+.team {
+  display: flex;
+  width: 100%;
+  padding: 8px;
+}
+
+.divisionName {
+  font-weight: 600;
+}
+
+.figure {
+  width: 40px;
+  margin: 0;
+  margin-right: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.teamLogo {
+  max-width: 100%;
+  height: auto;
+}
+
+.teamContent {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.teamName {
+  margin: 0;
+}
+
+.link {
+  margin-right: 8px;
+}
+
+@media (max-width: 920px) {
+  .division {
+    min-width: 50%;
+  }
+}
+
+@media (max-width: 620px) {
+  .container {
+    padding: 20px 0 0 0;
+  }
+
+  .title {
+    margin-left: 20px;
+  }
+
+  .division {
+    min-width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+
+      .team:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .divisionName {
+    padding-left: 20px;
+  }
+
+  .team {
+    padding: 10px;
+    border-bottom: 1px solid $lightgray-color;
+  }
+
+  .figure {
+    margin-left: 20px;
+  }
+}
