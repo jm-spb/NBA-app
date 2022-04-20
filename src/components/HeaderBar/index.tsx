@@ -32,7 +32,7 @@ const HeaderBar = (): JSX.Element => {
 
   return (
     <Header className={styles.header}>
-      <div className={styles.content}>
+      <nav className={styles.content}>
         <Link to="/">
           <img
             className={styles.logoImg}
@@ -53,8 +53,10 @@ const HeaderBar = (): JSX.Element => {
               Standings
             </Link>
           </li>
-          <li className={styles.dropdownLink}>
-            <HeaderDropdown />
+          <li className={styles.dropdownTeams}>
+            <Link className={styles.dropdownLink} to="/teams" onClick={handleOnClickLink}>
+              <HeaderDropdown />
+            </Link>
           </li>
         </ul>
         <HamburgerSqueeze
@@ -63,7 +65,7 @@ const HeaderBar = (): JSX.Element => {
           barColor="white"
           {...{ isActive, toggleButton }}
         />
-      </div>
+      </nav>
     </Header>
   );
 };

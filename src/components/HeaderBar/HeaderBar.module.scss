@@ -14,7 +14,7 @@
   align-items: center;
 
   &:hover .link a,
-  &:hover .dropdownLink {
+  &:hover .dropdownLink > span {
     color: $transparent-white-color;
     transition: color 0.3s;
   }
@@ -54,21 +54,13 @@
   }
 }
 
-.dropdownLink {
-  color: $white-color;
+.dropdownTeams {
   height: 64px;
   padding: 0 10px;
+}
+
+.dropdownLink > span {
   transition: color 0.3s;
-
-  &:hover {
-    color: $white-color !important;
-    cursor: pointer;
-  }
-
-  // override ant style
-  & > div > div > div {
-    width: 750px;
-  }
 }
 
 @media (max-width: 720px) {
@@ -102,7 +94,7 @@
     }
   }
 
-  .dropdownLink {
+  .dropdownTeams {
     text-align: center;
     border-bottom: 1px solid $lightgray-color;
   }
