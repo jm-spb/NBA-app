@@ -5,13 +5,22 @@
   gap: 24px;
 }
 
-.section {
+.mainWidgets {
   position: relative;
   min-height: 90px;
-  flex-grow: 4;
+  flex-grow: 1;
 }
 
-.widgets {
-  flex-grow: 1;
+.sideWidgets {
   max-width: 320px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sideWidgets {
+    max-width: none;
+  }
 }

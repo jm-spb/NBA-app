@@ -8,10 +8,10 @@ const HomePage = (): JSX.Element => (
   <div>
     <MainCarousel />
     <div className={styles.container}>
-      <section className={styles.section}>
+      <div className={styles.mainWidgets}>
         <LatestNews />
-      </section>
-      <div className={styles.widgets}>
+      </div>
+      <div className={styles.sideWidgets}>
         <StandingsWidget />
       </div>
     </div>
