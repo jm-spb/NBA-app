@@ -1,0 +1,60 @@
+@import '../../styles/config';
+
+.container {
+  max-width: 1440px;
+  background-color: $white-color;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: rgba(209, 209, 209, 0.5) 0px 0px 10px 0px;
+}
+
+.header {
+  padding-bottom: 8px;
+  border-bottom: 1px solid $lightgray-color;
+}
+
+.heading {
+  margin: 0;
+  font-weight: 600;
+}
+
+.warningMsg {
+  margin-top: 16px;
+}
+
+.picker {
+  padding: 20px 0;
+  display: flex;
+  gap: 24px;
+}
+
+.heading {
+  margin: 0;
+  color: $dark-grey-color;
+}
+
+.selector {
+  width: 220px;
+
+  & > div > span {
+    font-weight: 600;
+  }
+}
+
+.tableContainer {
+  position: relative;
+  min-height: 120px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.infoMsg {
+  width: 100%;
+}
+
+@media (max-width: 480px) {
+  .standings {
+    padding: 20px 10px;
+  }
+}
