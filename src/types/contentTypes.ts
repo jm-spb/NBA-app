@@ -1,6 +1,12 @@
+export type HeaderTeamsType = {
+  teamName: string;
+  nickName: string;
+  teamLogo: string;
+};
+
 export interface IHeaderTeamsDropdown {
   division: string;
-  teams: { teamName: string; nickName: string; teamLogo: string }[];
+  teams: HeaderTeamsType[];
 }
 
 export interface IMainCarouselContent {
@@ -12,12 +18,14 @@ export interface IMainCarouselContent {
   paginationText: string;
 }
 
-export interface IStandingsTableColumns {
+export interface ITableColumns {
   title: string;
   dataIndex: string;
   key: string;
   width?: number;
   align?: 'center';
+  fixed?: 'left';
+  sorter?: (a: any, b: any) => number;
 }
 
 export interface ISources {
