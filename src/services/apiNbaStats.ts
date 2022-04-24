@@ -1,12 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import {
-  INbaPlayersNamesRender,
-  INbaPlayersNamesResponse,
-  INbaPlayersStatsRespone,
-  INbaStatsTeamsRender,
-  INbaStatsTeamsResponse,
-} from '../types/apiNbaStats';
-import { IStatsTableProps } from '../types/stats';
+import { INbaPlayersNamesRender, INbaPlayersNamesResponse } from '../types/apiNbaStats';
+import { IStatsTableDataSource } from '../types/stats';
+import { createTableDataSource } from '../utils/stats';
 
 export const apiNbaStats = createApi({
   reducerPath: 'apiNbaStats',
@@ -19,37 +14,42 @@ export const apiNbaStats = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchNbaStatsTeams: builder.query<INbaStatsTeamsRender[], void>({
-      query: () => `teams/`,
-      transformResponse: (rawResult: INbaStatsTeamsResponse[]) =>
-        rawResult
-          .map(({ id, full_name }) => ({ id, full_name }))
-          .sort((a, b) => (a.full_name > b.full_name ? 1 : -1)),
-    }),
-    fetchNbaPlayersStats: builder.query<INbaPlayersStatsRespone[], IStatsTableProps>({
-      query: ({ teamId, selectedSeason, seasonType }) =>
-        `${seasonType}/?team_id=${teamId}&league_id=00&season_id=${selectedSeason}`,
-    }),
-    fetchNbaPlayersNames: builder.query<INbaPlayersNamesRender[], number[] | undefined>({
-      async queryFn(playersIds, _queryApi, _extraOptions, fetchWithBQ) {
-        const playersNames: INbaPlayersNamesRender[] = [];
-        if (playersIds && playersIds.length > 0) {
+    fetchNbaPlayersStats: builder.query<any, any>({
+      async queryFn(
+        { teamShortName, selectedSeason, seasonType },
+        _queryApi,
+        _extraOptions,
+        fetchWithBQ,
+      ) {
+        if (teamShortName) {
+          const fetchedPlayersStats = await fetchWithBQ(
+            `${seasonType}/?team_abbreviation=${teamShortName}&league_id=00&season_id=${selectedSeason}`,
+          );
+
+          const playersStatsTyped = fetchedPlayersStats.data as IStatsTableDataSource[];
+          const playersIds = playersStatsTyped.map(({ player_id }) => player_id);
+
+          const playersNames: INbaPlayersNamesRender[] = [];
           for (let i = 0; i < playersIds.length; i++) {
             // use await in for loop to prevent function from sending an excessive amount of requests in parallel (max: 10 req/sec)
             // eslint-disable-next-line no-await-in-loop
-            const { data } = await fetchWithBQ(`players/${playersIds[i]}`);
-            const fetchedData = data as INbaPlayersNamesResponse;
-            playersNames.push({ id: fetchedData.id, full_name: fetchedData.full_name });
+            const fetchedPlayersNames = await fetchWithBQ(`players/${playersIds[i]}`);
+            const playersNamesTyped =
+              fetchedPlayersNames.data as INbaPlayersNamesResponse;
+
+            playersNames.push({
+              id: playersNamesTyped.id,
+              full_name: playersNamesTyped.full_name,
+            });
           }
+
+          const result = createTableDataSource(playersStatsTyped, playersNames);
+          return { data: result };
         }
-        return { data: playersNames };
+        return { data: null };
       },
     }),
   }),
 });
 
-export const {
-  useFetchNbaStatsTeamsQuery,
-  useFetchNbaPlayersStatsQuery,
-  useFetchNbaPlayersNamesQuery,
-} = apiNbaStats;
+export const { useFetchNbaPlayersStatsQuery } = apiNbaStats;
