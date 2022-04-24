@@ -1,7 +1,7 @@
 import { getYear, isAfter, isBefore } from 'date-fns';
 import { IFilterTeamsByGroup, IFormatSeasons } from '../types/standingsTypes';
 
-export const getSeasons = (): number[] => {
+export const getSeasons = (length: number): number[] => {
   const currentDate = new Date();
   const currentYear = getYear(currentDate);
   let currentSeason = currentYear;
@@ -13,7 +13,9 @@ export const getSeasons = (): number[] => {
     currentSeason--;
   }
 
-  const avaliableSeasons = new Array(5).fill(null).map((_, idx) => currentSeason - idx);
+  const avaliableSeasons = new Array(length)
+    .fill(null)
+    .map((_, idx) => currentSeason - idx);
 
   return avaliableSeasons;
 };

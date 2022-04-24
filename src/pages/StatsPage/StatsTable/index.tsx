@@ -4,14 +4,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 import styles from './StatsTable.module.scss';
 import { apiNbaStats } from '../../../services/apiNbaStats';
-import statsTableColumns from '../../../content/statsContent';
+import { statsTableColumns } from '../../../content/statsContent';
 import { IStatsTableDataSource, IStatsTableProps } from '../../../types/stats';
 import { INbaPlayersNamesRender } from '../../../types/apiNbaStats';
 import { createTableDataSource } from '../../../utils/stats';
 import ErrorMsg from '../../../components/ErrorMsg';
 import Spinner from '../../../components/Spinner';
 
-const StatsTable = ({ teamId, selectedSeason }: IStatsTableProps): JSX.Element => {
+const StatsTable = ({
+  teamId,
+  selectedSeason,
+  seasonType,
+}: IStatsTableProps): JSX.Element => {
   const {
     data: fetchedPlayersStats,
     isError: playersStatsIsError,
@@ -20,6 +24,7 @@ const StatsTable = ({ teamId, selectedSeason }: IStatsTableProps): JSX.Element =
   } = apiNbaStats.useFetchNbaPlayersStatsQuery({
     teamId,
     selectedSeason,
+    seasonType,
   });
 
   const ids = fetchedPlayersStats?.map(({ player_id }) => player_id as number);

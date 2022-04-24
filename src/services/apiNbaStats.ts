@@ -8,8 +8,6 @@ import {
 } from '../types/apiNbaStats';
 import { IStatsTableProps } from '../types/stats';
 
-// const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
 export const apiNbaStats = createApi({
   reducerPath: 'apiNbaStats',
   baseQuery: fetchBaseQuery({
@@ -29,8 +27,8 @@ export const apiNbaStats = createApi({
           .sort((a, b) => (a.full_name > b.full_name ? 1 : -1)),
     }),
     fetchNbaPlayersStats: builder.query<INbaPlayersStatsRespone[], IStatsTableProps>({
-      query: ({ teamId, selectedSeason }) =>
-        `season_totals_regular_season/?team_id=${teamId}&league_id=00&season_id=${selectedSeason}`,
+      query: ({ teamId, selectedSeason, seasonType }) =>
+        `${seasonType}/?team_id=${teamId}&league_id=00&season_id=${selectedSeason}`,
     }),
     fetchNbaPlayersNames: builder.query<INbaPlayersNamesRender[], number[] | undefined>({
       async queryFn(playersIds, _queryApi, _extraOptions, fetchWithBQ) {

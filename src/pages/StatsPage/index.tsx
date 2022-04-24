@@ -6,6 +6,7 @@ import { apiNbaStats } from '../../services/apiNbaStats';
 import { INbaStatsTeamsRender } from '../../types/apiNbaStats';
 import { formatSeasons } from '../../utils/standings';
 import { getAvaliableStatsSeasons } from '../../utils/stats';
+import { seasonTypes } from '../../content/statsContent';
 import StatsTable from './StatsTable';
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
@@ -17,6 +18,7 @@ const currentSeason = formatedSeasons[0];
 const StatsPage = (): JSX.Element => {
   const [teamId, setTeamId] = React.useState('');
   const [selectedSeason, setSelectedSeason] = React.useState(currentSeason);
+  const [seasonType, setSeasonType] = React.useState(seasonTypes[0].query);
   const { data, isError, isLoading } = apiNbaStats.useFetchNbaStatsTeamsQuery();
 
   if (isError) return <ErrorMsg failedData="teams" notAvaliableService="Api NBA Stats" />;
@@ -34,12 +36,20 @@ const StatsPage = (): JSX.Element => {
       {season}
     </Option>
   ));
+  const seasonTypePicker = seasonTypes.map(({ type, query }) => (
+    <Option key={query} value={type}>
+      {type}
+    </Option>
+  ));
 
   const handleTeamChange = (_: string, { key }: any) => {
     setTeamId(key as string);
   };
   const handleSeasonChange = (value: string) => {
     setSelectedSeason(value);
+  };
+  const handleSeasonTypeChange = (_: string, { key }: any) => {
+    setSeasonType(key as string);
   };
 
   return (
@@ -74,11 +84,25 @@ const StatsPage = (): JSX.Element => {
               {seasonPicker}
             </Select>
           </div>
+          <div>
+            <h5 className={styles.heading}>SEASON TYPE</h5>
+            <Select
+              className={styles.selector}
+              defaultValue={seasonTypes[0].type}
+              onChange={handleSeasonTypeChange}
+            >
+              {seasonTypePicker}
+            </Select>
+          </div>
         </div>
       </div>
       <div className={styles.tableContainer}>
         {teamId ? (
-          <StatsTable teamId={teamId} selectedSeason={selectedSeason} />
+          <StatsTable
+            teamId={teamId}
+            selectedSeason={selectedSeason}
+            seasonType={seasonType}
+          />
         ) : (
           <Alert
             className={styles.infoMsg}

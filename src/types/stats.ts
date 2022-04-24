@@ -3,6 +3,7 @@ import { INbaPlayersNamesRender, INbaPlayersStatsRespone } from './apiNbaStats';
 export interface IStatsTableProps {
   teamId: string;
   selectedSeason: string;
+  seasonType: string;
 }
 
 export interface IStatsTableDataSource extends INbaPlayersStatsRespone {

@@ -32,3 +32,8 @@ export interface ISources {
   name: string;
   query: string;
 }
+
+export interface IStatsSeasonTypes {
+  type: string;
+  query: string;
+}
