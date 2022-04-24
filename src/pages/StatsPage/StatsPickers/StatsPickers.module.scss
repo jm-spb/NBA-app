@@ -1,0 +1,20 @@
+@import '../../../styles/config';
+
+.picker {
+  padding: 20px 0;
+  display: flex;
+  gap: 24px;
+}
+
+.heading {
+  margin: 0;
+  color: $dark-grey-color;
+}
+
+.selector {
+  width: 220px;
+
+  & > div > span {
+    font-weight: 600;
+  }
+}
