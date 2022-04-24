@@ -1,6 +1,17 @@
-import { ITableColumns } from '../types/contentTypes';
+import { IStatsSeasonTypes, ITableColumns } from '../types/contentTypes';
 
-const statsTableColumns: ITableColumns[] = [
+export const seasonTypes: IStatsSeasonTypes[] = [
+  {
+    type: 'Regular Season',
+    query: 'season_totals_regular_season',
+  },
+  {
+    type: 'Playoffs',
+    query: 'season_totals_post_season',
+  },
+];
+
+export const statsTableColumns: ITableColumns[] = [
   {
     title: 'PLAYER',
     dataIndex: 'full_name',
@@ -163,5 +174,3 @@ const statsTableColumns: ITableColumns[] = [
     sorter: (a, b) => a.pf - b.pf,
   },
 ];
-
-export default statsTableColumns;

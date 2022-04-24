@@ -1,11 +1,12 @@
-import { IStandingsTableColumns } from '../types/contentTypes';
+import { ITableColumns } from '../types/contentTypes';
 
-export const standingsTableColumns: IStandingsTableColumns[] = [
+export const standingsTableColumns: ITableColumns[] = [
   {
     title: 'TEAM',
     dataIndex: 'team',
     key: 'team',
     width: 250,
+    fixed: 'left',
   },
   {
     title: 'WIN',
@@ -79,7 +80,7 @@ export const groupDivision = [
   'southwest',
 ];
 
-export const standingsWidgetTableColumns: IStandingsTableColumns[] = [
+export const standingsWidgetTableColumns: ITableColumns[] = [
   {
     title: 'TEAM',
     dataIndex: 'team',
