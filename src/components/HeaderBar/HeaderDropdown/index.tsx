@@ -3,11 +3,11 @@ import { Menu, Dropdown } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './HeaderDropdown.module.scss';
-import headerTeamsDropdown from '../../../content/headerContent';
+import teamsByDivisionContent from '../../../content/teamsByDivisionContent';
 
 const menuTeams = (
   <Menu className={styles.menuTeams}>
-    {headerTeamsDropdown.map(({ division, teams }) => (
+    {teamsByDivisionContent.map(({ division, teams }) => (
       <Menu.ItemGroup key={uuidv4()} className={styles.division} title={division}>
         {teams.map(({ teamName, nickName, teamLogo }) => (
           <Menu.Item key={uuidv4()} className={styles.team}>

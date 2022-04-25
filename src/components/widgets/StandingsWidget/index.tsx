@@ -5,7 +5,7 @@ import styles from './StandingsWidget.module.scss';
 import { formatSeasons, getSeasons } from '../../../utils/standings';
 import StandingsWidgetTable from './StandingsWidgetTable';
 
-const seasons = getSeasons();
+const seasons = getSeasons(5);
 
 const StandingsWidget = (): JSX.Element => {
   const formattedCurrentSeason = formatSeasons(seasons)[0];

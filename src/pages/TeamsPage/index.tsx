@@ -1,11 +1,11 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from './TeamsPage.module.scss';
-import headerTeamsDropdown from '../../content/headerContent';
-import { HeaderTeamsType, IHeaderTeamsDropdown } from '../../types/contentTypes';
+import teamsByDivisionContent from '../../content/teamsByDivisionContent';
+import { TeamBasicInfoType, ITeamsByDivisionContent } from '../../types/contentTypes';
 
 const TeamsPage = (): JSX.Element => {
-  const renderDivisionTeam = ({ teamLogo, teamName, nickName }: HeaderTeamsType) => (
+  const renderDivisionTeam = ({ teamLogo, teamName, nickName }: TeamBasicInfoType) => (
     <div key={uuidv4()} className={styles.team}>
       <figure className={styles.figure}>
         <div className={styles.imageWrapper}>
@@ -42,7 +42,7 @@ const TeamsPage = (): JSX.Element => {
     </div>
   );
 
-  const renderDivision = ({ division, teams }: IHeaderTeamsDropdown) => (
+  const renderDivision = ({ division, teams }: ITeamsByDivisionContent) => (
     <div key={uuidv4()} className={styles.division}>
       <h3 className={styles.divisionName}>{division.toUpperCase()}</h3>
       <div className={styles.divisionTeams}>{teams.map(renderDivisionTeam)}</div>
@@ -54,7 +54,7 @@ const TeamsPage = (): JSX.Element => {
       <div className={styles.title}>
         <h2 className={styles.heading}>All Teams</h2>
       </div>
-      <div className={styles.teams}>{headerTeamsDropdown.map(renderDivision)}</div>
+      <div className={styles.teams}>{teamsByDivisionContent.map(renderDivision)}</div>
     </div>
   );
 };

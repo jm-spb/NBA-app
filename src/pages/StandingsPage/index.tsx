@@ -9,7 +9,7 @@ import Spinner from '../../components/Spinner';
 import StandingsPicker from './StandingsPicker';
 import StandingsTable from './StandingsTable';
 
-const seasons = getSeasons();
+const seasons = getSeasons(5);
 
 const StandingsPage = (): JSX.Element => {
   const [activeSeason, setActiveSeason] = React.useState(seasons[0].toString());
