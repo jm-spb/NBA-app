@@ -1,5 +1,9 @@
 import { getYear } from 'date-fns';
-import { ICreateTableDataSource, IStatsTableDataSource } from '../types/stats';
+import {
+  ICreateTableDataSource,
+  IGetTeamPickerContent,
+  IStatsTableDataSource,
+} from '../types/stats';
 
 export const getAvaliableStatsSeasons = (): number[] => {
   const currentSeason = getYear(new Date()) - 1;
@@ -20,3 +24,9 @@ export const createTableDataSource: ICreateTableDataSource<IStatsTableDataSource
       ...rest,
     };
   });
+
+export const getTeamPickerContent: IGetTeamPickerContent = (content) =>
+  content
+    .map((division) => [...division.teams])
+    .flat()
+    .sort((a, b) => (a.teamName > b.teamName ? 1 : -1));
