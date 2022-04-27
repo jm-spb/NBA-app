@@ -9,11 +9,15 @@ import ErrorMsg from '../ErrorMsg';
 import Spinner from '../Spinner';
 import DatePicker from './DatePicker';
 import ScoreboardGames from './ScoreboardGames';
+import { gameSummarySlice } from '../../store/reducers/gameSummarySlice';
+import { useAppDispatch } from '../../hooks/redux';
 
-const seasons = getSeasons();
+const seasons = getSeasons(5);
 
 const Scoreboard = (): JSX.Element => {
   const [gamesDates, setGamesDates] = React.useState([currentDay, nextDay]);
+  const { getSummary } = gameSummarySlice.actions;
+  const dispatch = useAppDispatch();
 
   const {
     data: fetchedScoreboardGames,
@@ -21,6 +25,12 @@ const Scoreboard = (): JSX.Element => {
     isLoading: scoreboardGamesIsLoading,
     isFetching: scoreboardGamesIsFetching,
   } = apiNba.useFetchScoreboardGamesQuery(gamesDates);
+
+  React.useEffect(() => {
+    if (fetchedScoreboardGames) {
+      dispatch(getSummary(fetchedScoreboardGames));
+    }
+  }, [fetchedScoreboardGames, dispatch, getSummary]);
 
   const { data: fetchedTeamsStandings, isLoading: teamsStandingsIsLoading } =
     apiNba.useFetchTeamsStandingsQuery(seasons[0].toString());
