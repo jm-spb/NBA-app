@@ -6,6 +6,10 @@ import {
   IScoreboardGamesRender,
   IFetchTeamsStandingsResponse,
   ITeamsStandingsRender,
+  IGameDetailsTeamStatsResponse,
+  BaseStatsType,
+  AdditionalStatsType,
+  IGameDetailsTeamStatsRender,
 } from '../types/apiNbaTypes';
 
 export const apiNba = createApi({
@@ -15,7 +19,6 @@ export const apiNba = createApi({
     prepareHeaders: (headers) => {
       headers.set('x-rapidapi-host', 'api-nba-v1.p.rapidapi.com');
       headers.set('x-rapidapi-key', `${process.env.REACT_APP_NBA_API_KEY}`);
-
       return headers;
     },
   }),
@@ -34,10 +37,11 @@ export const apiNba = createApi({
 
         // return only necessary properties
         const unfilteredGames: IScoreboardGamesRender[] = allGames.map(
-          ({ id, date, status, teams, scores }) => ({
+          ({ id, date, status, teams, scores, season, arena, officials }) => ({
             gameId: id,
             startTime: date.start,
             statusGame: status.long,
+            season,
             teamsInfo: {
               homeTeamInfo: {
                 teamId: teams.home.id,
@@ -54,6 +58,23 @@ export const apiNba = createApi({
                 points: scores.visitors.points,
               },
             },
+            summary: {
+              date: date.start,
+              arena,
+              officials,
+              scores: [
+                {
+                  team: teams.visitors.code,
+                  linescore: scores.visitors.linescore,
+                  final: scores.visitors.points,
+                },
+                {
+                  team: teams.home.code,
+                  linescore: scores.home.linescore,
+                  final: scores.home.points,
+                },
+              ],
+            },
           }),
         );
 
@@ -67,8 +88,9 @@ export const apiNba = createApi({
         return { data: groupedGames };
       },
     }),
+
     fetchTeamsStandings: builder.query<ITeamsStandingsRender[], string>({
-      query: () => 'standings?league=standard&season=2021',
+      query: (season) => `standings?league=standard&season=${season}`,
       transformResponse: (rawResult: { response: IFetchTeamsStandingsResponse[] }) =>
         rawResult.response.map(
           ({ team, win, loss, gamesBehind, streak, winStreak, conference, division }) => {
@@ -78,7 +100,8 @@ export const apiNba = createApi({
             return {
               teamId: team.id,
               fullName: team.name,
-              nickname: formatedNickname,
+              nickName: formatedNickname,
+              shortName: team.code,
               logo: team.logo,
               totalWin: win.total,
               homeWin: win.home,
@@ -106,6 +129,51 @@ export const apiNba = createApi({
             };
           },
         ),
+    }),
+
+    fetchNbaGameDetails: builder.query<IGameDetailsTeamStatsRender, string>({
+      async queryFn(geamId, _queryApi, _extraOptions, fetchWithBQ) {
+        const fetchedGameSummary = await fetchWithBQ(`games/statistics?id=${geamId}`);
+        const fetchedGameSummaryTyped =
+          fetchedGameSummary.data as IGameDetailsTeamStatsResponse;
+
+        const baseStatsArray: BaseStatsType[] = [];
+        const additionalStatsArray: AdditionalStatsType[] = [];
+
+        fetchedGameSummaryTyped.response.forEach(
+          ({ team: { id, name, logo }, statistics }) => {
+            const teamInfo = { id, name, logo };
+            const {
+              fastBreakPoints,
+              pointsInPaint,
+              biggestLead,
+              secondChancePoints,
+              pointsOffTurnovers,
+              longestRun,
+              ...rest
+            } = statistics[0];
+            const additionalStats = {
+              ...teamInfo,
+              fastBreakPoints,
+              pointsInPaint,
+              biggestLead,
+              secondChancePoints,
+              pointsOffTurnovers,
+              longestRun,
+            };
+            const baseStats = { ...teamInfo, ...rest };
+            baseStatsArray.push(baseStats);
+            additionalStatsArray.push(additionalStats);
+          },
+        );
+
+        const result = {
+          baseStats: [...baseStatsArray],
+          additionalStats: [...additionalStatsArray],
+        };
+
+        return { data: result };
+      },
     }),
   }),
 });
