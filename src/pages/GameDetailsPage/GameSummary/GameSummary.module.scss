@@ -1,0 +1,47 @@
+@import '../../../styles/config';
+
+.flex {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.scores {
+  flex-grow: 1;
+  @include container;
+}
+
+.info {
+  @include container;
+  max-width: 40%;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $lightgray-color;
+}
+
+.table {
+  margin-top: 20px;
+
+  thead tr th {
+    background-color: $white-color !important;
+    border-bottom: 1px solid $black-color;
+    color: $grey-color;
+    font-size: 12px;
+    padding-bottom: 14px !important;
+  }
+}
+
+.item {
+  > div {
+    grid-gap: calc(100% / 4);
+  }
+}
+
+.teamName {
+  font-weight: 600;
+}
