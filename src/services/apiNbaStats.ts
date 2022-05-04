@@ -1,5 +1,9 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { INbaPlayersNamesRender, INbaPlayersNamesResponse } from '../types/apiNbaStats';
+import {
+  IFetchNbaPlayersStatsParams,
+  INbaPlayersNamesRender,
+  INbaPlayersNamesResponse,
+} from '../types/apiNbaStats';
 import { IStatsTableDataSource } from '../types/stats';
 import { createTableDataSource } from '../utils/stats';
 
@@ -14,7 +18,10 @@ export const apiNbaStats = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchNbaPlayersStats: builder.query<any, any>({
+    fetchNbaPlayersStats: builder.query<
+      IStatsTableDataSource[] | null,
+      IFetchNbaPlayersStatsParams
+    >({
       async queryFn(
         { teamShortName, selectedSeason, seasonType },
         _queryApi,
