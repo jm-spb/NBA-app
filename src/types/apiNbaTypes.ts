@@ -1,10 +1,27 @@
-export interface IFetchScoreboardGamesData {
+interface IApiNbaBaseResponse {
   errors: any;
   get: string;
   parameters: any;
-  response: IFetchScoreboardGamesResponse[];
   results: number;
 }
+
+interface ITeamShortInfo {
+  id: number;
+  name: string;
+  logo: string;
+}
+
+export interface IFetchScoreboardGamesData extends IApiNbaBaseResponse {
+  response: IFetchScoreboardGamesResponse[];
+}
+
+type TeamInfoResponseType = {
+  id: number;
+  name: string;
+  nickname: string;
+  code: string;
+  logo: string;
+};
 
 interface IFetchScoreboardGamesResponse {
   id: number;
@@ -14,10 +31,10 @@ interface IFetchScoreboardGamesResponse {
   stage: number;
   status: { clock: null; halftime: boolean; short: number; long: string };
   periods: { current: number; total: number; endOfPeriod: boolean };
-  arena: { name: string; city: string; state: string; country: string };
+  arena: GameSummaryArenaType;
   teams: {
-    visitors: { id: number; name: string; nickname: string; code: string; logo: string };
-    home: { id: number; name: string; nickname: string; code: string; logo: string };
+    visitors: TeamInfoResponseType;
+    home: TeamInfoResponseType;
   };
   scores: {
     visitors: {
@@ -47,9 +64,10 @@ export interface IScoreboardGamesRender {
   statusGame: string;
   season?: number;
   teamsInfo: ITeamsInfo;
+  summary?: IGameSummary;
 }
 
-interface ITeamInfo {
+interface ITeamFullInfo {
   teamId: number;
   fullName: string;
   shortName: string;
@@ -60,10 +78,31 @@ interface ITeamInfo {
   winCaret?: string;
 }
 
+export interface IGameSummary {
+  gameId?: number;
+  date: string;
+  arena: GameSummaryArenaType;
+  officials: string[];
+  scores: GameSummaryScoreType[];
+}
+
+export type GameSummaryArenaType = {
+  name: string;
+  city: string;
+  state: string;
+  country: string;
+};
+
+export type GameSummaryScoreType = {
+  team: string;
+  linescore: string[];
+  final: number;
+};
+
 export interface IFetchTeamsStandingsResponse {
   league: string;
   season: string;
-  team: { id: number; name: string; nickname: string; code: string; logo: string };
+  team: TeamInfoResponseType;
   conference: { name: string; rank: number; win: number; loss: number };
   division: {
     name: string;
@@ -108,6 +147,57 @@ export interface ITeamsStandingsRender {
 }
 
 export interface ITeamsInfo {
-  homeTeamInfo: ITeamInfo;
-  visitorTeamInfo: ITeamInfo;
+  homeTeamInfo: ITeamFullInfo;
+  visitorTeamInfo: ITeamFullInfo;
+}
+
+export interface ITeamBaseStats {
+  points: number;
+  fgm: number;
+  fga: number;
+  fgp: string;
+  ftm: number;
+  fta: number;
+  ftp: string;
+  tpm: number;
+  tpa: number;
+  tpp: string;
+  offReb: number;
+  defReb: number;
+  totReb: number;
+  assists: number;
+  pFouls: number;
+  steals: number;
+  turnovers: number;
+  blocks: number;
+  plusMinus: string;
+  min: string;
+}
+
+export interface ITeamAdditionalStats {
+  fastBreakPoints: number;
+  pointsInPaint: number;
+  biggestLead: number;
+  secondChancePoints: number;
+  pointsOffTurnovers: number;
+  longestRun: number;
+}
+
+// export interface ITeamStatistics {}
+
+export interface IGameDetailsTeamStatsResponse extends IApiNbaBaseResponse {
+  response: IGameDetailsTeamStatsFetched[];
+}
+
+interface IGameDetailsTeamStatsFetched {
+  team: TeamInfoResponseType;
+  statistics: (ITeamBaseStats & ITeamAdditionalStats)[];
+}
+
+export type BaseStatsType = ITeamShortInfo & ITeamBaseStats;
+export type AdditionalStatsType = ITeamShortInfo & ITeamAdditionalStats;
+
+export interface IGameDetailsTeamStatsRender {
+  baseStats: BaseStatsType[];
+  additionalStats: AdditionalStatsType[];
 }
