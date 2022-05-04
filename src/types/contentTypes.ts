@@ -1,12 +1,13 @@
-export type HeaderTeamsType = {
+export type TeamBasicInfoType = {
   teamName: string;
   nickName: string;
   teamLogo: string;
+  shortName?: string;
 };
 
-export interface IHeaderTeamsDropdown {
+export interface ITeamsByDivisionContent {
   division: string;
-  teams: HeaderTeamsType[];
+  teams: TeamBasicInfoType[];
 }
 
 export interface IMainCarouselContent {

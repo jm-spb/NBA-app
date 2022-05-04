@@ -1,18 +1,3 @@
-// import { IStatsTableDataSource } from './stats';
-
-export interface INbaStatsTeamsRender {
-  id: number;
-  full_name: string;
-}
-
-export interface INbaStatsTeamsResponse extends INbaStatsTeamsRender {
-  abbreviation: string;
-  nickname: string;
-  city: string;
-  state: string;
-  year_founded: number;
-}
-
 export interface INbaPlayersStatsRespone {
   player_id?: number;
   player_age: number;
@@ -52,4 +37,10 @@ export interface INbaPlayersNamesResponse extends INbaPlayersNamesRender {
   first_name: string;
   is_active: number;
   last_name: string;
+}
+
+export interface IFetchNbaPlayersStatsParams {
+  teamShortName: string;
+  selectedSeason: string;
+  seasonType: string;
 }
