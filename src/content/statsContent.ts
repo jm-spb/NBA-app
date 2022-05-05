@@ -16,7 +16,7 @@ export const statsTableColumns: ITableColumns[] = [
     title: 'PLAYER',
     dataIndex: 'full_name',
     key: 'full_name',
-    width: 200,
+    width: 150,
     fixed: 'left',
   },
   {

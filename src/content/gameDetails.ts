@@ -45,7 +45,8 @@ export const teamsBaseStatsTableColumns: ITableColumns[] = [
     title: 'TEAM',
     dataIndex: 'name',
     key: 'name',
-    width: 200,
+    width: 150,
+    fixed: 'left',
   },
   {
     title: 'FGM',
@@ -168,7 +169,8 @@ export const teamsAdditionalStatsTableColumns: ITableColumns[] = [
     title: 'TEAM',
     dataIndex: 'name',
     key: 'name',
-    width: 200,
+    width: 150,
+    fixed: 'left',
   },
   {
     title: 'Points In Paint',
@@ -189,7 +191,7 @@ export const teamsAdditionalStatsTableColumns: ITableColumns[] = [
     align: 'center' as const,
   },
   {
-    title: 'SecondChance Points',
+    title: 'Second Chance Points',
     dataIndex: 'secondChancePoints',
     key: 'secondChancePoints',
     align: 'center' as const,
