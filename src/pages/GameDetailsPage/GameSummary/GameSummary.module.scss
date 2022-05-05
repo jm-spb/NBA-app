@@ -17,6 +17,7 @@
 }
 
 .title {
+  color: $black-color;
   font-size: 18px;
   font-weight: 600;
   margin: 0;
@@ -44,4 +45,28 @@
 
 .teamName {
   font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+  .item {
+    > div {
+      grid-gap: calc(100% / 10);
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  .flex {
+    flex-direction: column;
+  }
+
+  .info {
+    max-width: 100%;
+  }
+
+  .item {
+    > div {
+      grid-gap: calc(100% / 3);
+    }
+  }
 }

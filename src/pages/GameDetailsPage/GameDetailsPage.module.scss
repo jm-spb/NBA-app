@@ -4,6 +4,62 @@
   max-width: 1280px;
 }
 
-.stats {
+.statsWrapper {
   margin-top: 20px;
+  position: relative;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.stats {
+  @include container;
+}
+
+.title {
+  color: $black-color;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 20px;
+  border-bottom: 1px solid $lightgray-color;
+}
+
+.teamName {
+  font-weight: 600;
+}
+
+.table {
+  table {
+    thead th {
+      padding: 16px 8px !important;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: $dark-grey-color;
+    }
+
+    tbody {
+      tr:first-child {
+        display: none;
+      }
+
+      td {
+        padding: 14px 8px !important;
+      }
+    }
+  }
+}
+
+.row {
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  .stats {
+    padding: 20px 10px;
+  }
+
+  .title {
+    padding-left: 8px;
+  }
 }
