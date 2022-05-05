@@ -1,16 +1,17 @@
 import React from 'react';
-import { Alert } from 'antd';
+import { Alert, Table } from 'antd';
+import { v4 as uuidv4 } from 'uuid';
 
 import styles from './StatsPage.module.scss';
 import { apiNbaStats } from '../../services/apiNbaStats';
-import { INbaStatsTeamsRender } from '../../types/apiNbaStats';
 import { formatSeasons } from '../../utils/standings';
 import { getAvaliableStatsSeasons } from '../../utils/stats';
-import { seasonTypes } from '../../content/statsContent';
+import { seasonTypes, statsTableColumns } from '../../content/statsContent';
+import { IStatsTableDataSource } from '../../types/stats';
+
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
 import StatsPickers from './StatsPickers';
-import StatsTable from './StatsTable';
 
 const formatedSeasons = formatSeasons(getAvaliableStatsSeasons());
 const currentSeason = formatedSeasons[0];
@@ -66,7 +67,15 @@ const StatsPage = (): JSX.Element => {
   if (isError) return <ErrorMsg failedData="teams" notAvaliableService="Api NBA Stats" />;
   if (isLoading) return <Spinner />;
 
-  const allTeams = data as INbaStatsTeamsRender[];
+  const playersByTeam = data as IStatsTableDataSource[] | null;
+  let tableDataSource;
+
+  if (playersByTeam) {
+    tableDataSource = playersByTeam.map(({ full_name, ...rest }) => ({
+      full_name: <span className={styles.playerName}>{full_name}</span>,
+      ...rest,
+    }));
+  }
 
   return (
     <div className={styles.container}>
@@ -81,7 +90,16 @@ const StatsPage = (): JSX.Element => {
       </div>
       <div className={styles.tableContainer}>
         {teamShortName ? (
-          <StatsTable dataSource={allTeams} isFetching={isFetching} />
+          <Table
+            className={styles.table}
+            rowClassName={styles.row}
+            rowKey={() => uuidv4()}
+            dataSource={tableDataSource}
+            columns={statsTableColumns}
+            pagination={false}
+            scroll={{ x: 1400 }}
+            loading={isFetching}
+          />
         ) : (
           infoMsg
         )}
