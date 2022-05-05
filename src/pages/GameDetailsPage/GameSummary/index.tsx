@@ -4,13 +4,13 @@ import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
 
 import styles from './GameSummary.module.scss';
-import gameSummaryTableColumns from '../../../content/gameDetails';
+import { gameSummaryTableColumns } from '../../../content/gameDetails';
 import { IGameSummaryProps } from '../../../types/gameDetails';
 
 const GameSummary = ({ gameSummaryData }: IGameSummaryProps): JSX.Element => {
   const { arena, date, officials, scores } = gameSummaryData;
   const dataSource = scores.map(({ team, linescore, final }, teamIdx) => {
-    // todo: refactor changing color by quater
+    // todo: refactor changing color by quarter
     const [q1, q2, q3, q4] = linescore.map((quarter, quarterIdx) => (
       <span
         style={{
