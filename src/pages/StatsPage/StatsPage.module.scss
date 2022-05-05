@@ -1,11 +1,8 @@
 @import '../../styles/config';
 
 .container {
+  @include container;
   max-width: 1440px;
-  background-color: $white-color;
-  padding: 20px;
-  border-radius: 4px;
-  box-shadow: rgba(209, 209, 209, 0.5) 0px 0px 10px 0px;
 }
 
 .header {
@@ -34,8 +31,33 @@
   align-items: center;
 }
 
+.table {
+  margin-top: 32px;
+  width: 100%;
+
+  table {
+    thead th {
+      padding: 12px 8px;
+      font-size: 10px;
+      font-weight: 600;
+    }
+
+    tbody td {
+      padding: 12px 8px;
+    }
+  }
+}
+
+.row {
+  font-size: 12px;
+}
+
+.playerName {
+  color: $table-row-border;
+}
+
 @media (max-width: 480px) {
-  .standings {
+  .container {
     padding: 20px 10px;
   }
 }
