@@ -25,8 +25,6 @@
 }
 
 .logoImg {
-  width: 120px;
-  height: 35px;
   display: flex;
   justify-content: center;
 }
@@ -64,6 +62,10 @@
 }
 
 @media (max-width: 720px) {
+  .header {
+    padding: 0 4px;
+  }
+
   .content {
     .hamburger {
       display: inline-block;

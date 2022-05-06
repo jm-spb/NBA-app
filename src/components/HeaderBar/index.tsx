@@ -37,7 +37,7 @@ const HeaderBar = (): JSX.Element => {
           <img
             className={styles.logoImg}
             src={Logo}
-            width={100}
+            width={90}
             height={35}
             alt="NBA Logo"
           />
