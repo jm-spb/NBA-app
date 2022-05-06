@@ -34,7 +34,12 @@ export const filterTeamsByGroup: IFilterTeamsByGroup = (
   const filterSort = (confName: string) =>
     teamsStandings
       .filter((team) => confName === team[groupName].name)
-      .sort((a, b) => a[groupName].rank - b[groupName].rank);
+
+      .sort((a, b) =>
+        a[groupName].rank === 0 || b[groupName].rank === 0
+          ? Number(b.winPercentage) - Number(a.winPercentage)
+          : a[groupName].rank - b[groupName].rank,
+      );
 
   if (typeof groupData === 'object') return groupData.map(filterSort);
 
