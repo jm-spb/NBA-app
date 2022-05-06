@@ -10,6 +10,7 @@
 
 .table {
   margin-bottom: 16px;
+  min-height: 120px;
 
   tr {
     th {
@@ -19,63 +20,41 @@
   }
 
   & :global {
-    .ant-table-tbody {
-      &:last-child {
-        border-bottom: 2px solid $white-background-color;
-      }
-
-      tr:nth-child(6) {
-        border-bottom: 2.1px dashed $black-color;
-      }
-
-      tr:nth-child(10) {
-        border-bottom: 2px solid $black-color;
-      }
-    }
-
-    .ant-table-title {
-      font-size: 20px;
-      font-weight: 600;
-      padding-left: 0;
-    }
-
-    .ant-table-row {
-      border-top: 2px solid $white-background-color;
-      line-height: 1;
-
-      &:hover {
-        background-color: $table-row-hover;
-        border-top: 2px solid $table-row-border;
-        border-bottom: 2px solid $table-row-border;
-      }
-    }
-
     .ant-table-cell {
       padding: 12px;
     }
-
-    // reset default hover
-    .ant-table-cell-row-hover {
-      background: none !important;
-    }
   }
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  padding-left: 0;
 }
 
 .teamShortName {
   display: none;
 }
 
+.row {
+  &:nth-child(6) {
+    border-bottom: 2.1px dashed $black-color;
+  }
+
+  &:nth-child(10) {
+    border-bottom: 2px solid $black-color;
+  }
+}
+
 @media (max-width: 480px) {
   .table {
-    table {
-      col {
-        width: 110px !important;
-      }
+    col {
+      width: 110px !important;
     }
 
     & :global {
       .ant-table-cell {
-        padding: 10px 0;
+        padding: 8px 0;
       }
     }
   }
