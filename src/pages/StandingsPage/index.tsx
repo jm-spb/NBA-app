@@ -14,8 +14,7 @@ const seasons = getSeasons(5);
 const StandingsPage = (): JSX.Element => {
   const [activeSeason, setActiveSeason] = React.useState(seasons[0].toString());
   const [groupBy, setGroupBy] = React.useState<'conference' | 'division'>('conference');
-  const { data, isError, isLoading, isFetching } =
-    apiNba.useFetchTeamsStandingsQuery(activeSeason);
+  const { data, isError, isFetching } = apiNba.useFetchTeamsStandingsQuery(activeSeason);
 
   const onSeasonChange = React.useCallback((key: string) => {
     setActiveSeason(key);
@@ -28,14 +27,6 @@ const StandingsPage = (): JSX.Element => {
 
   if (isError)
     return <ErrorMsg failedData="teams standings" notAvaliableService="Api NBA" />;
-
-  if (isLoading) {
-    return (
-      <div className={styles.standings}>
-        <Spinner />
-      </div>
-    );
-  }
 
   const teamsStandings = data as ITeamsStandingsRender[];
 
@@ -51,11 +42,13 @@ const StandingsPage = (): JSX.Element => {
         onSeasonChange={onSeasonChange}
         onGroupChange={onGroupChange}
       />
-      <StandingsTable
-        teamsStandings={teamsStandings}
-        isFetching={isFetching}
-        groupBy={groupBy}
-      />
+      <section className={styles.tables}>
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <StandingsTable teamsStandings={teamsStandings} groupBy={groupBy} />
+        )}
+      </section>
     </div>
   );
 };
