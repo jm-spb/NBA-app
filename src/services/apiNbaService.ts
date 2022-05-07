@@ -10,6 +10,8 @@ import {
   BaseStatsType,
   AdditionalStatsType,
   IGameDetailsTeamStatsRender,
+  IFetchGameBoxScoreApiResponse,
+  IFetchNbaGameBoxScore,
 } from '../types/apiNbaTypes';
 
 export const apiNba = createApi({
@@ -175,7 +177,42 @@ export const apiNba = createApi({
         return { data: result };
       },
     }),
+
+    fetchGameBoxScore: builder.query<IFetchNbaGameBoxScore[][], string>({
+      query: (gameId) => `players/statistics?game=${gameId}`,
+      transformResponse: (rawResult: { response: IFetchGameBoxScoreApiResponse[] }) => {
+        const response = rawResult.response.map(({ player, team, game, ...rest }) => ({
+          gameId: game.id,
+          firstname: player.firstname,
+          lastname: player.lastname,
+          teamName: team.name,
+          minutesToSort: Number(rest.min && rest.min.split(':').join('')),
+          ...rest,
+        }));
+
+        const teamsNames = Array.from(new Set(response.map(({ teamName }) => teamName)));
+
+        // 1. Create an array of two arrays of players filtered by team
+        // 2. Sort players by played minuntes (only bench players, starters remains the same order)
+        const filteredPlayersByTeam = teamsNames.map((team) =>
+          response
+            .filter(({ teamName }) => team === teamName)
+            .sort((playerOne, playerTwo) => {
+              if (playerOne && !playerOne.pos && playerTwo && !playerTwo.pos)
+                return playerTwo.minutesToSort - playerOne.minutesToSort;
+              return 0;
+            }),
+        );
+
+        return filteredPlayersByTeam;
+      },
+    }),
   }),
 });
 
-export const { useFetchScoreboardGamesQuery, useFetchTeamsStandingsQuery } = apiNba;
+export const {
+  useFetchScoreboardGamesQuery,
+  useFetchTeamsStandingsQuery,
+  useFetchNbaGameDetailsQuery,
+  useFetchGameBoxScoreQuery,
+} = apiNba;
