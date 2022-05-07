@@ -40,7 +40,152 @@ export const gameSummaryTableColumns: ITableColumns[] = [
   },
 ];
 
-export const teamsBaseStatsTableColumns: ITableColumns[] = [
+// Only need in GameBoxScorePage tables. In other tables  - colSpan: 1 (nothing happens)
+// colSpan: 0 - collapsed columns
+// if minutesToSort === 0 or null, then columns will be collapsed
+const sharedOnCell = (text: any) => {
+  if (text.minutesToSort === undefined) return { colSpan: 1 };
+  if (text.minutesToSort > 0) return { colSpan: 1 };
+  return { colSpan: 0 };
+};
+
+const baseTableColumns: ITableColumns[] = [
+  {
+    title: 'FGM',
+    dataIndex: 'fgm',
+    key: 'fgm',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'FGA',
+    dataIndex: 'fga',
+    key: 'fga',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'FG%',
+    dataIndex: 'fgp',
+    key: 'fgp',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: '3PM',
+    dataIndex: 'tpm',
+    key: 'tpm',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: '3PA',
+    dataIndex: 'tpa',
+    key: 'tpa',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: '3P%',
+    dataIndex: 'tpp',
+    key: 'tpp',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'FTM',
+    dataIndex: 'ftm',
+    key: 'ftm',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'FTA',
+    dataIndex: 'fta',
+    key: 'fta',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'FT%',
+    dataIndex: 'ftp',
+    key: 'ftp',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'OREB',
+    dataIndex: 'offReb',
+    key: 'offReb',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'DREB',
+    dataIndex: 'defReb',
+    key: 'defReb',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'REB',
+    dataIndex: 'totReb',
+    key: 'totReb',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'AST',
+    dataIndex: 'assists',
+    key: 'assists',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'STL',
+    dataIndex: 'steals',
+    key: 'steals',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'BLK',
+    dataIndex: 'blocks',
+    key: 'blocks',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'TO',
+    dataIndex: 'turnovers',
+    key: 'turnovers',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'PF',
+    dataIndex: 'pFouls',
+    key: 'pFouls',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: 'PTS',
+    dataIndex: 'points',
+    key: 'points',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+  {
+    title: '+/-',
+    dataIndex: 'plusMinus',
+    key: 'plusMinus',
+    align: 'center' as const,
+    onCell: sharedOnCell,
+  },
+];
+
+export const gameDetailsBaseStatsColumns: ITableColumns[] = [
   {
     title: 'TEAM',
     dataIndex: 'name',
@@ -48,123 +193,10 @@ export const teamsBaseStatsTableColumns: ITableColumns[] = [
     width: 150,
     fixed: 'left',
   },
-  {
-    title: 'FGM',
-    dataIndex: 'fgm',
-    key: 'fgm',
-    align: 'center' as const,
-  },
-  {
-    title: 'FGA',
-    dataIndex: 'fga',
-    key: 'fga',
-    align: 'center' as const,
-  },
-  {
-    title: 'FG%',
-    dataIndex: 'fgp',
-    key: 'fgp',
-    align: 'center' as const,
-  },
-  {
-    title: '3PM',
-    dataIndex: 'tpm',
-    key: 'tpm',
-    align: 'center' as const,
-  },
-  {
-    title: '3PA',
-    dataIndex: 'tpa',
-    key: 'tpa',
-    align: 'center' as const,
-  },
-  {
-    title: '3P%',
-    dataIndex: 'tpp',
-    key: 'tpp',
-    align: 'center' as const,
-  },
-  {
-    title: 'FTM',
-    dataIndex: 'ftm',
-    key: 'ftm',
-    align: 'center' as const,
-  },
-  {
-    title: 'FTA',
-    dataIndex: 'fta',
-    key: 'fta',
-    align: 'center' as const,
-  },
-  {
-    title: 'FT%',
-    dataIndex: 'ftp',
-    key: 'ftp',
-    align: 'center' as const,
-  },
-  {
-    title: 'OREB',
-    dataIndex: 'offReb',
-    key: 'offReb',
-    align: 'center' as const,
-  },
-  {
-    title: 'DREB',
-    dataIndex: 'defReb',
-    key: 'defReb',
-    align: 'center' as const,
-  },
-  {
-    title: 'REB',
-    dataIndex: 'totReb',
-    key: 'totReb',
-    align: 'center' as const,
-  },
-  {
-    title: 'AST',
-    dataIndex: 'assists',
-    key: 'assists',
-    align: 'center' as const,
-  },
-  {
-    title: 'STL',
-    dataIndex: 'steals',
-    key: 'steals',
-    align: 'center' as const,
-  },
-  {
-    title: 'BLK',
-    dataIndex: 'blocks',
-    key: 'blocks',
-    align: 'center' as const,
-  },
-  {
-    title: 'TO',
-    dataIndex: 'turnovers',
-    key: 'turnovers',
-    align: 'center' as const,
-  },
-  {
-    title: 'PF',
-    dataIndex: 'pFouls',
-    key: 'pFouls',
-    align: 'center' as const,
-  },
-  {
-    title: 'PTS',
-    dataIndex: 'points',
-    key: 'points',
-    align: 'center' as const,
-  },
-  {
-    title: '+/-',
-    dataIndex: 'plusMinus',
-    key: 'plusMinus',
-    align: 'center' as const,
-  },
+  ...baseTableColumns,
 ];
 
-export const teamsAdditionalStatsTableColumns: ITableColumns[] = [
+export const gameDetailsAdditionalStatsColumns: ITableColumns[] = [
   {
     title: 'TEAM',
     dataIndex: 'name',
@@ -208,4 +240,30 @@ export const teamsAdditionalStatsTableColumns: ITableColumns[] = [
     key: 'longestRun',
     align: 'center' as const,
   },
+];
+
+export const boxScoreStatsColumns: ITableColumns[] = [
+  {
+    title: 'PLAYER',
+    dataIndex: 'player',
+    key: 'player',
+    width: 200,
+    fixed: 'left',
+  },
+  {
+    title: 'MIN',
+    dataIndex: 'min',
+    key: 'min',
+    align: 'left' as const,
+    render: (text) => {
+      if (text === null) return 'DND - Injury/Illness';
+      const minutesPlayed = Number(text.split(':').join(''));
+      if (minutesPlayed === 0) return "DNP - Coach's Decision";
+      return text;
+    },
+    onCell: (text) => ({
+      colSpan: text.minutesToSort ? 1 : 20,
+    }),
+  },
+  ...baseTableColumns,
 ];
