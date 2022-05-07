@@ -24,9 +24,11 @@ export interface ITableColumns {
   dataIndex: string;
   key: string;
   width?: number;
-  align?: 'center';
+  align?: 'center' | 'left';
   fixed?: 'left';
+  render?: (text: any) => any;
   sorter?: (a: any, b: any) => number;
+  onCell?: (text: any) => any;
 }
 
 export interface ISources {

@@ -172,6 +172,8 @@ export interface ITeamBaseStats {
   blocks: number;
   plusMinus: string;
   min: string;
+  pos?: string;
+  comment?: any;
 }
 
 export interface ITeamAdditionalStats {
@@ -182,8 +184,6 @@ export interface ITeamAdditionalStats {
   pointsOffTurnovers: number;
   longestRun: number;
 }
-
-// export interface ITeamStatistics {}
 
 export interface IGameDetailsTeamStatsResponse extends IApiNbaBaseResponse {
   response: IGameDetailsTeamStatsFetched[];
@@ -200,4 +200,17 @@ export type AdditionalStatsType = ITeamShortInfo & ITeamAdditionalStats;
 export interface IGameDetailsTeamStatsRender {
   baseStats: BaseStatsType[];
   additionalStats: AdditionalStatsType[];
+}
+
+export interface IFetchGameBoxScoreApiResponse extends ITeamBaseStats {
+  player: { id: number; firstname: string; lastname: string };
+  team: TeamInfoResponseType;
+  game: { id: number };
+}
+
+export interface IFetchNbaGameBoxScore extends ITeamBaseStats {
+  gameId: number;
+  firstname: string;
+  lastname: string;
+  teamName: string;
 }
