@@ -1,0 +1,59 @@
+@import '../../styles/config';
+
+.boxScore {
+  max-width: 1280px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.container {
+  @include container;
+}
+
+.title {
+  color: $black-color;
+  font-weight: 600;
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.table {
+  table {
+    thead th {
+      font-size: 10px;
+      letter-spacing: 1px;
+      background-color: rgba($lightgray-color, 0.5);
+      color: $dark-grey-color;
+    }
+
+    tbody {
+      tr:first-child {
+        display: none;
+      }
+    }
+  }
+}
+
+.row:nth-child(6) {
+  border-bottom: 2px solid black;
+}
+
+.playerName {
+  color: $table-row-border;
+}
+
+.playerPos {
+  margin-left: 10px;
+  color: $dark-grey-color;
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 20px 5px;
+  }
+
+  .title {
+    margin-left: 15px;
+  }
+}
