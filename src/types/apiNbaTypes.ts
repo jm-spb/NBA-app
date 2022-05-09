@@ -1,4 +1,28 @@
-interface IApiNbaBaseResponse {
+type TeamInfoInApiResponeType = {
+  id: number;
+  name: string;
+  nickname: string;
+  code: string;
+  logo: string;
+};
+
+export type GameSummaryArenaType = {
+  name: string;
+  city: string;
+  state: string;
+  country: string;
+};
+
+export type GameSummaryScoreType = {
+  team: string;
+  linescore: string[];
+  final: number;
+};
+
+export type BaseStatsType = ITeamShortInfo & ITeamBaseStats;
+export type AdditionalStatsType = ITeamShortInfo & ITeamAdditionalStats;
+
+interface IApiNbaInitialResponse {
   errors: any;
   get: string;
   parameters: any;
@@ -11,19 +35,7 @@ interface ITeamShortInfo {
   logo: string;
 }
 
-export interface IFetchScoreboardGamesData extends IApiNbaBaseResponse {
-  response: IFetchScoreboardGamesResponse[];
-}
-
-type TeamInfoResponseType = {
-  id: number;
-  name: string;
-  nickname: string;
-  code: string;
-  logo: string;
-};
-
-interface IFetchScoreboardGamesResponse {
+interface IFetchScoreboardGamesApiResponse {
   id: number;
   league: string;
   season: number;
@@ -33,8 +45,8 @@ interface IFetchScoreboardGamesResponse {
   periods: { current: number; total: number; endOfPeriod: boolean };
   arena: GameSummaryArenaType;
   teams: {
-    visitors: TeamInfoResponseType;
-    home: TeamInfoResponseType;
+    visitors: TeamInfoInApiResponeType;
+    home: TeamInfoInApiResponeType;
   };
   scores: {
     visitors: {
@@ -58,13 +70,9 @@ interface IFetchScoreboardGamesResponse {
   nugget: null;
 }
 
-export interface IScoreboardGamesRender {
-  gameId: number;
-  startTime: string;
-  statusGame: string;
-  season?: number;
-  teamsInfo: ITeamsInfo;
-  summary?: IGameSummary;
+interface IGameDetailsTeamStatsRespone {
+  team: TeamInfoInApiResponeType;
+  statistics: (ITeamBaseStats & ITeamAdditionalStats)[];
 }
 
 interface ITeamFullInfo {
@@ -78,6 +86,19 @@ interface ITeamFullInfo {
   winCaret?: string;
 }
 
+export interface IFetchScoreboardGamesData extends IApiNbaInitialResponse {
+  response: IFetchScoreboardGamesApiResponse[];
+}
+
+export interface IFetchScoreboardGames {
+  gameId: number;
+  startTime: string;
+  statusGame: string;
+  season?: number;
+  teamsInfo: ITeamsInfo;
+  summary?: IGameSummary;
+}
+
 export interface IGameSummary {
   gameId?: number;
   date: string;
@@ -86,23 +107,10 @@ export interface IGameSummary {
   scores: GameSummaryScoreType[];
 }
 
-export type GameSummaryArenaType = {
-  name: string;
-  city: string;
-  state: string;
-  country: string;
-};
-
-export type GameSummaryScoreType = {
-  team: string;
-  linescore: string[];
-  final: number;
-};
-
 export interface IFetchTeamsStandingsResponse {
   league: string;
   season: string;
-  team: TeamInfoResponseType;
+  team: TeamInfoInApiResponeType;
   conference: { name: string; rank: number; win: number; loss: number };
   division: {
     name: string;
@@ -125,7 +133,7 @@ export interface IFetchTeamsStandingsResponse {
   tieBreakerPoints: null;
 }
 
-export interface ITeamsStandingsRender {
+export interface IFetchTeamsStandings {
   teamId: number;
   fullName: string;
   nickName: string;
@@ -185,26 +193,18 @@ export interface ITeamAdditionalStats {
   longestRun: number;
 }
 
-export interface IGameDetailsTeamStatsResponse extends IApiNbaBaseResponse {
-  response: IGameDetailsTeamStatsFetched[];
+export interface IFetchGameDetailsApiResponse extends IApiNbaInitialResponse {
+  response: IGameDetailsTeamStatsRespone[];
 }
 
-interface IGameDetailsTeamStatsFetched {
-  team: TeamInfoResponseType;
-  statistics: (ITeamBaseStats & ITeamAdditionalStats)[];
-}
-
-export type BaseStatsType = ITeamShortInfo & ITeamBaseStats;
-export type AdditionalStatsType = ITeamShortInfo & ITeamAdditionalStats;
-
-export interface IGameDetailsTeamStatsRender {
+export interface IFetchGameDetailsTeamStats {
   baseStats: BaseStatsType[];
   additionalStats: AdditionalStatsType[];
 }
 
 export interface IFetchGameBoxScoreApiResponse extends ITeamBaseStats {
   player: { id: number; firstname: string; lastname: string };
-  team: TeamInfoResponseType;
+  team: TeamInfoInApiResponeType;
   game: { id: number };
 }
 

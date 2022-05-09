@@ -1,9 +1,9 @@
-import { ITeamsStandingsRender } from './apiNbaTypes';
+import { IFetchTeamsStandings } from './apiNbaTypes';
 
 export type GroupByType = 'conference' | 'division';
 
 export interface IStandingsTableProps {
-  filteredTeamsByGroup: ITeamsStandingsRender[][];
+  filteredTeamsByGroup: IFetchTeamsStandings[][];
 }
 
 export interface IStandingsPickerProps {
@@ -18,17 +18,17 @@ export interface IFormatSeasons {
 
 export interface IFilterTeamsByGroup {
   (
-    teamsStandings: ITeamsStandingsRender[],
+    teamsStandings: IFetchTeamsStandings[],
     groupData: string[] | string,
     groupName: GroupByType,
-  ): ITeamsStandingsRender[] | ITeamsStandingsRender[][];
+  ): IFetchTeamsStandings[] | IFetchTeamsStandings[][];
 }
 
 export interface IStandingsTableCbFunctions {
   (
-    groupTeams: ITeamsStandingsRender[],
+    groupTeams: IFetchTeamsStandings[],
     idx: number,
-    arrayToMap: ITeamsStandingsRender[][],
+    arrayToMap: IFetchTeamsStandings[][],
   ): JSX.Element;
 }
 
@@ -49,8 +49,8 @@ interface IStandingsTableDataSource {
 
 export interface IStandingsTableCreateDataSource {
   (
-    team: ITeamsStandingsRender,
+    team: IFetchTeamsStandings,
     idx: number,
-    arr: ITeamsStandingsRender[],
+    arr: IFetchTeamsStandings[],
   ): IStandingsTableDataSource;
 }

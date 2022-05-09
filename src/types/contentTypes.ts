@@ -26,12 +26,12 @@ export interface ITableColumns {
   width?: number;
   align?: 'center' | 'left';
   fixed?: 'left';
-  render?: (text: any) => any;
+  render?: (tdContent: string | null) => string | null;
   sorter?: (a: any, b: any) => number;
   onCell?: (text: any) => any;
 }
 
-export interface ISources {
+export interface ILatestNewsSources {
   name: string;
   query: string;
 }

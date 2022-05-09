@@ -1,4 +1,4 @@
-export interface INbaPlayersStatsRespone {
+export interface IFetchPlayersStatsApiRespone {
   player_id?: number;
   player_age: number;
   league_id: string;
@@ -28,12 +28,12 @@ export interface INbaPlayersStatsRespone {
   pf: number;
 }
 
-export interface INbaPlayersNamesRender {
+export interface IPlayersNames {
   id: number;
   full_name: string;
 }
 
-export interface INbaPlayersNamesResponse extends INbaPlayersNamesRender {
+export interface IFetchPlayersNamesApiResponse extends IPlayersNames {
   first_name: string;
   is_active: number;
   last_name: string;

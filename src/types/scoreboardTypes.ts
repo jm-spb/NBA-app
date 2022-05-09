@@ -1,4 +1,4 @@
-import { IScoreboardGamesRender, ITeamsInfo, ITeamsStandingsRender } from './apiNbaTypes';
+import { IFetchScoreboardGames, ITeamsInfo, IFetchTeamsStandings } from './apiNbaTypes';
 
 export interface IDatePickerProps {
   onDateChange: (date: string) => void;
@@ -6,14 +6,14 @@ export interface IDatePickerProps {
 
 export interface IScoreboardGamesProps {
   gamesDates: string[];
-  scoreboardGames: IScoreboardGamesRender[][];
-  teamsStandings: ITeamsStandingsRender[];
+  scoreboardGames: IFetchScoreboardGames[][];
+  teamsStandings: IFetchTeamsStandings[];
   isFetching: boolean;
 }
 
 export interface IScoreboardSwiperProps {
   gamesDates: GameDateType[];
-  gamesRenderData: IScoreboardGamesRender[][];
+  gamesRenderData: IFetchScoreboardGames[][];
 }
 
 export type GameDateType = {
@@ -34,7 +34,7 @@ export interface ICreateWinCarets {
 
 export interface ICreateTeamsRecords {
   (
-    teamsStandingsArr: ITeamsStandingsRender[],
+    teamsStandingsArr: IFetchTeamsStandings[],
     teamsInfoObject: ITeamsInfo,
-  ): ITeamsStandingsRender[];
+  ): IFetchTeamsStandings[];
 }

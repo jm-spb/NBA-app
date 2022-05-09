@@ -1,12 +1,12 @@
-import { INbaPlayersNamesRender, INbaPlayersStatsRespone } from './apiNbaStats';
+import { IPlayersNames, IFetchPlayersStatsApiRespone } from './apiNbaStats';
 import { ITeamsByDivisionContent, TeamBasicInfoType } from './contentTypes';
 
-export interface IStatsTableDataSource extends INbaPlayersStatsRespone {
+export interface IPlayersStatsTableDataSource extends IFetchPlayersStatsApiRespone {
   full_name?: string;
 }
 
 export interface ICreateTableDataSource<T> {
-  (playersStatsData: T[], playersNamesData: INbaPlayersNamesRender[]): T[];
+  (playersStatsData: T[], playersNamesData: IPlayersNames[]): T[];
 }
 
 export interface IGetTeamPickerContent {
