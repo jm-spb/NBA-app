@@ -40,7 +40,7 @@ const createTableByTeam = (team: IFetchNbaGameBoxScore[], idx: number) => {
         dataSource={dataSource}
         columns={boxScoreStatsColumns}
         pagination={false}
-        scroll={{ x: 1280 }}
+        scroll={{ x: 1240 }}
         size="middle"
       />
     </div>

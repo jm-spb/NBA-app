@@ -7,7 +7,7 @@ import styles from './StandingsWidgetTable.module.scss';
 import { filterTeamsByGroup } from '../../../../utils/standings';
 import { standingsWidgetTableColumns } from '../../../../content/standingsContent';
 import { apiNba } from '../../../../services/apiNbaService';
-import { ITeamsStandingsRender } from '../../../../types/apiNbaTypes';
+import { IFetchTeamsStandings } from '../../../../types/apiNbaTypes';
 import ErrorMsg from '../../../ErrorMsg';
 import Spinner from '../../../Spinner';
 
@@ -30,12 +30,12 @@ const StandingsWidgetTable = ({
 
   if (isLoading) return <Spinner />;
 
-  const teamsStandings = data as ITeamsStandingsRender[];
+  const teamsStandings = data as IFetchTeamsStandings[];
   const filteredTeamsByGroup = filterTeamsByGroup(
     teamsStandings,
     conference,
     'conference',
-  ) as ITeamsStandingsRender[];
+  ) as IFetchTeamsStandings[];
 
   const dataSource = filteredTeamsByGroup.map((team) => {
     const { lastTenWin } = team;

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { format } from 'date-fns';
-import { IGameSummary, IScoreboardGamesRender } from '../../types/apiNbaTypes';
+import { IGameSummary, IFetchScoreboardGames } from '../../types/apiNbaTypes';
 
 interface IGameSummaryState {
   gameSummaryData: IGameSummary[];
@@ -35,7 +35,7 @@ export const gameSummarySlice = createSlice({
   name: 'gameSummary',
   initialState,
   reducers: {
-    getSummary(state, action: PayloadAction<IScoreboardGamesRender[][]>) {
+    getSummary(state, action: PayloadAction<IFetchScoreboardGames[][]>) {
       const formatedPayload = action.payload.flat();
       state.gameSummaryData = formatedPayload.map(({ gameId, startTime, summary }) => {
         const { arena, officials, scores } = summary as IGameSummary;

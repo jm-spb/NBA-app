@@ -2,7 +2,7 @@ import { getYear } from 'date-fns';
 import {
   ICreateTableDataSource,
   IGetTeamPickerContent,
-  IStatsTableDataSource,
+  IPlayersStatsTableDataSource,
 } from '../types/stats';
 
 export const getAvaliableStatsSeasons = (): number[] => {
@@ -13,10 +13,9 @@ export const getAvaliableStatsSeasons = (): number[] => {
   return seasons;
 };
 
-export const createTableDataSource: ICreateTableDataSource<IStatsTableDataSource> = (
-  playersStatsData,
-  playersNamesData,
-) =>
+export const createTableDataSource: ICreateTableDataSource<
+  IPlayersStatsTableDataSource
+> = (playersStatsData, playersNamesData) =>
   playersStatsData.map(({ player_id, ...rest }) => {
     const findFullNameById = playersNamesData.find(({ id }) => id === player_id);
     return {

@@ -5,12 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 
 import styles from './GameDetailsPage.module.scss';
 import { useAppSelector } from '../../hooks/redux';
-import { IGameDetailsTeamStatsRender, IGameSummary } from '../../types/apiNbaTypes';
+import { IFetchGameDetailsTeamStats, IGameSummary } from '../../types/apiNbaTypes';
 import { apiNba } from '../../services/apiNbaService';
 import {
-  teamsAdditionalStatsTableColumns,
-  teamsBaseStatsTableColumns,
-} from '../../content/gameDetails';
+  gameDetailsAdditionalStatsColumns,
+  gameDetailsBaseStatsColumns,
+} from '../../content/inGameStats';
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
 import GameSummary from './GameSummary';
@@ -25,7 +25,7 @@ const GameDetailsPage = (): JSX.Element => {
     isError: gameDetailsIsError,
     isLoading: gameDetailsIsLoading,
     isFetching: gameDetailsIsFetching,
-  } = apiNba.useFetchNbaGameDetailsQuery(gameId as string);
+  } = apiNba.useFetchGameDetailsQuery(gameId as string);
 
   if (gameDetailsIsError)
     return <ErrorMsg failedData="teams statistics" notAvaliableService="apiNBA" />;
@@ -36,7 +36,7 @@ const GameDetailsPage = (): JSX.Element => {
   ) as IGameSummary;
 
   const { baseStats, additionalStats } =
-    fetchedGameDetailsData as IGameDetailsTeamStatsRender;
+    fetchedGameDetailsData as IFetchGameDetailsTeamStats;
   const baseStatsDataSource = baseStats.map(({ name, ...rest }) => ({
     name: <span className={styles.teamName}>{name}</span>,
     ...rest,
@@ -61,7 +61,7 @@ const GameDetailsPage = (): JSX.Element => {
                 rowClassName={styles.row}
                 rowKey={() => uuidv4()}
                 dataSource={baseStatsDataSource}
-                columns={teamsBaseStatsTableColumns}
+                columns={gameDetailsBaseStatsColumns}
                 pagination={false}
                 scroll={{ x: 1200 }}
                 size="small"
@@ -74,7 +74,7 @@ const GameDetailsPage = (): JSX.Element => {
                 rowClassName={styles.row}
                 rowKey={() => uuidv4()}
                 dataSource={additionalStatsDataSource}
-                columns={teamsAdditionalStatsTableColumns}
+                columns={gameDetailsAdditionalStatsColumns}
                 pagination={false}
                 scroll={{ x: 580 }}
                 size="small"

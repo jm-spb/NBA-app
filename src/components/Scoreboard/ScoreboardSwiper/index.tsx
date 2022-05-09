@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './ScoreboardSwiper.module.scss';
 import { GameDateType, IScoreboardSwiperProps } from '../../../types/scoreboardTypes';
 import { createScoreboardSlides } from '../../../utils/scoreboard';
-import { IScoreboardGamesRender } from '../../../types/apiNbaTypes';
+import { IFetchScoreboardGames } from '../../../types/apiNbaTypes';
 import ScoreboardSlide from '../ScoreboardSlide';
 
 const gamesNotFoundSlide = () => (
@@ -28,7 +28,7 @@ const createGameSlides = ({
   startTime,
   statusGame,
   teamsInfo,
-}: IScoreboardGamesRender): JSX.Element => (
+}: IFetchScoreboardGames): JSX.Element => (
   <SwiperSlide key={gameId} className={styles.swiperSlide}>
     <ScoreboardSlide
       gameId={gameId}
@@ -40,7 +40,7 @@ const createGameSlides = ({
 );
 
 // Return "Games Not Found" when there are no avaliable games
-const handleRenderGameSlides = (gameData: IScoreboardGamesRender[]) =>
+const handleRenderGameSlides = (gameData: IFetchScoreboardGames[]) =>
   gameData.length > 0
     ? gameData.map(createGameSlides)
     : [gameData.length].map(gamesNotFoundSlide);

@@ -7,7 +7,7 @@ import { apiNbaStats } from '../../services/apiNbaStats';
 import { formatSeasons } from '../../utils/standings';
 import { getAvaliableStatsSeasons } from '../../utils/stats';
 import { seasonTypes, statsTableColumns } from '../../content/statsContent';
-import { IStatsTableDataSource } from '../../types/stats';
+import { IPlayersStatsTableDataSource } from '../../types/stats';
 
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
@@ -57,17 +57,16 @@ const StatsPage = (): JSX.Element => {
     [],
   );
 
-  const { data, isError, isLoading, isFetching } =
-    apiNbaStats.useFetchNbaPlayersStatsQuery({
-      teamShortName,
-      selectedSeason,
-      seasonType,
-    });
+  const { data, isError, isLoading, isFetching } = apiNbaStats.useFetchPlayersStatsQuery({
+    teamShortName,
+    selectedSeason,
+    seasonType,
+  });
 
   if (isError) return <ErrorMsg failedData="teams" notAvaliableService="Api NBA Stats" />;
   if (isLoading) return <Spinner />;
 
-  const playersByTeam = data as IStatsTableDataSource[] | null;
+  const playersByTeam = data as IPlayersStatsTableDataSource[] | null;
   let tableDataSource;
 
   if (playersByTeam) {

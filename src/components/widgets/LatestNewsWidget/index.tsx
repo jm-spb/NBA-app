@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from './LatestNewsWidget.module.scss';
 import { apiLatestNews } from '../../../services/apiLatestNews';
 import sources from '../../../content/latestNewsContent';
-import { ILatestNews } from '../../../types/apiLatestNews';
+import { IFetchLatestNews } from '../../../types/apiLatestNews';
 import Spinner from '../../Spinner';
 import ErrorMsg from '../../ErrorMsg';
 
@@ -21,7 +21,7 @@ const LatestNews = (): JSX.Element => {
     return <ErrorMsg failedData="latest news" notAvaliableService="NBA News API" />;
   if (isLoading) return <Spinner />;
 
-  const fetchedNews = data as ILatestNews[];
+  const fetchedNews = data as IFetchLatestNews[];
 
   const changeSource = (key: string) => {
     setSource(key);

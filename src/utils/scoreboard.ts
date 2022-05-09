@@ -1,4 +1,4 @@
-import { ITeamsInfo, ITeamsStandingsRender } from '../types/apiNbaTypes';
+import { ITeamsInfo, IFetchTeamsStandings } from '../types/apiNbaTypes';
 import {
   ICreateScoreboardSlides,
   ICreateTeamsRecords,
@@ -50,6 +50,6 @@ export const createTeamsRecords: ICreateTeamsRecords = (
     (key) =>
       teamsStandingsArray.find(
         ({ fullName }) => teamsInfoObject[key].fullName === fullName,
-      ) as ITeamsStandingsRender,
+      ) as IFetchTeamsStandings,
   );
 };

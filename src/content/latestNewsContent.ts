@@ -1,6 +1,6 @@
-import { ISources } from '../types/contentTypes';
+import { ILatestNewsSources } from '../types/contentTypes';
 
-const sources: ISources[] = [
+const sources: ILatestNewsSources[] = [
   { name: 'ESPN', query: 'espn' },
   { name: 'NBA', query: 'nba' },
   { name: 'SportsIllustrated', query: 'si' },

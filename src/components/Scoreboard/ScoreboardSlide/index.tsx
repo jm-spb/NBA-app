@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
 
 import styles from './ScoreboardSlide.module.scss';
-import { IScoreboardGamesRender } from '../../../types/apiNbaTypes';
+import { IFetchScoreboardGames } from '../../../types/apiNbaTypes';
 
 const ScoreboardSlide = ({
   gameId,
   startTime,
   statusGame,
   teamsInfo: { homeTeamInfo, visitorTeamInfo },
-}: IScoreboardGamesRender): JSX.Element => (
+}: IFetchScoreboardGames): JSX.Element => (
   <div className={styles.slide}>
     <div className={styles.game}>
       <div className={styles.gameInfo}>
@@ -56,9 +56,12 @@ const ScoreboardSlide = ({
     </div>
 
     {statusGame === 'Finished' && (
-      <div className={styles.gameDetailsSlide}>
-        <Link className={styles.gameDetailsLink} to={`/game_details_${gameId}`}>
+      <div className={styles.gameStatsSlide}>
+        <Link className={styles.gameStatsLink} to={`/game_details_${gameId}`}>
           Game Details
+        </Link>
+        <Link className={styles.gameStatsLink} to={`/game_box_score_${gameId}`}>
+          Box Score
         </Link>
       </div>
     )}

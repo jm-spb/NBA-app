@@ -16,7 +16,6 @@ export const getSeasons = (length: number): number[] => {
   const avaliableSeasons = new Array(length)
     .fill(null)
     .map((_, idx) => currentSeason - idx);
-
   return avaliableSeasons;
 };
 
@@ -34,14 +33,15 @@ export const filterTeamsByGroup: IFilterTeamsByGroup = (
   const filterSort = (confName: string) =>
     teamsStandings
       .filter((team) => confName === team[groupName].name)
-
       .sort((a, b) =>
         a[groupName].rank === 0 || b[groupName].rank === 0
           ? Number(b.winPercentage) - Number(a.winPercentage)
           : a[groupName].rank - b[groupName].rank,
       );
 
+  // if function is invoked in StandingsPage
   if (typeof groupData === 'object') return groupData.map(filterSort);
 
+  // if function is invoked in StandingsWidget
   return filterSort(groupData);
 };

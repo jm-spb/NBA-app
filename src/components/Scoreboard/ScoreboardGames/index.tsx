@@ -2,7 +2,7 @@ import React from 'react';
 import SwiperCore, { Navigation } from 'swiper';
 import 'swiper/modules/navigation/navigation.scss';
 
-import { IScoreboardGamesRender } from '../../../types/apiNbaTypes';
+import { IFetchScoreboardGames } from '../../../types/apiNbaTypes';
 import { IScoreboardGamesProps } from '../../../types/scoreboardTypes';
 import {
   formatDatesInGameDateSlide,
@@ -25,7 +25,7 @@ const ScoreboardGames = ({
   const formatedGamesDates = formatDatesInGameDateSlide(gamesDates);
 
   // Create proper data for slides in scoreboard
-  const gamesRenderData: IScoreboardGamesRender[][] = scoreboardGames.map((gameDate) =>
+  const gamesRenderData: IFetchScoreboardGames[][] = scoreboardGames.map((gameDate) =>
     gameDate.map(({ gameId, startTime, statusGame, teamsInfo }) => {
       const startTimeLocal = formatGameStartTime(startTime);
 

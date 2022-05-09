@@ -1,18 +1,18 @@
 import React from 'react';
 
 import styles from './Scoreboard.module.scss';
-import { IScoreboardGamesRender, ITeamsStandingsRender } from '../../types/apiNbaTypes';
+import { IFetchScoreboardGames, IFetchTeamsStandings } from '../../types/apiNbaTypes';
 import { currentDay, formatNextDay, nextDay } from '../../utils/formatDates';
 import { getSeasons } from '../../utils/standings';
 import { apiNba } from '../../services/apiNbaService';
+import { gameSummarySlice } from '../../store/reducers/gameSummarySlice';
+import { useAppDispatch } from '../../hooks/redux';
 import ErrorMsg from '../ErrorMsg';
 import Spinner from '../Spinner';
 import DatePicker from './DatePicker';
 import ScoreboardGames from './ScoreboardGames';
-import { gameSummarySlice } from '../../store/reducers/gameSummarySlice';
-import { useAppDispatch } from '../../hooks/redux';
 
-const seasons = getSeasons(5);
+const seasons = getSeasons(1);
 
 const Scoreboard = (): JSX.Element => {
   const [gamesDates, setGamesDates] = React.useState([currentDay, nextDay]);
@@ -41,11 +41,10 @@ const Scoreboard = (): JSX.Element => {
 
   if (scoreboardGamesIsError)
     return <ErrorMsg failedData="games" notAvaliableService="Api NBA" />;
-
   if (scoreboardGamesIsLoading || teamsStandingsIsLoading) return <Spinner />;
 
-  const scoreboardGames = fetchedScoreboardGames as IScoreboardGamesRender[][];
-  const teamsStandings = fetchedTeamsStandings as ITeamsStandingsRender[];
+  const scoreboardGames = fetchedScoreboardGames as IFetchScoreboardGames[][];
+  const teamsStandings = fetchedTeamsStandings as IFetchTeamsStandings[];
 
   return (
     <div className={styles.inner}>

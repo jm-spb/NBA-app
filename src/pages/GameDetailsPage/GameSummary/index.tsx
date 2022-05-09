@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
 
 import styles from './GameSummary.module.scss';
-import { gameSummaryTableColumns } from '../../../content/gameDetails';
+import { gameSummaryTableColumns } from '../../../content/inGameStats';
 import { IGameSummaryProps } from '../../../types/gameDetails';
 
 const GameSummary = ({ gameSummaryData }: IGameSummaryProps): JSX.Element => {
