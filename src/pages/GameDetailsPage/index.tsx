@@ -17,24 +17,42 @@ import GameSummary from './GameSummary';
 
 const GameDetailsPage = (): JSX.Element => {
   const { gameId } = useParams();
+  const gameIdTyped = gameId as string;
   const { gameSummaryData, isLoading } = useAppSelector(
     (state) => state.gameSummaryReducer,
   );
   const {
     data: fetchedGameDetailsData,
-    isError: gameDetailsIsError,
+    error: gameDetailsError,
     isLoading: gameDetailsIsLoading,
     isFetching: gameDetailsIsFetching,
-  } = apiNba.useFetchGameDetailsQuery(gameId as string);
+  } = apiNba.useFetchGameDetailsQuery(gameIdTyped);
 
-  if (gameDetailsIsError)
-    return <ErrorMsg failedData="teams statistics" notAvaliableService="apiNBA" />;
+  // Find game only when gameId query in url is changed, otherwise do nothing => show previous game
+  const getGameById = React.useMemo(
+    () => gameSummaryData.find((game) => game.gameId === Number(gameIdTyped)),
+    [gameIdTyped],
+  );
+
+  if (gameDetailsError && 'message' in gameDetailsError)
+    return (
+      <ErrorMsg
+        failedData="Teams Statistics"
+        notAvaliableService="apiNBA"
+        details={gameDetailsError.message as string}
+      />
+    );
+  if (!getGameById)
+    return (
+      <ErrorMsg
+        failedData="Teams Statistics"
+        notAvaliableService="apiNBA"
+        details="Game you are looking for is not exist. Please provide a valid game id"
+      />
+    );
   if (isLoading || gameDetailsIsLoading) return <Spinner />;
 
-  const gameById = gameSummaryData.find(
-    (game) => game.gameId === Number(gameId),
-  ) as IGameSummary;
-
+  const gameById = getGameById as IGameSummary;
   const { baseStats, additionalStats } =
     fetchedGameDetailsData as IFetchGameDetailsTeamStats;
   const baseStatsDataSource = baseStats.map(({ name, ...rest }) => ({

@@ -57,13 +57,20 @@ const StatsPage = (): JSX.Element => {
     [],
   );
 
-  const { data, isError, isLoading, isFetching } = apiNbaStats.useFetchPlayersStatsQuery({
+  const { data, error, isLoading, isFetching } = apiNbaStats.useFetchPlayersStatsQuery({
     teamShortName,
     selectedSeason,
     seasonType,
   });
 
-  if (isError) return <ErrorMsg failedData="teams" notAvaliableService="Api NBA Stats" />;
+  if (error && 'message' in error)
+    return (
+      <ErrorMsg
+        failedData="Teams Stats"
+        notAvaliableService="Api NBA Stats"
+        details={error.message as string}
+      />
+    );
   if (isLoading) return <Spinner />;
 
   const playersByTeam = data as IPlayersStatsTableDataSource[] | null;

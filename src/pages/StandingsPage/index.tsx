@@ -1,34 +1,64 @@
 import React from 'react';
 
 import styles from './StandingsPage.module.scss';
-import { ITeamsStandingsRender } from '../../types/apiNbaTypes';
+import { IFetchTeamsStandings } from '../../types/apiNbaTypes';
 import { apiNba } from '../../services/apiNbaService';
-import { formatSeasons, getSeasons } from '../../utils/standings';
+import { filterTeamsByGroup, formatSeasons, getSeasons } from '../../utils/standings';
+import { groupConference, groupDivision } from '../../content/standingsContent';
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
 import StandingsPicker from './StandingsPicker';
 import StandingsTable from './StandingsTable';
+import { GroupByType } from '../../types/standingsTypes';
 
 const seasons = getSeasons(5);
 
 const StandingsPage = (): JSX.Element => {
   const [activeSeason, setActiveSeason] = React.useState(seasons[0].toString());
-  const [groupBy, setGroupBy] = React.useState<'conference' | 'division'>('conference');
-  const { data, isError, isFetching } = apiNba.useFetchTeamsStandingsQuery(activeSeason);
+  const [groupBy, setGroupBy] = React.useState<GroupByType>('conference');
+  const { data, error, isLoading, isFetching } =
+    apiNba.useFetchTeamsStandingsQuery(activeSeason);
 
   const onSeasonChange = React.useCallback((key: string) => {
     setActiveSeason(key);
   }, []);
-  const onGroupChange = React.useCallback((key: 'conference' | 'division') => {
+  const onGroupChange = React.useCallback((key: GroupByType) => {
     setGroupBy(key);
   }, []);
   const formatedSeasons = React.useMemo(() => formatSeasons(seasons), []);
   const tableHeadingSeason = formatSeasons([Number(activeSeason)])[0];
 
-  if (isError)
-    return <ErrorMsg failedData="teams standings" notAvaliableService="Api NBA" />;
+  if (error) {
+    if ('message' in error) {
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={error.message as string}
+        />
+      );
+    }
 
-  const teamsStandings = data as ITeamsStandingsRender[];
+    if ('error' in error) {
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={error.error}
+        />
+      );
+    }
+  }
+
+  if (isLoading) return <Spinner />;
+
+  const teamsStandings = data as IFetchTeamsStandings[];
+  const selectedGroup = groupBy === 'conference' ? groupConference : groupDivision;
+  const filteredTeamsByGroup = filterTeamsByGroup(
+    teamsStandings,
+    selectedGroup,
+    groupBy,
+  ) as IFetchTeamsStandings[][];
 
   return (
     <div className={styles.standings}>
@@ -46,7 +76,7 @@ const StandingsPage = (): JSX.Element => {
         {isFetching ? (
           <Spinner />
         ) : (
-          <StandingsTable teamsStandings={teamsStandings} groupBy={groupBy} />
+          <StandingsTable filteredTeamsByGroup={filteredTeamsByGroup} />
         )}
       </section>
     </div>

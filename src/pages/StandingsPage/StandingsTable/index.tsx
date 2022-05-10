@@ -1,30 +1,23 @@
 import React from 'react';
 import { Table } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
 
 import styles from './StandingsTable.module.scss';
+import { standingsTableColumns } from '../../../content/standingsContent';
 import {
-  groupConference,
-  groupDivision,
-  standingsTableColumns,
-} from '../../../content/standingsContent';
-import { filterTeamsByGroup } from '../../../utils/standings';
-import { IStandingsTableProps } from '../../../types/standingsTypes';
-import { ITeamsStandingsRender } from '../../../types/apiNbaTypes';
+  IStandingsTableCbFunctions,
+  IStandingsTableCreateDataSource,
+  IStandingsTableProps,
+} from '../../../types/standingsTypes';
 
-const createTableDataSource = (
-  team: ITeamsStandingsRender,
-  idx: number,
-  arr: ITeamsStandingsRender[],
-) => {
+const createTableDataSource: IStandingsTableCreateDataSource = (team, idx, arr) => {
   const positionByRank = arr.length > 6 ? team.conference.rank : team.division.rank;
   const renderPosition = positionByRank > 0 ? positionByRank : idx + 1;
 
   return {
     key: team.teamId,
     team: (
-      <div>
+      <>
         <span className={styles.teamRank}>{renderPosition}</span>
         <img
           className={styles.teamImage}
@@ -49,7 +42,7 @@ const createTableDataSource = (
         >
           {team.shortName}
         </a>
-      </div>
+      </>
     ),
     totalWin: team.totalWin,
     totalLoss: team.totalLoss,
@@ -64,11 +57,7 @@ const createTableDataSource = (
   };
 };
 
-const createTableTitle = (
-  groupTeams: ITeamsStandingsRender[],
-  idx: number,
-  arrayToMap: ITeamsStandingsRender[][],
-) => {
+const createTableTitle: IStandingsTableCbFunctions = (groupTeams, idx, arrayToMap) => {
   if (arrayToMap.length === 2)
     return groupTeams[0].conference.name === 'east' ? (
       <span className={styles.title}>Eastern Conference</span>
@@ -81,16 +70,17 @@ const createTableTitle = (
   return <span className={styles.title}>{formatedDivisionName} Division</span>;
 };
 
-const createStandingsTables = (
-  groupTeams: ITeamsStandingsRender[],
-  idx: number,
-  arrayToMap: ITeamsStandingsRender[][],
+const createStandingsTables: IStandingsTableCbFunctions = (
+  groupTeams,
+  idx,
+  arrayToMap,
 ) => {
   const dataSource = groupTeams.map(createTableDataSource);
+  const key = arrayToMap[idx][0].division.name;
 
   return (
     <Table
-      key={uuidv4()}
+      key={key}
       className={styles.table}
       rowClassName={classNames({ [styles.row]: arrayToMap.length === 2 })}
       dataSource={dataSource}
@@ -102,19 +92,8 @@ const createStandingsTables = (
   );
 };
 
-const StandingsTable = ({
-  teamsStandings,
-  groupBy,
-}: IStandingsTableProps): JSX.Element => {
-  const selectedGroup = groupBy === 'conference' ? groupConference : groupDivision;
-
-  const filteredTeamsByGroup = filterTeamsByGroup(
-    teamsStandings,
-    selectedGroup,
-    groupBy,
-  ) as ITeamsStandingsRender[][];
-
-  return <>{filteredTeamsByGroup.map(createStandingsTables)}</>;
-};
+const StandingsTable = ({ filteredTeamsByGroup }: IStandingsTableProps): JSX.Element => (
+  <>{filteredTeamsByGroup.map(createStandingsTables)}</>
+);
 
 export default StandingsTable;
