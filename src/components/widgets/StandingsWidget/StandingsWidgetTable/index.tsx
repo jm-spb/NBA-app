@@ -19,14 +19,33 @@ const StandingsWidgetTable = ({
   currentSeason,
 }: IStandingsWidgetTableProps): JSX.Element => {
   const [conference, setConference] = React.useState('east');
-  const { data, isError, isLoading } = apiNba.useFetchTeamsStandingsQuery(currentSeason);
+  const { data, error, isLoading } = apiNba.useFetchTeamsStandingsQuery(currentSeason);
 
   const handleConferenceChange = (e: RadioChangeEvent) => {
     setConference(e.target.value);
   };
 
-  if (isError)
-    return <ErrorMsg failedData="teams standings" notAvaliableService="Api NBA" />;
+  if (error) {
+    if ('message' in error) {
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={error.message as string}
+        />
+      );
+    }
+
+    if ('error' in error) {
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={error.error}
+        />
+      );
+    }
+  }
 
   if (isLoading) return <Spinner />;
 

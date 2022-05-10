@@ -14,11 +14,31 @@ const { TabPane } = Tabs;
 
 const LatestNews = (): JSX.Element => {
   const [source, setSource] = React.useState('espn');
-  const { data, isError, isLoading, isFetching } =
+  const { data, error, isLoading, isFetching } =
     apiLatestNews.useFetchLatestNewsQuery(source);
 
-  if (isError)
-    return <ErrorMsg failedData="latest news" notAvaliableService="NBA News API" />;
+  if (error) {
+    if ('message' in error) {
+      return (
+        <ErrorMsg
+          failedData="Latest News"
+          notAvaliableService="API Nba News"
+          details={error.message as string}
+        />
+      );
+    }
+
+    if ('error' in error) {
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={error.error}
+        />
+      );
+    }
+  }
+
   if (isLoading) return <Spinner />;
 
   const fetchedNews = data as IFetchLatestNews[];
