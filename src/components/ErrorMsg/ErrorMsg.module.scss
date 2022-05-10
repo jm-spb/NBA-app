@@ -1,8 +1,31 @@
 .error {
   max-width: 1440px;
+  height: 100%;
   margin: 0 auto;
+  overflow-y: auto;
+}
 
-  & > div > div {
-    font-weight: bold;
+.isHidden {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .error {
+    padding: 10px;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      margin-top: 6px;
+    }
+  }
+
+  .message {
+    font-size: 12px;
+  }
+
+  .details {
+    font-size: 12px;
+    margin-top: 6px;
   }
 }
