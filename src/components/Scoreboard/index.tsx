@@ -21,7 +21,7 @@ const Scoreboard = (): JSX.Element => {
 
   const {
     data: fetchedScoreboardGames,
-    isError: scoreboardGamesIsError,
+    error: scoreboardGamesError,
     isLoading: scoreboardGamesIsLoading,
     isFetching: scoreboardGamesIsFetching,
   } = apiNba.useFetchScoreboardGamesQuery(gamesDates);
@@ -39,8 +39,14 @@ const Scoreboard = (): JSX.Element => {
     setGamesDates([date, formatNextDay(date)]);
   }, []);
 
-  if (scoreboardGamesIsError)
-    return <ErrorMsg failedData="games" notAvaliableService="Api NBA" />;
+  if (scoreboardGamesError && 'message' in scoreboardGamesError)
+    return (
+      <ErrorMsg
+        failedData="NBA Games"
+        notAvaliableService="ApiNBA"
+        details={scoreboardGamesError.message as string}
+      />
+    );
   if (scoreboardGamesIsLoading || teamsStandingsIsLoading) return <Spinner />;
 
   const scoreboardGames = fetchedScoreboardGames as IFetchScoreboardGames[][];
