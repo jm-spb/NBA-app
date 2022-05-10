@@ -3,13 +3,13 @@ import { format } from 'date-fns';
 
 import {
   IFetchScoreboardGamesData,
-  IScoreboardGamesRender,
+  IFetchScoreboardGames,
   IFetchTeamsStandingsResponse,
-  ITeamsStandingsRender,
-  IGameDetailsTeamStatsResponse,
+  IFetchTeamsStandings,
+  IFetchGameDetailsApiResponse,
   BaseStatsType,
   AdditionalStatsType,
-  IGameDetailsTeamStatsRender,
+  IFetchGameDetailsTeamStats,
   IFetchGameBoxScoreApiResponse,
   IFetchNbaGameBoxScore,
 } from '../types/apiNbaTypes';
@@ -25,7 +25,7 @@ export const apiNba = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchScoreboardGames: builder.query<IScoreboardGamesRender[][], string[]>({
+    fetchScoreboardGames: builder.query<IFetchScoreboardGames[][], string[]>({
       async queryFn(gameDates, _queryApi, _extraOptions, fetchWithBQ) {
         const currentDayResponse = await fetchWithBQ(`games?date=${gameDates[0]}`);
         const nextDayResponse = await fetchWithBQ(`games?date=${gameDates[1]}`);
@@ -38,7 +38,7 @@ export const apiNba = createApi({
         const allGames = [...currentDayGames.response, ...nextDayGames.response];
 
         // return only necessary properties
-        const unfilteredGames: IScoreboardGamesRender[] = allGames.map(
+        const unfilteredGames: IFetchScoreboardGames[] = allGames.map(
           ({ id, date, status, teams, scores, season, arena, officials }) => ({
             gameId: id,
             startTime: date.start,
@@ -81,7 +81,7 @@ export const apiNba = createApi({
         );
 
         // create an array with grouped games by each date
-        const groupedGames: IScoreboardGamesRender[][] = gameDates.map((gameDate) =>
+        const groupedGames: IFetchScoreboardGames[][] = gameDates.map((gameDate) =>
           unfilteredGames.filter(
             ({ startTime }) => format(new Date(startTime), 'yyyy-MM-dd') === gameDate,
           ),
@@ -91,7 +91,7 @@ export const apiNba = createApi({
       },
     }),
 
-    fetchTeamsStandings: builder.query<ITeamsStandingsRender[], string>({
+    fetchTeamsStandings: builder.query<IFetchTeamsStandings[], string>({
       query: (season) => `standings?league=standard&season=${season}`,
       transformResponse: (rawResult: { response: IFetchTeamsStandingsResponse[] }) =>
         rawResult.response.map(
@@ -133,11 +133,11 @@ export const apiNba = createApi({
         ),
     }),
 
-    fetchNbaGameDetails: builder.query<IGameDetailsTeamStatsRender, string>({
+    fetchGameDetails: builder.query<IFetchGameDetailsTeamStats, string>({
       async queryFn(geamId, _queryApi, _extraOptions, fetchWithBQ) {
         const fetchedGameSummary = await fetchWithBQ(`games/statistics?id=${geamId}`);
         const fetchedGameSummaryTyped =
-          fetchedGameSummary.data as IGameDetailsTeamStatsResponse;
+          fetchedGameSummary.data as IFetchGameDetailsApiResponse;
 
         const baseStatsArray: BaseStatsType[] = [];
         const additionalStatsArray: AdditionalStatsType[] = [];
@@ -213,6 +213,6 @@ export const apiNba = createApi({
 export const {
   useFetchScoreboardGamesQuery,
   useFetchTeamsStandingsQuery,
-  useFetchNbaGameDetailsQuery,
+  useFetchGameDetailsQuery,
   useFetchGameBoxScoreQuery,
 } = apiNba;

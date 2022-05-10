@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
   IFetchNbaPlayersStatsParams,
-  INbaPlayersNamesRender,
-  INbaPlayersNamesResponse,
+  IPlayersNames,
+  IFetchPlayersNamesApiResponse,
 } from '../types/apiNbaStats';
-import { IStatsTableDataSource } from '../types/stats';
+import { IPlayersStatsTableDataSource } from '../types/stats';
 import { createTableDataSource } from '../utils/stats';
 
 export const apiNbaStats = createApi({
@@ -18,8 +18,8 @@ export const apiNbaStats = createApi({
     },
   }),
   endpoints: (builder) => ({
-    fetchNbaPlayersStats: builder.query<
-      IStatsTableDataSource[] | null,
+    fetchPlayersStats: builder.query<
+      IPlayersStatsTableDataSource[] | null,
       IFetchNbaPlayersStatsParams
     >({
       async queryFn(
@@ -33,16 +33,17 @@ export const apiNbaStats = createApi({
             `${seasonType}/?team_abbreviation=${teamShortName}&league_id=00&season_id=${selectedSeason}`,
           );
 
-          const playersStatsTyped = fetchedPlayersStats.data as IStatsTableDataSource[];
+          const playersStatsTyped =
+            fetchedPlayersStats.data as IPlayersStatsTableDataSource[];
           const playersIds = playersStatsTyped.map(({ player_id }) => player_id);
 
-          const playersNames: INbaPlayersNamesRender[] = [];
+          const playersNames: IPlayersNames[] = [];
           for (let i = 0; i < playersIds.length; i++) {
             // use await in for loop to prevent function from sending an excessive amount of requests in parallel (max: 10 req/sec)
             // eslint-disable-next-line no-await-in-loop
             const fetchedPlayersNames = await fetchWithBQ(`players/${playersIds[i]}`);
             const playersNamesTyped =
-              fetchedPlayersNames.data as INbaPlayersNamesResponse;
+              fetchedPlayersNames.data as IFetchPlayersNamesApiResponse;
 
             playersNames.push({
               id: playersNamesTyped.id,
@@ -59,4 +60,4 @@ export const apiNbaStats = createApi({
   }),
 });
 
-export const { useFetchNbaPlayersStatsQuery } = apiNbaStats;
+export const { useFetchPlayersStatsQuery } = apiNbaStats;
