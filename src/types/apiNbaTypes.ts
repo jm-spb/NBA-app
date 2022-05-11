@@ -159,27 +159,30 @@ export interface ITeamsInfo {
   visitorTeamInfo: ITeamFullInfo;
 }
 
-export interface ITeamBaseStats {
-  points: number;
-  fgm: number;
+export interface IBoxScoreTableTotals {
+  fgm: number | JSX.Element;
   fga: number;
   fgp: string;
   ftm: number;
   fta: number;
   ftp: string;
-  tpm: number;
+  tpm: number | JSX.Element;
   tpa: number;
   tpp: string;
   offReb: number;
   defReb: number;
-  totReb: number;
-  assists: number;
+  totReb: number | JSX.Element;
+  assists: number | JSX.Element;
   pFouls: number;
-  steals: number;
+  steals: number | JSX.Element;
   turnovers: number;
-  blocks: number;
+  blocks: number | JSX.Element;
+  points: number | JSX.Element;
+}
+
+export interface ITeamBaseStats extends IBoxScoreTableTotals {
   plusMinus: string;
-  min: string;
+  min?: string;
   pos?: string;
   comment?: any;
 }
