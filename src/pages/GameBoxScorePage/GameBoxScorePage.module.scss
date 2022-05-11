@@ -31,6 +31,10 @@
         display: none;
       }
     }
+
+    tfoot > tr > td {
+      border-bottom: none;
+    }
   }
 }
 
@@ -45,6 +49,11 @@
 .playerPos {
   margin-left: 10px;
   color: $dark-grey-color;
+}
+
+.important {
+  font-weight: 600;
+  color: $table-row-border;
 }
 
 @media (max-width: 720px) {
