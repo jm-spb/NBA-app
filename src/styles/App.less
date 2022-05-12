@@ -1,0 +1,69 @@
+@import '~antd/dist/antd.less';
+
+body {
+  overflow-y: scroll;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse !important;
+}
+
+.layout {
+  // stick footer to bottom
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+
+  &-top {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+  }
+
+  &-content {
+    padding-top: 154px;
+    flex: 1;
+  }
+
+  &-adv {
+    min-height: 70px;
+    margin: 12px 0;
+  }
+}
+
+.main {
+  margin-bottom: 24px;
+  min-height: 100px;
+  position: relative;
+
+  > div {
+    margin: 24px auto;
+  }
+}
+
+.scoreboard {
+  position: relative;
+  width: 100%;
+  height: 90px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.burger-button {
+  position: fixed;
+  width: 36px;
+  height: 30px;
+  right: 36px;
+  top: 36px;
+}
+
+.burger-bars {
+  background-color: rgb(255, 255, 255);
+}
