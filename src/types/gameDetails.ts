@@ -1,14 +1,10 @@
-import { IGameSummary, ITeamAdditionalStats, ITeamBaseStats } from './apiNbaTypes';
+import { ITeamAdditionalStats, ITeamBaseStats } from './apiNbaTypes';
 
-export interface IGameSummaryProps {
-  gameSummaryData: IGameSummary;
-}
-
-type TeamInfoType = {
+interface TeamInfoType {
   id: number;
   name: string;
   logo: string;
-};
+}
 
 export interface ITeamsBaseStatsProps {
   baseStats: (TeamInfoType & ITeamBaseStats)[];

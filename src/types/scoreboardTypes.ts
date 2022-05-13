@@ -1,25 +1,9 @@
-import { IFetchScoreboardGames, ITeamsInfo, IFetchTeamsStandings } from './apiNbaTypes';
+import { ITeamsInfo, IFetchTeamsStandings } from './apiNbaTypes';
 
-export interface IDatePickerProps {
-  onDateChange: (date: string) => void;
-}
-
-export interface IScoreboardGamesProps {
-  gamesDates: string[];
-  scoreboardGames: IFetchScoreboardGames[][];
-  teamsStandings: IFetchTeamsStandings[];
-  isFetching: boolean;
-}
-
-export interface IScoreboardSwiperProps {
-  gamesDates: GameDateType[];
-  gamesRenderData: IFetchScoreboardGames[][];
-}
-
-export type GameDateType = {
+export interface IGameDate {
   weekDay: string;
   monthDay: string;
-};
+}
 
 export interface ICreateScoreboardSlides {
   (

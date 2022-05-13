@@ -2,14 +2,19 @@ import { IFetchTeamsStandings } from './apiNbaTypes';
 
 export type GroupByType = 'conference' | 'division';
 
-export interface IStandingsTableProps {
-  filteredTeamsByGroup: IFetchTeamsStandings[][];
-}
-
-export interface IStandingsPickerProps {
-  seasons: string[];
-  onSeasonChange: (key: string) => void;
-  onGroupChange: (key: GroupByType) => void;
+interface IStandingsTableDataSource {
+  key: number;
+  team: JSX.Element;
+  totalWin: number;
+  totalLoss: number;
+  winPercentage: string;
+  gamesBehind: string;
+  conf: string;
+  div: string;
+  home: string;
+  road: string;
+  last10: string;
+  streak: string;
 }
 
 export interface IFormatSeasons {
@@ -30,21 +35,6 @@ export interface IStandingsTableCbFunctions {
     idx: number,
     arrayToMap: IFetchTeamsStandings[][],
   ): JSX.Element;
-}
-
-interface IStandingsTableDataSource {
-  key: number;
-  team: JSX.Element;
-  totalWin: number;
-  totalLoss: number;
-  winPercentage: string;
-  gamesBehind: string;
-  conf: string;
-  div: string;
-  home: string;
-  road: string;
-  last10: string;
-  streak: string;
 }
 
 export interface IStandingsTableCreateDataSource {

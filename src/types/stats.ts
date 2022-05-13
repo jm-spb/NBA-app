@@ -1,5 +1,5 @@
 import { IPlayersNames, IFetchPlayersStatsApiRespone } from './apiNbaStats';
-import { ITeamsByDivisionContent, TeamBasicInfoType } from './contentTypes';
+import { ITeamsByDivisionContent, ITeamShortInfo } from './contentTypes';
 
 export interface IPlayersStatsTableDataSource extends IFetchPlayersStatsApiRespone {
   full_name?: string;
@@ -10,5 +10,5 @@ export interface ICreateTableDataSource<T> {
 }
 
 export interface IGetTeamPickerContent {
-  (content: ITeamsByDivisionContent[]): TeamBasicInfoType[];
+  (content: ITeamsByDivisionContent[]): ITeamShortInfo[];
 }

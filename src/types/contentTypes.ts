@@ -1,13 +1,13 @@
-export type TeamBasicInfoType = {
+export interface ITeamShortInfo {
   teamName: string;
   nickName: string;
   teamLogo: string;
   shortName?: string;
-};
+}
 
 export interface ITeamsByDivisionContent {
   division: string;
-  teams: TeamBasicInfoType[];
+  teams: ITeamShortInfo[];
 }
 
 export interface IMainCarouselContent {
@@ -17,6 +17,7 @@ export interface IMainCarouselContent {
   link: string;
   image: string;
   paginationText: string;
+  description: string;
 }
 
 export interface ITableColumns {
@@ -28,7 +29,7 @@ export interface ITableColumns {
   fixed?: 'left';
   render?: (tdContent: string | null) => string | null;
   sorter?: (a: any, b: any) => number;
-  onCell?: (text: any) => any;
+  onCell?: (data: any) => { colSpan: number };
 }
 
 export interface ILatestNewsSources {
