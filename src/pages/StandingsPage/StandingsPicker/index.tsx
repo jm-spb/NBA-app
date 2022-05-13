@@ -1,9 +1,7 @@
 import React from 'react';
 import { Select } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-
 import styles from './StandingsPicker.module.scss';
-import { IStandingsPickerProps } from '../../../types/standingsTypes';
+import { StandingsPickerProps } from '../../../types/props';
 
 const { Option } = Select;
 
@@ -11,17 +9,15 @@ const StandingsPicker = ({
   seasons,
   onSeasonChange,
   onGroupChange,
-}: IStandingsPickerProps): JSX.Element => {
-  console.log('Standings Picker');
-
+}: StandingsPickerProps): JSX.Element => {
   const seasonPicker = seasons.map((season) => (
-    <Option key={uuidv4()} value={season}>
+    <Option key={season} value={season}>
       {season}
     </Option>
   ));
 
   const groupByPicker = ['Conference', 'Division'].map((group) => (
-    <Option key={uuidv4()} value={group}>
+    <Option key={group} value={group}>
       {group}
     </Option>
   ));

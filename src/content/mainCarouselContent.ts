@@ -16,6 +16,7 @@ const mainCarouselContent: IMainCarouselContent[] = [
     link: 'https://www.nba.com/75',
     image: nba_75,
     paginationText: 'This is the NBA 75th Anniversary Team',
+    description: 'NBA 75',
   },
   {
     heading: 'Stream live and on-demand games on the NBA app or on nba.com.',
@@ -26,6 +27,7 @@ const mainCarouselContent: IMainCarouselContent[] = [
     link: 'https://watch.nba.com/streaming-subscriptions',
     image: nba_league_pass,
     paginationText: 'Explore the World of NBA with League Pass',
+    description: 'NBA Stream',
   },
   {
     heading: 'NBA Apparel and Jerseys at www.nbastore.eu',
@@ -36,6 +38,7 @@ const mainCarouselContent: IMainCarouselContent[] = [
     link: 'https://www.nbastore.eu/en/',
     image: nba_store,
     paginationText: 'Checkout the Official NBA Store',
+    description: 'NBA Store',
   },
   {
     heading: 'Authentic and Verified. All Tickets. One Site.',
@@ -46,6 +49,7 @@ const mainCarouselContent: IMainCarouselContent[] = [
     link: 'https://nbatickets.nba.com/home/',
     image: nba_tickets,
     paginationText: 'Official Source of Authentic NBA Tickets',
+    description: 'Tickets',
   },
   {
     heading:
@@ -57,6 +61,7 @@ const mainCarouselContent: IMainCarouselContent[] = [
     link: 'https://cares.nba.com/',
     image: nba_cares,
     paginationText: 'NBA Cares - the League’s Global Social Responsibility Program',
+    description: 'NBA Cares',
   },
 ];
 

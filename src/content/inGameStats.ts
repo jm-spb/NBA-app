@@ -1,3 +1,4 @@
+import { IFetchNbaGameBoxScore } from '../types/apiNbaTypes';
 import { ITableColumns } from '../types/contentTypes';
 
 export const gameSummaryTableColumns: ITableColumns[] = [
@@ -43,9 +44,9 @@ export const gameSummaryTableColumns: ITableColumns[] = [
 // Only need in GameBoxScorePage tables. In other tables  - colSpan: 1 (nothing happens)
 // colSpan: 0 - collapsed columns
 // if minutesToSort === 0 or null, then columns will be collapsed
-const sharedOnCell = (text: any) => {
-  if (text.minutesToSort === undefined) return { colSpan: 1 };
-  if (text.minutesToSort > 0) return { colSpan: 1 };
+const sharedOnCell = (data: IFetchNbaGameBoxScore) => {
+  if (data.minutesToSort === undefined) return { colSpan: 1 };
+  if (data.minutesToSort > 0) return { colSpan: 1 };
   return { colSpan: 0 };
 };
 
@@ -255,14 +256,14 @@ export const boxScoreStatsColumns: ITableColumns[] = [
     dataIndex: 'min',
     key: 'min',
     align: 'left' as const,
-    render: (text) => {
-      if (text === null) return 'DND - Injury/Illness';
-      const minutesPlayed = Number(text.split(':').join(''));
+    render: (tdContent: string | null): string | null => {
+      if (tdContent === null) return 'DND - Injury/Illness';
+      const minutesPlayed = Number(tdContent.split(':').join(''));
       if (minutesPlayed === 0) return "DNP - Coach's Decision";
-      return text;
+      return tdContent;
     },
-    onCell: (text) => ({
-      colSpan: text.minutesToSort ? 1 : 20,
+    onCell: (data: IFetchNbaGameBoxScore) => ({
+      colSpan: data.minutesToSort ? 1 : 20,
     }),
   },
   ...baseTableColumns,

@@ -3,7 +3,7 @@ import SwiperCore, { Navigation } from 'swiper';
 import 'swiper/modules/navigation/navigation.scss';
 
 import { IFetchScoreboardGames } from '../../../types/apiNbaTypes';
-import { IScoreboardGamesProps } from '../../../types/scoreboardTypes';
+import { ScoreboardGamesProps } from '../../../types/props';
 import {
   formatDatesInGameDateSlide,
   formatGameStartTime,
@@ -19,7 +19,7 @@ const ScoreboardGames = ({
   scoreboardGames,
   teamsStandings,
   isFetching,
-}: IScoreboardGamesProps): JSX.Element => {
+}: ScoreboardGamesProps): JSX.Element => {
   if (isFetching) return <Spinner />;
 
   const formatedGamesDates = formatDatesInGameDateSlide(gamesDates);

@@ -3,9 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from './ScoreboardSwiper.module.scss';
-import { GameDateType, IScoreboardSwiperProps } from '../../../types/scoreboardTypes';
-import { createScoreboardSlides } from '../../../utils/scoreboard';
+import { ScoreboardSwiperProps } from '../../../types/props';
+import { IGameDate } from '../../../types/scoreboardTypes';
 import { IFetchScoreboardGames } from '../../../types/apiNbaTypes';
+import { createScoreboardSlides } from '../../../utils/scoreboard';
 import ScoreboardSlide from '../ScoreboardSlide';
 
 const gamesNotFoundSlide = () => (
@@ -14,7 +15,7 @@ const gamesNotFoundSlide = () => (
   </SwiperSlide>
 );
 
-const createGameDateSlides = ({ weekDay, monthDay }: GameDateType) => (
+const createGameDateSlides = ({ weekDay, monthDay }: IGameDate) => (
   <SwiperSlide key={uuidv4()} className={styles.dateSlide}>
     <div className={styles.content}>
       <p className={styles.weekday}>{weekDay}</p>
@@ -48,7 +49,7 @@ const handleRenderGameSlides = (gameData: IFetchScoreboardGames[]) =>
 const ScoreboardSwiper = ({
   gamesDates,
   gamesRenderData,
-}: IScoreboardSwiperProps): JSX.Element => {
+}: ScoreboardSwiperProps): JSX.Element => {
   const gameDateSlides = gamesDates.map(createGameDateSlides);
   const renderGameDaySlides = gamesRenderData.map(handleRenderGameSlides);
 

@@ -5,9 +5,9 @@ import classNames from 'classnames';
 
 import styles from './GameSummary.module.scss';
 import { gameSummaryTableColumns } from '../../../content/inGameStats';
-import { IGameSummaryProps } from '../../../types/gameDetails';
+import { GameSummaryProps } from '../../../types/props';
 
-const GameSummary = ({ gameSummaryData }: IGameSummaryProps): JSX.Element => {
+const GameSummary = ({ gameSummaryData }: GameSummaryProps): JSX.Element => {
   const { arena, date, officials, scores } = gameSummaryData;
   const dataSource = scores.map(({ team, linescore, final }, teamIdx) => {
     // todo: refactor changing color by quarter

@@ -7,8 +7,8 @@ import { standingsTableColumns } from '../../../content/standingsContent';
 import {
   IStandingsTableCbFunctions,
   IStandingsTableCreateDataSource,
-  IStandingsTableProps,
 } from '../../../types/standingsTypes';
+import { StandingsTableProps } from '../../../types/props';
 
 const createTableDataSource: IStandingsTableCreateDataSource = (team, idx, arr) => {
   const positionByRank = arr.length > 6 ? team.conference.rank : team.division.rank;
@@ -25,6 +25,7 @@ const createTableDataSource: IStandingsTableCreateDataSource = (team, idx, arr) 
           alt={team.fullName}
           width={20}
           height="auto"
+          loading="lazy"
         />
         <a
           className={styles.teamFullName}
@@ -92,7 +93,7 @@ const createStandingsTables: IStandingsTableCbFunctions = (
   );
 };
 
-const StandingsTable = ({ filteredTeamsByGroup }: IStandingsTableProps): JSX.Element => (
+const StandingsTable = ({ filteredTeamsByGroup }: StandingsTableProps): JSX.Element => (
   <>{filteredTeamsByGroup.map(createStandingsTables)}</>
 );
 

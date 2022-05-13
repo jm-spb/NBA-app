@@ -2,13 +2,13 @@ import React from 'react';
 import { Alert, Button } from 'antd';
 import classNames from 'classnames';
 import styles from './ErrorMsg.module.scss';
-import { IErrorMsgProps } from '../../types/errorMsg';
+import { ErrorMsgProps } from '../../types/props';
 
 const ErrorMsg = ({
   failedData,
   notAvaliableService,
   details,
-}: IErrorMsgProps): JSX.Element => {
+}: ErrorMsgProps): JSX.Element => {
   const [isHidden, setIsHidden] = React.useState(true);
   const handleOnClick = () => {
     setIsHidden((state) => !state);

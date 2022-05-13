@@ -1,10 +1,9 @@
 import React from 'react';
 import { DatePicker } from 'antd';
-
 import styles from './DatePicker.module.scss';
-import { IDatePickerProps } from '../../../types/scoreboardTypes';
+import { DatePickerProps } from '../../../types/props';
 
-const DatePickerCustom = ({ onDateChange }: IDatePickerProps): JSX.Element => {
+const DatePickerCustom = ({ onDateChange }: DatePickerProps): JSX.Element => {
   const onChange = (date: any | null, dateString: string) => {
     if (date) onDateChange(dateString);
   };

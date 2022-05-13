@@ -1,16 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
-
 import styles from './ScoreboardSlide.module.scss';
-import { IFetchScoreboardGames } from '../../../types/apiNbaTypes';
+import { ScoreboardSlideProps } from '../../../types/props';
 
 const ScoreboardSlide = ({
   gameId,
   startTime,
   statusGame,
   teamsInfo: { homeTeamInfo, visitorTeamInfo },
-}: IFetchScoreboardGames): JSX.Element => (
+}: ScoreboardSlideProps): JSX.Element => (
   <div className={styles.slide}>
     <div className={styles.game}>
       <div className={styles.gameInfo}>
