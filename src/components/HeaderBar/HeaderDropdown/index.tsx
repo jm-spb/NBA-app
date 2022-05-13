@@ -1,22 +1,21 @@
 import React from 'react';
 import { Menu, Dropdown } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-
 import styles from './HeaderDropdown.module.scss';
 import teamsByDivisionContent from '../../../content/teamsByDivisionContent';
 
 const menuTeams = (
   <Menu className={styles.menuTeams}>
     {teamsByDivisionContent.map(({ division, teams }) => (
-      <Menu.ItemGroup key={uuidv4()} className={styles.division} title={division}>
+      <Menu.ItemGroup key={division} className={styles.division} title={division}>
         {teams.map(({ teamName, nickName, teamLogo }) => (
-          <Menu.Item key={uuidv4()} className={styles.team}>
+          <Menu.Item key={teamName} className={styles.team}>
             <img
               className={styles.teamLogo}
               src={teamLogo}
               width={25}
               height={25}
               alt={`${teamName} Logo`}
+              loading="lazy"
             />
             <a
               className={styles.teamFullName}
