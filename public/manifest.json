@@ -1,0 +1,21 @@
+{
+  "name": "JM NBA App",
+  "short_name": "JM NBA App",
+  "icons": [
+    {
+      "src": "icons/NBAlogo_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/NBAlogo_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#051c2d",
+  "background_color": "#051c2d"
+}
