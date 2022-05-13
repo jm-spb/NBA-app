@@ -40,6 +40,8 @@
 .listItem {
   min-width: fit-content;
   padding: 0 12px;
+  display: flex;
+  flex-direction: column;
 
   &:nth-child(5) {
     margin-left: 20%;
@@ -82,6 +84,7 @@
 
 .bottomHeading {
   color: $white-color;
+  font-size: 12px;
   font-weight: 600;
   margin-bottom: 6px;
 }

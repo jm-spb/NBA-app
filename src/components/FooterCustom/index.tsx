@@ -1,7 +1,5 @@
 import React from 'react';
 import { Layout, List, Menu } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
-
 import styles from './FooterCustom.module.scss';
 import { footerBottomLegalsData, footerTopListData } from '../../content/footerContent';
 
@@ -14,10 +12,10 @@ const FooterContent = (): JSX.Element => {
       className={styles.top}
       dataSource={footerTopListData}
       renderItem={({ title, links }) => (
-        <div className={styles.listItem}>
-          <List.Item className={styles.listItemHeader}>{title}</List.Item>
+        <li className={styles.listItem}>
+          <span className={styles.listItemHeader}>{title}</span>
           {links.map(({ name, path }) => (
-            <List.Item key={uuidv4()} className={styles.listItemContent}>
+            <span key={name} className={styles.listItemContent}>
               <a
                 className={styles.link}
                 href={path}
@@ -26,9 +24,9 @@ const FooterContent = (): JSX.Element => {
               >
                 {name}
               </a>
-            </List.Item>
+            </span>
           ))}
-        </div>
+        </li>
       )}
     />
   );
@@ -55,7 +53,7 @@ const FooterContent = (): JSX.Element => {
   );
 
   const footerBottomLegals = footerBottomLegalsData.map(({ legalName, legalLink }) => (
-    <li key={uuidv4()}>
+    <li key={legalName}>
       <a
         className={styles.bottomLink}
         href={legalLink}
@@ -72,12 +70,11 @@ const FooterContent = (): JSX.Element => {
       <div className={styles.container}>
         {footerTopListResponsive}
         {footerTopList}
-
         <hr className={styles.divider} />
         <div className={styles.bottom}>
-          <h5 className={styles.bottomHeading}>
+          <h1 className={styles.bottomHeading}>
             &copy; 2022 NBA Media Ventures, LLC. All rights reserved.
-          </h5>
+          </h1>
           <ul className={styles.bottomLegals}>{footerBottomLegals}</ul>
           <p className={styles.bottomParagraph}>
             If you are having difficulty accessing any content on this website, please
