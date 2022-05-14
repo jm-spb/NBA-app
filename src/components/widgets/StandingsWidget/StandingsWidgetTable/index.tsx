@@ -8,16 +8,13 @@ import { filterTeamsByGroup } from '../../../../utils/standings';
 import { standingsWidgetTableColumns } from '../../../../content/standingsContent';
 import { apiNba } from '../../../../services/apiNbaService';
 import { IFetchTeamsStandings } from '../../../../types/apiNbaTypes';
+import { StandingsWidgetTableProps } from '../../../../types/props';
 import ErrorMsg from '../../../ErrorMsg';
 import Spinner from '../../../Spinner';
 
-interface IStandingsWidgetTableProps {
-  currentSeason: string;
-}
-
 const StandingsWidgetTable = ({
   currentSeason,
-}: IStandingsWidgetTableProps): JSX.Element => {
+}: StandingsWidgetTableProps): JSX.Element => {
   const [conference, setConference] = React.useState('east');
   const { data, error, isLoading } = apiNba.useFetchTeamsStandingsQuery(currentSeason);
 
@@ -35,7 +32,6 @@ const StandingsWidgetTable = ({
         />
       );
     }
-
     if ('error' in error) {
       return (
         <ErrorMsg
@@ -46,8 +42,7 @@ const StandingsWidgetTable = ({
       );
     }
   }
-
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner loadingData="Standings table" />;
 
   const teamsStandings = data as IFetchTeamsStandings[];
   const filteredTeamsByGroup = filterTeamsByGroup(
@@ -71,8 +66,13 @@ const StandingsWidgetTable = ({
             alt={team.fullName}
             width={20}
             height="auto"
+            loading="lazy"
           />
-          <a href={`https://nba.com/${team.nickName}`} target="_blank" rel="noreferrer">
+          <a
+            href={`https://nba.com/${team.nickName}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {team.shortName}
           </a>
         </div>
@@ -101,7 +101,7 @@ const StandingsWidgetTable = ({
   });
 
   return (
-    <div className={styles.container}>
+    <>
       <Radio.Group
         className={styles.buttons}
         defaultValue={conference}
@@ -117,7 +117,7 @@ const StandingsWidgetTable = ({
         columns={standingsWidgetTableColumns}
         pagination={false}
       />
-    </div>
+    </>
   );
 };
 
