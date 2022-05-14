@@ -112,30 +112,35 @@ const createSummaryRow: ICreateSummaryRow = (tableData) => {
   totalsData.tpp = (((totalsData.tpm as number) / totalsData.tpa) * 100).toFixed(1);
 
   const keys = Object.keys(totalsData) as Array<keyof IBoxScoreTableTotals>;
-  const totalsRow = keys.map((stat, idx) => (
-    <Table.Summary.Cell key={stat} index={idx + 1} colSpan={1} align="center">
-      <Text
-        className={classnames({
-          [styles.important]:
-            idx === 0 ||
-            idx === 3 ||
-            idx === 11 ||
-            idx === 12 ||
-            idx === 13 ||
-            idx === 14 ||
-            idx === 17,
-        })}
-        strong
-      >
-        {totalsData[stat]}
-      </Text>
-    </Table.Summary.Cell>
-  ));
+  const totalsRow = keys.map((stat, idx) => {
+    const colSpan = idx === 0 ? 2 : 1;
+    const align = idx === 0 ? 'right' : 'center';
+
+    return (
+      <Table.Summary.Cell key={stat} index={idx + 1} colSpan={colSpan} align={align}>
+        <Text
+          className={classnames({
+            [styles.important]:
+              idx === 0 ||
+              idx === 3 ||
+              idx === 11 ||
+              idx === 12 ||
+              idx === 13 ||
+              idx === 14 ||
+              idx === 17,
+          })}
+          strong
+        >
+          {totalsData[stat]}
+        </Text>
+      </Table.Summary.Cell>
+    );
+  });
 
   return (
     <Table.Summary fixed>
       <Table.Summary.Row>
-        <Table.Summary.Cell index={0} colSpan={2}>
+        <Table.Summary.Cell index={0} colSpan={1} className={styles.totals}>
           <Text strong>TOTALS</Text>
         </Table.Summary.Cell>
         {totalsRow}
@@ -174,18 +179,18 @@ const GameBoxScorePage = (): JSX.Element => {
     return (
       <ErrorMsg
         failedData="players statistics"
-        notAvaliableService="ApiNBA"
+        notAvaliableService="Api NBA"
         details={error.message as string}
       />
     );
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner loadingData="Game Box Score" />;
 
   // if game is not exist (invalid game id)
   if (data?.length === 0)
     return (
       <ErrorMsg
         failedData="Teams Statistics"
-        notAvaliableService="apiNBA"
+        notAvaliableService="Api NBA"
         details="Game you are looking for is not exist. Please provide a valid game id"
       />
     );
