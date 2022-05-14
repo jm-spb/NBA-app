@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Tabs } from 'antd';
-import { v4 as uuidv4 } from 'uuid';
 
 import styles from './LatestNewsWidget.module.scss';
 import { apiLatestNews } from '../../../services/apiLatestNews';
@@ -13,9 +12,9 @@ const { Meta } = Card;
 const { TabPane } = Tabs;
 
 const LatestNews = (): JSX.Element => {
-  const [source, setSource] = React.useState('espn');
+  const [newsSource, setNewsSource] = React.useState('espn');
   const { data, error, isLoading, isFetching } =
-    apiLatestNews.useFetchLatestNewsQuery(source);
+    apiLatestNews.useFetchLatestNewsQuery(newsSource);
 
   if (error) {
     if ('message' in error) {
@@ -27,34 +26,31 @@ const LatestNews = (): JSX.Element => {
         />
       );
     }
-
     if ('error' in error) {
       return (
         <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
+          failedData="Latest News"
+          notAvaliableService="API Nba News"
           details={error.error}
         />
       );
     }
   }
-
-  if (isLoading) return <Spinner />;
+  if (isLoading) return <Spinner loadingData="Latest news" />;
 
   const fetchedNews = data as IFetchLatestNews[];
-
   const changeSource = (key: string) => {
-    setSource(key);
+    setNewsSource(key);
   };
 
-  const cards = fetchedNews.map(({ title, url }) => (
-    <Card key={uuidv4()} loading={isFetching} className={styles.card}>
+  const cards = fetchedNews.map(({ source, title, url }) => (
+    <Card key={title} loading={isFetching} className={styles.card}>
       <Meta
         className={styles.meta}
         title={title}
         description={
           <a href={url} target="_blank" rel="noopener noreferrer">
-            Read More
+            {`Read More on ${source}.com`}
           </a>
         }
       />
@@ -72,12 +68,12 @@ const LatestNews = (): JSX.Element => {
   );
 
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <div className={styles.title}>
-        <h2 className={styles.heading}>LATEST NEWS</h2>
+        <h1 className={styles.heading}>LATEST NEWS</h1>
       </div>
       {renderedNews}
-    </div>
+    </section>
   );
 };
 
