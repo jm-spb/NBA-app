@@ -12,6 +12,10 @@
   margin-bottom: 16px;
   min-height: 120px;
 
+  table {
+    border-collapse: collapse;
+  }
+
   tr {
     th {
       font-size: 10px;
@@ -22,6 +26,7 @@
   & :global {
     .ant-table-cell {
       padding: 12px;
+      min-width: 50px !important;
     }
   }
 }
@@ -46,17 +51,68 @@
   }
 }
 
+@media (max-width: 1024px) {
+  .table {
+    & :global {
+      .ant-table-cell {
+        padding: 8px 6px;
+      }
+    }
+  }
+}
+
+@media (max-width: 840px) {
+  .table {
+    col {
+      width: 220px !important;
+    }
+
+    & :global {
+      .ant-table-cell {
+        padding: 8px 4px;
+      }
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  .table {
+    col {
+      width: 110px !important;
+    }
+  }
+
+  .teamRank {
+    margin-right: 4px;
+  }
+
+  .teamFullName {
+    display: none;
+  }
+
+  .teamShortName {
+    display: inline-block;
+  }
+}
+
 @media (max-width: 480px) {
   .table {
     col {
       width: 110px !important;
     }
 
-    & :global {
-      .ant-table-cell {
-        padding: 8px 0;
-      }
-    }
+    // tr {
+    //   th {
+    //     min-width: 50px !important;
+    //     max-width: 55px !important;
+    //   }
+    // }
+
+    // & :global {
+    //   .ant-table-cell {
+    //     padding: 8px 0;
+    //   }
+    // }
   }
 
   .teamRank {

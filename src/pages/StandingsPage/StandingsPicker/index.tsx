@@ -33,26 +33,30 @@ const StandingsPicker = ({
 
   return (
     <div className={styles.picker}>
-      <div>
-        <h5 className={styles.heading}>SEASON</h5>
+      <label htmlFor="season" className={styles.heading}>
+        SEASON
         <Select
+          id="season"
           className={styles.selector}
           defaultValue={seasons[0]}
           onChange={handleSeasonChange}
+          aria-expanded={false}
         >
           {seasonPicker}
         </Select>
-      </div>
-      <div>
-        <h5 className={styles.heading}>GROUP BY</h5>
+      </label>
+      <label htmlFor="groupBy" className={styles.heading}>
+        GROUP BY
         <Select
+          id="groupBy"
           className={styles.selector}
           defaultValue="Conference"
           onChange={handleGroupChange}
+          aria-expanded={false}
         >
           {groupByPicker}
         </Select>
-      </div>
+      </label>
     </div>
   );
 };

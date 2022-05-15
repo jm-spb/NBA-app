@@ -87,7 +87,7 @@ const createStandingsTables: IStandingsTableCbFunctions = (
       dataSource={dataSource}
       columns={standingsTableColumns}
       pagination={false}
-      scroll={{ x: 920 }}
+      scroll={{ x: 640 }}
       title={() => createTableTitle(groupTeams, idx, arrayToMap)}
     />
   );

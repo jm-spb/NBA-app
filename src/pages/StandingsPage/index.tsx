@@ -28,17 +28,8 @@ const StandingsPage = (): JSX.Element => {
   const formatedSeasons = React.useMemo(() => formatSeasons(seasons), []);
   const tableHeadingSeason = formatSeasons([Number(activeSeason)])[0];
 
+  if (isLoading) return <Spinner loadingData="Standings data" />;
   if (error) {
-    if ('message' in error) {
-      return (
-        <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
-          details={error.message as string}
-        />
-      );
-    }
-
     if ('error' in error) {
       return (
         <ErrorMsg
@@ -48,9 +39,26 @@ const StandingsPage = (): JSX.Element => {
         />
       );
     }
+    if ('data' in error) {
+      const { message } = error.data as { message: string };
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={message}
+        />
+      );
+    }
+    if ('message' in error) {
+      return (
+        <ErrorMsg
+          failedData="Teams Standings"
+          notAvaliableService="Api NBA"
+          details={error.message as string}
+        />
+      );
+    }
   }
-
-  if (isLoading) return <Spinner />;
 
   const teamsStandings = data as IFetchTeamsStandings[];
   const selectedGroup = groupBy === 'conference' ? groupConference : groupDivision;
@@ -74,7 +82,7 @@ const StandingsPage = (): JSX.Element => {
       />
       <section className={styles.tables}>
         {isFetching ? (
-          <Spinner />
+          <Spinner loadingData="Standings data" />
         ) : (
           <StandingsTable filteredTeamsByGroup={filteredTeamsByGroup} />
         )}

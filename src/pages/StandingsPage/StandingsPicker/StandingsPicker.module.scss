@@ -8,12 +8,14 @@
 }
 
 .heading {
+  font-size: 12px;
   margin: 0;
   color: $dark-grey-color;
 }
 
 .selector {
   width: 120px;
+  display: block;
 
   & > div > span {
     font-weight: 600;
