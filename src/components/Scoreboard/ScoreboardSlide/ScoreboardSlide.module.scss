@@ -101,3 +101,9 @@
 .active {
   display: block;
 }
+
+@media (max-width: 420px) {
+  .logo {
+    margin-right: 5px;
+  }
+}

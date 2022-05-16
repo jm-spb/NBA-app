@@ -20,7 +20,7 @@ const ScoreboardGames = ({
   teamsStandings,
   isFetching,
 }: ScoreboardGamesProps): JSX.Element => {
-  if (isFetching) return <Spinner />;
+  if (isFetching) return <Spinner loadingData="Games schedule" />;
 
   const formatedGamesDates = formatDatesInGameDateSlide(gamesDates);
 
