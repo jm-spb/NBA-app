@@ -29,29 +29,34 @@ export const apiNbaStats = createApi({
         fetchWithBQ,
       ) {
         if (teamShortName) {
-          const fetchedPlayersStats = await fetchWithBQ(
+          const playersStatsApiResponse = await fetchWithBQ(
             `${seasonType}/?team_abbreviation=${teamShortName}&league_id=00&season_id=${selectedSeason}`,
           );
+          if (playersStatsApiResponse.error)
+            return { error: playersStatsApiResponse.error };
 
-          const playersStatsTyped =
-            fetchedPlayersStats.data as IPlayersStatsTableDataSource[];
-          const playersIds = playersStatsTyped.map(({ player_id }) => player_id);
+          const playersStats =
+            playersStatsApiResponse.data as IPlayersStatsTableDataSource[];
+          const playersIds = playersStats.map(({ player_id }) => player_id);
 
           const playersNames: IPlayersNames[] = [];
           for (let i = 0; i < playersIds.length; i++) {
             // use await in for loop to prevent function from sending an excessive amount of requests in parallel (max: 10 req/sec)
             // eslint-disable-next-line no-await-in-loop
-            const fetchedPlayersNames = await fetchWithBQ(`players/${playersIds[i]}`);
-            const playersNamesTyped =
-              fetchedPlayersNames.data as IFetchPlayersNamesApiResponse;
+            const playersNamesApiResponse = await fetchWithBQ(`players/${playersIds[i]}`);
+            if (playersNamesApiResponse.error)
+              return { error: playersNamesApiResponse.error };
+
+            const fetchedPlayersNames =
+              playersNamesApiResponse.data as IFetchPlayersNamesApiResponse;
 
             playersNames.push({
-              id: playersNamesTyped.id,
-              full_name: playersNamesTyped.full_name,
+              id: fetchedPlayersNames.id,
+              full_name: fetchedPlayersNames.full_name,
             });
           }
 
-          const result = createTableDataSource(playersStatsTyped, playersNames);
+          const result = createTableDataSource(playersStats, playersNames);
           return { data: result };
         }
         return { data: null };
