@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { format } from 'date-fns';
-
 import {
   IFetchScoreboardGamesData,
   IFetchScoreboardGames,
@@ -12,12 +11,14 @@ import {
   IFetchGameDetailsTeamStats,
   IFetchGameBoxScoreApiResponse,
   IFetchNbaGameBoxScore,
+  IGameSummaryApiResponse,
+  IGameSummary,
 } from '../types/apiNbaTypes';
 
 export const apiNba = createApi({
   reducerPath: 'apiNba',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
+    // baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
     prepareHeaders: (headers) => {
       headers.set('x-rapidapi-host', 'api-nba-v1.p.rapidapi.com');
       headers.set('x-rapidapi-key', `${process.env.REACT_APP_NBA_API_KEY}`);
@@ -28,18 +29,20 @@ export const apiNba = createApi({
     fetchScoreboardGames: builder.query<IFetchScoreboardGames[][], string[]>({
       async queryFn(gameDates, _queryApi, _extraOptions, fetchWithBQ) {
         const currentDayResponse = await fetchWithBQ(`games?date=${gameDates[0]}`);
+        if (currentDayResponse.error) return { error: currentDayResponse.error };
+
         const nextDayResponse = await fetchWithBQ(`games?date=${gameDates[1]}`);
+        if (nextDayResponse.error) return { error: nextDayResponse.error };
 
         // ** in currentDayResponse (or nextDayResponse) fetched games can be with different dates. So at first we need to create an array with all games and then filtered it, and create subarrays, grouped by date
 
         const currentDayGames = currentDayResponse.data as IFetchScoreboardGamesData;
         const nextDayGames = nextDayResponse.data as IFetchScoreboardGamesData;
-
         const allGames = [...currentDayGames.response, ...nextDayGames.response];
 
         // return only necessary properties
         const unfilteredGames: IFetchScoreboardGames[] = allGames.map(
-          ({ id, date, status, teams, scores, season, arena, officials }) => ({
+          ({ id, date, status, teams, scores, season }) => ({
             gameId: id,
             startTime: date.start,
             statusGame: status.long,
@@ -59,23 +62,6 @@ export const apiNba = createApi({
                 logo: teams.visitors.logo,
                 points: scores.visitors.points,
               },
-            },
-            summary: {
-              date: date.start,
-              arena,
-              officials,
-              scores: [
-                {
-                  team: teams.visitors.code,
-                  linescore: scores.visitors.linescore,
-                  final: scores.visitors.points,
-                },
-                {
-                  team: teams.home.code,
-                  linescore: scores.home.linescore,
-                  final: scores.home.points,
-                },
-              ],
             },
           }),
         );
@@ -135,41 +121,65 @@ export const apiNba = createApi({
 
     fetchGameDetails: builder.query<IFetchGameDetailsTeamStats, string>({
       async queryFn(geamId, _queryApi, _extraOptions, fetchWithBQ) {
-        const fetchedGameSummary = await fetchWithBQ(`games/statistics?id=${geamId}`);
-        const fetchedGameSummaryTyped =
-          fetchedGameSummary.data as IFetchGameDetailsApiResponse;
+        const gameSummaryApiResponse = await fetchWithBQ(`games?id=${geamId}`);
+        if (gameSummaryApiResponse.error) return { error: gameSummaryApiResponse.error };
+        const gameStatsApiResponse = await fetchWithBQ(`games/statistics?id=${geamId}`);
+        if (gameStatsApiResponse.error) return { error: gameStatsApiResponse.error };
+
+        const fetchedGameSummary = gameSummaryApiResponse.data as IGameSummaryApiResponse;
+        const gameStats = gameStatsApiResponse.data as IFetchGameDetailsApiResponse;
+
+        const gameSummary: IGameSummary[] = fetchedGameSummary.response.map(
+          ({ id, date, arena, officials, scores, teams }) => ({
+            gameId: id,
+            date: format(new Date(date.start), 'PPP'),
+            arena,
+            officials,
+            scores: [
+              {
+                team: teams.visitors.code,
+                linescore: scores.visitors.linescore,
+                final: scores.visitors.points,
+              },
+              {
+                team: teams.home.code,
+                linescore: scores.home.linescore,
+                final: scores.home.points,
+              },
+            ],
+          }),
+        );
 
         const baseStatsArray: BaseStatsType[] = [];
         const additionalStatsArray: AdditionalStatsType[] = [];
 
-        fetchedGameSummaryTyped.response.forEach(
-          ({ team: { id, name, logo }, statistics }) => {
-            const teamInfo = { id, name, logo };
-            const {
-              fastBreakPoints,
-              pointsInPaint,
-              biggestLead,
-              secondChancePoints,
-              pointsOffTurnovers,
-              longestRun,
-              ...rest
-            } = statistics[0];
-            const additionalStats = {
-              ...teamInfo,
-              fastBreakPoints,
-              pointsInPaint,
-              biggestLead,
-              secondChancePoints,
-              pointsOffTurnovers,
-              longestRun,
-            };
-            const baseStats = { ...teamInfo, ...rest };
-            baseStatsArray.push(baseStats);
-            additionalStatsArray.push(additionalStats);
-          },
-        );
+        gameStats.response.forEach(({ team: { id, name, logo }, statistics }) => {
+          const teamInfo = { id, name, logo };
+          const {
+            fastBreakPoints,
+            pointsInPaint,
+            biggestLead,
+            secondChancePoints,
+            pointsOffTurnovers,
+            longestRun,
+            ...rest
+          } = statistics[0];
+          const additionalStats = {
+            ...teamInfo,
+            fastBreakPoints,
+            pointsInPaint,
+            biggestLead,
+            secondChancePoints,
+            pointsOffTurnovers,
+            longestRun,
+          };
+          const baseStats = { ...teamInfo, ...rest };
+          baseStatsArray.push(baseStats);
+          additionalStatsArray.push(additionalStats);
+        });
 
         const result = {
+          gameSummary: gameSummary[0],
           baseStats: [...baseStatsArray],
           additionalStats: [...additionalStatsArray],
         };
@@ -181,25 +191,32 @@ export const apiNba = createApi({
     fetchGameBoxScore: builder.query<IFetchNbaGameBoxScore[][], string>({
       query: (gameId) => `players/statistics?game=${gameId}`,
       transformResponse: (rawResult: { response: IFetchGameBoxScoreApiResponse[] }) => {
-        const response = rawResult.response.map(({ player, team, game, ...rest }) => ({
-          gameId: game.id,
-          firstname: player.firstname,
-          lastname: player.lastname,
-          teamName: team.name,
-          minutesToSort: Number(rest.min && rest.min.split(':').join('')),
-          ...rest,
-        }));
+        const boxScoreData: IFetchNbaGameBoxScore[] = rawResult.response.map(
+          ({ player, team, game, ...rest }) => ({
+            gameId: game.id,
+            firstname: player.firstname,
+            lastname: player.lastname,
+            teamName: team.name,
+            minutesToSort: Number(rest.min && rest.min.split(':').join('')),
+            ...rest,
+          }),
+        );
 
-        const teamsNames = Array.from(new Set(response.map(({ teamName }) => teamName)));
+        const teamsNames = Array.from(
+          new Set(boxScoreData.map(({ teamName }) => teamName)),
+        );
 
         // 1. Create an array of two arrays of players filtered by team
         // 2. Sort players by played minuntes (only bench players, starters remains the same order)
         const filteredPlayersByTeam = teamsNames.map((team) =>
-          response
+          boxScoreData
             .filter(({ teamName }) => team === teamName)
             .sort((playerOne, playerTwo) => {
               if (playerOne && !playerOne.pos && playerTwo && !playerTwo.pos)
-                return playerTwo.minutesToSort - playerOne.minutesToSort;
+                return (
+                  (playerTwo.minutesToSort as number) -
+                  (playerOne.minutesToSort as number)
+                );
               return 0;
             }),
         );
