@@ -22,27 +22,15 @@ const StandingsWidgetTable = ({
     setConference(e.target.value);
   };
 
-  if (error) {
-    if ('message' in error) {
-      return (
-        <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
-          details={error.message as string}
-        />
-      );
-    }
-    if ('error' in error) {
-      return (
-        <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
-          details={error.error}
-        />
-      );
-    }
-  }
   if (isLoading) return <Spinner loadingData="Standings table" />;
+  if (error)
+    return (
+      <ErrorMsg
+        error={error}
+        failedData="Teams Standings"
+        notAvaliableService="Api NBA"
+      />
+    );
 
   const teamsStandings = data as IFetchTeamsStandings[];
   const filteredTeamsByGroup = filterTeamsByGroup(

@@ -16,27 +16,11 @@ const LatestNews = (): JSX.Element => {
   const { data, error, isLoading, isFetching } =
     apiLatestNews.useFetchLatestNewsQuery(newsSource);
 
-  if (error) {
-    if ('message' in error) {
-      return (
-        <ErrorMsg
-          failedData="Latest News"
-          notAvaliableService="API Nba News"
-          details={error.message as string}
-        />
-      );
-    }
-    if ('error' in error) {
-      return (
-        <ErrorMsg
-          failedData="Latest News"
-          notAvaliableService="API Nba News"
-          details={error.error}
-        />
-      );
-    }
-  }
   if (isLoading) return <Spinner loadingData="Latest news" />;
+  if (error)
+    return (
+      <ErrorMsg error={error} failedData="Latest News" notAvaliableService="Api NBA" />
+    );
 
   const fetchedNews = data as IFetchLatestNews[];
   const changeSource = (key: string) => {
