@@ -2,9 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import SwiperCore, { Pagination, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react/swiper-react';
-import { v4 as uuidv4 } from 'uuid';
 import 'swiper/modules/pagination/pagination.scss';
-
 import styles from './MainCarousel.module.scss';
 import mainCarouselContent from '../../content/mainCarouselContent';
 
@@ -25,8 +23,8 @@ const MainCarousel = (): JSX.Element => {
   };
 
   const renderMainCarouselSlides = mainCarouselContent.map(
-    ({ heading, paragraph_1, paragraph_2, link, image, paginationText }) => (
-      <SwiperSlide key={uuidv4()} className={styles.slide}>
+    ({ heading, paragraph_1, paragraph_2, link, image, paginationText, description }) => (
+      <SwiperSlide key={heading} className={styles.slide}>
         <div className={styles.slideContent}>
           <h1 className={styles.heading}>{heading}</h1>
           <p className={styles.paragraph}>{paragraph_1}</p>
@@ -40,17 +38,12 @@ const MainCarousel = (): JSX.Element => {
             size="large"
             shape="round"
           >
-            Read More
+            {description}
           </Button>
         </div>
         <div className={styles.animation}>
           <div className={styles.imageWrapper}>
-            <img
-              className={styles.image}
-              src={image}
-              alt={paginationText}
-              loading="lazy"
-            />
+            <img className={styles.image} src={image} alt={paginationText} />
           </div>
         </div>
       </SwiperSlide>
