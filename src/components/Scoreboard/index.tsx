@@ -1,12 +1,13 @@
 import React from 'react';
-
 import styles from './Scoreboard.module.scss';
 import { IFetchScoreboardGames, IFetchTeamsStandings } from '../../types/apiNbaTypes';
-import { currentDay, formatNextDay, nextDay } from '../../utils/formatDates';
+import {
+  initialCurrentDay,
+  formatNextDay,
+  initialNextDay,
+} from '../../utils/formatDates';
 import { getSeasons } from '../../utils/standings';
 import { apiNba } from '../../services/apiNbaService';
-import { gameSummarySlice } from '../../store/reducers/gameSummarySlice';
-import { useAppDispatch } from '../../hooks/redux';
 import ErrorMsg from '../ErrorMsg';
 import Spinner from '../Spinner';
 import DatePicker from './DatePicker';
@@ -15,39 +16,34 @@ import ScoreboardGames from './ScoreboardGames';
 const seasons = getSeasons(1);
 
 const Scoreboard = (): JSX.Element => {
-  const [gamesDates, setGamesDates] = React.useState([currentDay, nextDay]);
-  const { getSummary } = gameSummarySlice.actions;
-  const dispatch = useAppDispatch();
+  const [currentDay, setCurrentDay] = React.useState(initialCurrentDay);
+  const [nextDay, setNextDay] = React.useState(initialNextDay);
 
   const {
     data: fetchedScoreboardGames,
     error: scoreboardGamesError,
     isLoading: scoreboardGamesIsLoading,
     isFetching: scoreboardGamesIsFetching,
-  } = apiNba.useFetchScoreboardGamesQuery(gamesDates);
-
-  React.useEffect(() => {
-    if (fetchedScoreboardGames) {
-      dispatch(getSummary(fetchedScoreboardGames));
-    }
-  }, [fetchedScoreboardGames, dispatch, getSummary]);
+  } = apiNba.useFetchScoreboardGamesQuery([currentDay, nextDay]);
 
   const { data: fetchedTeamsStandings, isLoading: teamsStandingsIsLoading } =
     apiNba.useFetchTeamsStandingsQuery(seasons[0].toString());
 
-  const onDateChange = React.useCallback((date: string) => {
-    setGamesDates([date, formatNextDay(date)]);
+  const onDateChange = React.useCallback((newDate: string) => {
+    setCurrentDay(newDate);
+    setNextDay(formatNextDay(newDate));
   }, []);
 
-  if (scoreboardGamesError && 'message' in scoreboardGamesError)
+  if (scoreboardGamesIsLoading || teamsStandingsIsLoading)
+    return <Spinner loadingData="Games schedule" />;
+  if (scoreboardGamesError)
     return (
       <ErrorMsg
-        failedData="NBA Games"
-        notAvaliableService="ApiNBA"
-        details={scoreboardGamesError.message as string}
+        error={scoreboardGamesError}
+        failedData="Games Schedule"
+        notAvaliableService="Api NBA"
       />
     );
-  if (scoreboardGamesIsLoading || teamsStandingsIsLoading) return <Spinner />;
 
   const scoreboardGames = fetchedScoreboardGames as IFetchScoreboardGames[][];
   const teamsStandings = fetchedTeamsStandings as IFetchTeamsStandings[];
@@ -57,7 +53,7 @@ const Scoreboard = (): JSX.Element => {
       <DatePicker onDateChange={onDateChange} />
       <div className={styles.carousel}>
         <ScoreboardGames
-          gamesDates={gamesDates}
+          gamesDates={[currentDay, nextDay]}
           scoreboardGames={scoreboardGames}
           teamsStandings={teamsStandings}
           isFetching={scoreboardGamesIsFetching}
