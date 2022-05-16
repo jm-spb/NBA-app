@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# NBA App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Приложение для просмотра основной информации по НБА:
+- Информация по сыгранным матчам: общий счёт, общекомандная статистика, персональная статистика по каждому игроку, принявшему участие в матче;
+- Ежедневные новости из мира НБА от ведущих спортивных изданий: ESPN, NBA.com, SportsIllustrated, SBNation, The Ringer, RealGM, HoopsHype;
+- Раздел статистики по каждому игроку НБА с сезона 1949-1950гг.;
+- Турнирная таблица с фильтрацией по конференциям и дивизионам;
+- Общий список команд с ссылками на соответствующие профили.
 
-## Available Scripts
+### Стэк технологий
 
-In the project directory, you can run:
+---
 
-### `npm start`
+Перечень основных используемых технологий и библиотек при создании приложеия:
+- [`Create React App`](https://github.com/facebook/create-react-app) - набор инструментов, созданный и поддерживаемый разработчиками из Facebook, и предназначенный для быстрого создания шаблонных проектов React-приложений;
+- [`RTK Query`](https://github.com/reduxjs/redux-toolkit) - мощный инструмент для получения и кэширования данных. Предназначен для упрощения распространенных случаев загрузки данных в веб-приложение, избавляя от необходимости вручную писать логику выборки и кэширования данных;
+- [`API-NBA`](https://rapidapi.com/api-sports/api/api-nba) - REST Api для получения статистических данных по НБА: расписание матчей, таблицы, информация по сыгранным матчам;
+- [`NBA Stats API`](https://rapidapi.com/nucklehead/api/nba-stats4) - REST Api для получения статистических данных по игрокам НБА;
+- [`NBA News Today API`](https://rapidapi.com/joelmenor03/api/nba-news-today) - REST Api, показывающая все последние новости НБА;
+- [`antd`](https://github.com/ant-design/ant-design/) - UI библиотека для создания вэб-приложений;
+- [`craco`](https://github.com/gsoft-inc/craco) - Create React App Configuration Override - кастомизация приложений, созданных при помощи CRA без eject. В проекте используется для переопределения дефолтных стилей в antd;
+- [`axios`](https://www.npmjs.com/package/axios) - HTTP-клиент на основе Promise для браузера и node.js;
+- [`date-fns`](https://github.com/date-fns/date-fns) - набор инструментов для управления датами в JavaScript в браузере и node.js;
+- [`swiper`](https://github.com/nolimits4web/swiper) - сенсорный слайдер для мобильных устройств с аппаратным ускорением переходов и огромным количеством вариантов собственного поведением. Предназначен для использования на веб-сайтах, мобильных веб-приложениях и мобильных нативных/гибридных приложениях;
+- [`Препроцессор SASS/SCSS`](https://github.com/sass/sass) - метаязык на основе CSS, предназначенный для увеличения уровня абстракции CSS-кода и упрощения файлов каскадных таблиц стилей;
+- [`Firebase Hosting`](https://firebase.google.com/docs/hosting/) - используемый хостинг.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Поддержка PWA
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `npm test`
+Сайт поддерживает технологию Progressive Web App, позволяющую визуально и функционально трансформировать сайт в приложение (мобильное приложение в браузере).
+Для того чтобы установить приложение:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. На десктопе - необходимо в конце адресной строки нажать на значок "Установить приложение JM NBA App"
+2. На мобильном устройстве - нажать на "Добавить приложение на главный экран" при появлении соответствующей опции
