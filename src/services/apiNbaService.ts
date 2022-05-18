@@ -18,7 +18,7 @@ import {
 export const apiNba = createApi({
   reducerPath: 'apiNba',
   baseQuery: fetchBaseQuery({
-    // baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
+    baseUrl: 'https://api-nba-v1.p.rapidapi.com/',
     prepareHeaders: (headers) => {
       headers.set('x-rapidapi-host', 'api-nba-v1.p.rapidapi.com');
       headers.set('x-rapidapi-key', `${process.env.REACT_APP_NBA_API_KEY}`);
