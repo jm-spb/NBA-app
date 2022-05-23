@@ -79,7 +79,7 @@ interface ITeamFullInfo {
   teamId: number;
   fullName: string;
   shortName: string;
-  nickname: string;
+  nickName: string;
   logo: string;
   points: number;
   totalWin?: number;
