@@ -5,7 +5,7 @@ import {
   IFetchPlayersNamesApiResponse,
 } from '../types/apiNbaStats';
 import { IPlayersStatsTableDataSource } from '../types/stats';
-import { createTableDataSource } from '../utils/stats';
+import { createTableDataSource, delay } from '../utils/stats';
 
 export const apiNbaStats = createApi({
   reducerPath: 'apiNbaStats',
@@ -41,8 +41,9 @@ export const apiNbaStats = createApi({
 
           const playersNames: IPlayersNames[] = [];
           for (let i = 0; i < playersIds.length; i++) {
-            // use await in for loop to prevent function from sending an excessive amount of requests in parallel (max: 10 req/sec)
-            // eslint-disable-next-line no-await-in-loop
+            // use await in for loop to prevent function from sending an excessive amount of requests in parallel (max: 1req/sec)
+            await delay(1500);
+
             const playersNamesApiResponse = await fetchWithBQ(`players/${playersIds[i]}`);
             if (playersNamesApiResponse.error)
               return { error: playersNamesApiResponse.error };

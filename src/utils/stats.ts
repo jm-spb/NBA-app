@@ -29,3 +29,8 @@ export const getTeamPickerContent: IGetTeamPickerContent = (content) =>
     .map((division) => [...division.teams])
     .flat()
     .sort((a, b) => (a.teamName > b.teamName ? 1 : -1));
+
+export const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
