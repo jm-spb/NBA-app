@@ -79,6 +79,7 @@ interface ITeamFullInfo {
   teamId: number;
   fullName: string;
   shortName: string;
+  nickname: string;
   logo: string;
   points: number;
   totalWin?: number;
@@ -96,7 +97,6 @@ export interface IFetchScoreboardGames {
   statusGame: string;
   season?: number;
   teamsInfo: ITeamsInfo;
-  summary?: IGameSummary;
 }
 
 export interface IGameSummary {
@@ -200,7 +200,12 @@ export interface IFetchGameDetailsApiResponse extends IApiNbaInitialResponse {
   response: IGameDetailsTeamStatsRespone[];
 }
 
+export interface IGameSummaryApiResponse extends IApiNbaInitialResponse {
+  response: IFetchScoreboardGamesApiResponse[];
+}
+
 export interface IFetchGameDetailsTeamStats {
+  gameSummary: IGameSummary;
   baseStats: BaseStatsType[];
   additionalStats: AdditionalStatsType[];
 }

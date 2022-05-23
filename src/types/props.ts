@@ -1,11 +1,14 @@
+import { SerializedError } from '@reduxjs/toolkit';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
 import { IFetchScoreboardGames, IFetchTeamsStandings, IGameSummary } from './apiNbaTypes';
 import { IGameDate } from './scoreboardTypes';
 import { GroupByType } from './standingsTypes';
 
 export type ErrorMsgProps = {
+  error: FetchBaseQueryError | SerializedError | undefined;
   failedData: string;
   notAvaliableService: string;
-  details: string;
+  dataIsEmpty?: boolean;
 };
 
 export type DatePickerProps = {
