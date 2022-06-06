@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { CaretRightOutlined } from '@ant-design/icons';
 import styles from './ScoreboardSlide.module.scss';
 import { ScoreboardSlideProps } from '../../../types/props';
+import teamsLogos from '../../../assets/teamsLogos';
 
 const ScoreboardSlide = ({
   gameId,
@@ -20,9 +21,9 @@ const ScoreboardSlide = ({
         {[visitorTeamInfo, homeTeamInfo].map(
           ({
             teamId,
-            logo,
             fullName,
             shortName,
+            nickName,
             winCaret,
             points,
             totalWin,
@@ -31,10 +32,10 @@ const ScoreboardSlide = ({
             <div key={teamId} className={styles.team}>
               <img
                 className={styles.logo}
-                src={logo}
+                src={teamsLogos[nickName]}
                 alt={fullName}
-                width={16}
-                height="auto"
+                width={20}
+                height={20}
                 loading="lazy"
               />
               <div className={styles.teamName}>{shortName}</div>
