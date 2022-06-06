@@ -2,16 +2,17 @@ import React from 'react';
 import { Menu, Dropdown } from 'antd';
 import styles from './HeaderDropdown.module.scss';
 import teamsByDivisionContent from '../../../content/teamsByDivisionContent';
+import teamsLogos from '../../../assets/teamsLogos';
 
 const menuTeams = (
   <Menu className={styles.menuTeams}>
     {teamsByDivisionContent.map(({ division, teams }) => (
       <Menu.ItemGroup key={division} className={styles.division} title={division}>
-        {teams.map(({ teamName, nickName, teamLogo }) => (
+        {teams.map(({ teamName, nickName }) => (
           <Menu.Item key={teamName} className={styles.team}>
             <img
               className={styles.teamLogo}
-              src={teamLogo}
+              src={teamsLogos[nickName]}
               width={25}
               height={25}
               alt={`${teamName} Logo`}
