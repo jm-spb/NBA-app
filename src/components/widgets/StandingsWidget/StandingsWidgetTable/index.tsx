@@ -9,6 +9,7 @@ import { standingsWidgetTableColumns } from '../../../../content/standingsConten
 import { apiNba } from '../../../../services/apiNbaService';
 import { IFetchTeamsStandings } from '../../../../types/apiNbaTypes';
 import { StandingsWidgetTableProps } from '../../../../types/props';
+import teamsLogos from '../../../../assets/teamsLogos';
 import ErrorMsg from '../../../ErrorMsg';
 import Spinner from '../../../Spinner';
 
@@ -50,10 +51,10 @@ const StandingsWidgetTable = ({
           <span className={styles.teamRank}>{team.conference.rank}</span>
           <img
             className={styles.teamImage}
-            src={team.logo}
+            src={teamsLogos[team.nickName]}
             alt={team.fullName}
-            width={20}
-            height="auto"
+            width={25}
+            height={25}
             loading="lazy"
           />
           <a
