@@ -2,7 +2,6 @@ import React from 'react';
 import { Descriptions, Table } from 'antd';
 import { v4 as uuidv4 } from 'uuid';
 import classNames from 'classnames';
-
 import styles from './GameSummary.module.scss';
 import { gameSummaryTableColumns } from '../../../content/inGameStats';
 import { GameSummaryProps } from '../../../types/props';
