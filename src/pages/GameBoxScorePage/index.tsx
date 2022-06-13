@@ -154,7 +154,7 @@ const createTableByTeam: ICreateTableByTeam = (team, idx) => {
   const dataSource = team.map(createDataSourceByTeam);
   return (
     <div className={styles.container} key={teamName}>
-      <h2 className={styles.title}>{teamName}</h2>
+      <h1 className={styles.title}>{teamName}</h1>
       <Table
         className={styles.table}
         rowClassName={styles.row}
@@ -175,23 +175,16 @@ const GameBoxScorePage = (): JSX.Element => {
   const gameIdTyped = gameId as string;
   const { data, error, isLoading } = apiNba.useFetchGameBoxScoreQuery(gameIdTyped);
 
-  if (error && 'message' in error)
-    return (
-      <ErrorMsg
-        failedData="players statistics"
-        notAvaliableService="Api NBA"
-        details={error.message as string}
-      />
-    );
   if (isLoading) return <Spinner loadingData="Game Box Score" />;
 
-  // if game is not exist (invalid game id)
-  if (data?.length === 0)
+  const dataIsEmpty = data?.length === 0;
+  if (error || dataIsEmpty)
     return (
       <ErrorMsg
+        error={error}
         failedData="Teams Statistics"
         notAvaliableService="Api NBA"
-        details="Game you are looking for is not exist. Please provide a valid game id"
+        dataIsEmpty={dataIsEmpty}
       />
     );
 
