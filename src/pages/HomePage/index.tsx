@@ -5,17 +5,17 @@ import LatestNews from '../../components/widgets/LatestNewsWidget';
 import StandingsWidget from '../../components/widgets/StandingsWidget';
 
 const HomePage = (): JSX.Element => (
-  <div>
+  <>
     <MainCarousel />
     <div className={styles.container}>
-      <div className={styles.mainWidgets}>
+      <article className={styles.mainWidgets}>
         <LatestNews />
-      </div>
-      <div className={styles.sideWidgets}>
+      </article>
+      <aside className={styles.sideWidgets}>
         <StandingsWidget />
-      </div>
+      </aside>
     </div>
-  </div>
+  </>
 );
 
 export default HomePage;
