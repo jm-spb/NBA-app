@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Alert } from 'antd';
 import styles from './NotFoundPage.module.scss';
 
-const NotFoundPage = () => (
+const NotFoundPage = (): JSX.Element => (
   <Alert
     className={styles.alert}
     message={<h1 className={styles.message}>Content Unavailable</h1>}
