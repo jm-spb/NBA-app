@@ -1,15 +1,26 @@
 import React from 'react';
-import { v4 as uuidv4 } from 'uuid';
 import styles from './TeamsPage.module.scss';
 import teamsByDivisionContent from '../../content/teamsByDivisionContent';
-import { TeamBasicInfoType, ITeamsByDivisionContent } from '../../types/contentTypes';
+import { ITeamShortInfo, ITeamsByDivisionContent } from '../../types/contentTypes';
+import teamsLogos from '../../assets/teamsLogos';
 
 const TeamsPage = (): JSX.Element => {
-  const renderDivisionTeam = ({ teamLogo, teamName, nickName }: TeamBasicInfoType) => (
-    <div key={uuidv4()} className={styles.team}>
+  const renderDivisionTeam = ({
+    // teamLogo,
+    teamName,
+    nickName,
+    shortName,
+  }: ITeamShortInfo) => (
+    <div key={shortName} className={styles.team}>
       <figure className={styles.figure}>
         <div className={styles.imageWrapper}>
-          <img className={styles.teamLogo} src={teamLogo} alt={teamName} />
+          <img
+            className={styles.teamLogo}
+            src={teamsLogos[nickName]}
+            alt={teamName}
+            width={45}
+            height={45}
+          />
         </div>
       </figure>
       <div className={styles.teamContent}>
@@ -43,7 +54,7 @@ const TeamsPage = (): JSX.Element => {
   );
 
   const renderDivision = ({ division, teams }: ITeamsByDivisionContent) => (
-    <div key={uuidv4()} className={styles.division}>
+    <div key={division} className={styles.division}>
       <h3 className={styles.divisionName}>{division.toUpperCase()}</h3>
       <div className={styles.divisionTeams}>{teams.map(renderDivisionTeam)}</div>
     </div>
