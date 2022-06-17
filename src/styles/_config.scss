@@ -1,10 +1,20 @@
 $main-color: rgb(5, 28, 45);
-$error-color: rgb(255, 204, 199);
 $white-color: rgb(255, 255, 255);
-$on-hover-white-color: rgba(255, 255, 255, 0.7);
-$transparent-white-color: rgba(255, 255, 255, 0.3);
-$lightgray-color: rgb(211, 211, 211);
+$white-background-color: rgb(246, 246, 246);
+$table-row-hover: rgb(223, 231, 241);
+$table-row-border: rgb(59, 118, 171);
+$contrast-blue: rgb(10, 108, 194);
+$on-hover-white-color: rgba(255, 255, 255, 0.702);
+$transparent-white-color: rgba(255, 255, 255, 0.302);
+$lightgray-color: rgb(212, 212, 212);
 $black-color: rgb(0, 0, 0);
-$border-shadow-color: rgba(0, 0, 0, 0.3);
-$grey-color: rgb(128, 128, 128);
+$border-shadow-color: rgba(0, 0, 0, 0.302);
+$grey-color: rgb(115, 115, 115);
 $dark-grey-color: rgb(84, 84, 84);
+
+@mixin container {
+  background-color: $white-color;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: rgba(209, 209, 209, 0.5) 0px 0px 10px 0px;
+}
