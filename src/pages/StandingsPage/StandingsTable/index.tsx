@@ -4,6 +4,7 @@ import classNames from 'classnames';
 
 import styles from './StandingsTable.module.scss';
 import { standingsTableColumns } from '../../../content/standingsContent';
+import teamsLogos from '../../../assets/teamsLogos';
 import {
   IStandingsTableCbFunctions,
   IStandingsTableCreateDataSource,
@@ -21,10 +22,10 @@ const createTableDataSource: IStandingsTableCreateDataSource = (team, idx, arr) 
         <span className={styles.teamRank}>{renderPosition}</span>
         <img
           className={styles.teamImage}
-          src={team.logo}
+          src={teamsLogos[team.nickName]}
           alt={team.fullName}
-          width={20}
-          height="auto"
+          width={30}
+          height={30}
           loading="lazy"
         />
         <a
