@@ -1,5 +1,4 @@
 import React from 'react';
-
 import styles from './StandingsPage.module.scss';
 import { IFetchTeamsStandings } from '../../types/apiNbaTypes';
 import { apiNba } from '../../services/apiNbaService';
@@ -26,40 +25,18 @@ const StandingsPage = (): JSX.Element => {
     setGroupBy(key);
   }, []);
   const formatedSeasons = React.useMemo(() => formatSeasons(seasons), []);
-  const tableHeadingSeason = formatSeasons([Number(activeSeason)])[0];
 
   if (isLoading) return <Spinner loadingData="Standings data" />;
-  if (error) {
-    if ('error' in error) {
-      return (
-        <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
-          details={error.error}
-        />
-      );
-    }
-    if ('data' in error) {
-      const { message } = error.data as { message: string };
-      return (
-        <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
-          details={message}
-        />
-      );
-    }
-    if ('message' in error) {
-      return (
-        <ErrorMsg
-          failedData="Teams Standings"
-          notAvaliableService="Api NBA"
-          details={error.message as string}
-        />
-      );
-    }
-  }
+  if (error)
+    return (
+      <ErrorMsg
+        error={error}
+        failedData="Teams Standings"
+        notAvaliableService="Api NBA"
+      />
+    );
 
+  const tableHeadingSeason = formatSeasons([Number(activeSeason)])[0];
   const teamsStandings = data as IFetchTeamsStandings[];
   const selectedGroup = groupBy === 'conference' ? groupConference : groupDivision;
   const filteredTeamsByGroup = filterTeamsByGroup(
