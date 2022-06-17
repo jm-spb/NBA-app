@@ -4,6 +4,7 @@
   font-weight: 600;
   margin-right: 16px;
 }
+
 .teamImage {
   margin-right: 8px;
 }
@@ -42,11 +43,11 @@
 }
 
 .row {
-  &:nth-child(6) {
+  &:nth-child(7) {
     border-bottom: 2.1px dashed $black-color;
   }
 
-  &:nth-child(10) {
+  &:nth-child(11) {
     border-bottom: 2px solid $black-color;
   }
 }
@@ -100,19 +101,6 @@
     col {
       width: 110px !important;
     }
-
-    // tr {
-    //   th {
-    //     min-width: 50px !important;
-    //     max-width: 55px !important;
-    //   }
-    // }
-
-    // & :global {
-    //   .ant-table-cell {
-    //     padding: 8px 0;
-    //   }
-    // }
   }
 
   .teamRank {
