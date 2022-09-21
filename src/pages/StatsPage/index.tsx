@@ -10,19 +10,10 @@ import { IPlayersStatsTableDataSource } from '../../types/stats';
 import ErrorMsg from '../../components/ErrorMsg';
 import Spinner from '../../components/Spinner';
 import StatsPickers from './StatsPickers';
+import WarningMsg from '../../components/WarningMsg';
 
 const formatedSeasons = formatSeasons(getAvaliableStatsSeasons());
 const currentSeason = formatedSeasons[0];
-
-const warningMsg = (
-  <Alert
-    className={styles.warningMsg}
-    message="Due to lack of ApiNBA Stats data for current season, all statistics are available only for previous seasons"
-    type="warning"
-    showIcon
-    closable
-  />
-);
 
 const infoMsg = (
   <Alert
@@ -79,7 +70,7 @@ const StatsPage = (): JSX.Element => {
     <div className={styles.container}>
       <div className={styles.header}>
         <h1 className={styles.heading}>Players Stats By Team</h1>
-        {warningMsg}
+        <WarningMsg message="Due to lack of ApiNBA Stats data for current season, all statistics are available only for previous seasons" />
         <StatsPickers
           handleTeamChange={handleTeamChange}
           handleSeasonChange={handleSeasonChange}
