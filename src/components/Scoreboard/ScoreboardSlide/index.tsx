@@ -21,7 +21,7 @@ const ScoreboardSlide = ({
         {[visitorTeamInfo, homeTeamInfo].map(
           ({
             teamId,
-            fullName,
+            // fullName,
             shortName,
             nickName,
             winCaret,
@@ -33,7 +33,7 @@ const ScoreboardSlide = ({
               <img
                 className={styles.logo}
                 src={teamsLogos[nickName]}
-                alt={fullName}
+                alt=""
                 width={20}
                 height={20}
                 loading="lazy"
