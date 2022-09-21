@@ -9,6 +9,7 @@ import Spinner from '../../components/Spinner';
 import StandingsPicker from './StandingsPicker';
 import StandingsTable from './StandingsTable';
 import { GroupByType } from '../../types/standingsTypes';
+import WarningMsg from '../../components/WarningMsg';
 
 const seasons = getSeasons(5);
 
@@ -45,6 +46,19 @@ const StandingsPage = (): JSX.Element => {
     groupBy,
   ) as IFetchTeamsStandings[][];
 
+  const tablesSection =
+    teamsStandings.length === 0 ? (
+      <WarningMsg message="Teams standings for required season are not available yet" />
+    ) : (
+      <section className={styles.tables}>
+        {isFetching ? (
+          <Spinner loadingData="Standings data" />
+        ) : (
+          <StandingsTable filteredTeamsByGroup={filteredTeamsByGroup} />
+        )}
+      </section>
+    );
+
   return (
     <div className={styles.standings}>
       <div className={styles.header}>
@@ -57,13 +71,7 @@ const StandingsPage = (): JSX.Element => {
         onSeasonChange={onSeasonChange}
         onGroupChange={onGroupChange}
       />
-      <section className={styles.tables}>
-        {isFetching ? (
-          <Spinner loadingData="Standings data" />
-        ) : (
-          <StandingsTable filteredTeamsByGroup={filteredTeamsByGroup} />
-        )}
-      </section>
+      {tablesSection}
     </div>
   );
 };
