@@ -11,10 +11,6 @@ ul {
   padding: 0;
 }
 
-table {
-  border-collapse: collapse !important;
-}
-
 .layout {
   // stick footer to bottom
   display: flex;
@@ -34,7 +30,7 @@ table {
 
   &-adv {
     min-height: 70px;
-    margin: 12px 0;
+    margin: 24px 0;
   }
 }
 
@@ -66,4 +62,16 @@ table {
 
 .burger-bars {
   background-color: rgb(255, 255, 255);
+}
+
+@media (max-height: 420px) {
+  .layout { 
+    &-top {
+      position: static;
+    }
+    &-content {
+      padding-top: 0;
+    }
+    
+  }
 }
